@@ -1,7 +1,6 @@
 package by.panasenko.webproject.command;
 
 public enum CommandName {
-    GO_TO_ORIGINAL_COMMAND,
-    SORT_USER_COMMAND,
-    AGE_CRITERIA_COMMAND
+    USER_BY_NAME_COMMAND,
+    USER_LIST_COMMAND
 }

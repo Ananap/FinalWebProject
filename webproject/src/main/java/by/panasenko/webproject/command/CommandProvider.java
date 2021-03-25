@@ -1,8 +1,7 @@
 package by.panasenko.webproject.command;
 
-import by.panasenko.webproject.command.impl.AgeCriteriaCommand;
-import by.panasenko.webproject.command.impl.GoToOriginalCommand;
-import by.panasenko.webproject.command.impl.SortUserCommand;
+import by.panasenko.webproject.command.impl.UserByNameCommand;
+import by.panasenko.webproject.command.impl.UserListCommand;
 
 import java.util.EnumMap;
 
@@ -11,9 +10,8 @@ public class CommandProvider {
     private final EnumMap<CommandName, Command> commands = new EnumMap(CommandName.class);
 
     public CommandProvider() {
-        commands.put(CommandName.GO_TO_ORIGINAL_COMMAND, new GoToOriginalCommand());
-        commands.put(CommandName.SORT_USER_COMMAND, new SortUserCommand());
-        commands.put(CommandName.AGE_CRITERIA_COMMAND, new AgeCriteriaCommand());
+        commands.put(CommandName.USER_BY_NAME_COMMAND, new UserByNameCommand());
+        commands.put(CommandName.USER_LIST_COMMAND, new UserListCommand());
     }
 
     public static CommandProvider getInstance() {
