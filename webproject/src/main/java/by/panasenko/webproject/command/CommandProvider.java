@@ -4,11 +4,11 @@ import by.panasenko.webproject.command.impl.AgeCriteriaCommand;
 import by.panasenko.webproject.command.impl.GoToOriginalCommand;
 import by.panasenko.webproject.command.impl.SortUserCommand;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 
 public class CommandProvider {
     private static CommandProvider instance;
-    private final HashMap<CommandName, Command> commands = new HashMap<>();
+    private final EnumMap<CommandName, Command> commands = new EnumMap(CommandName.class);
 
     public CommandProvider() {
         commands.put(CommandName.GO_TO_ORIGINAL_COMMAND, new GoToOriginalCommand());
