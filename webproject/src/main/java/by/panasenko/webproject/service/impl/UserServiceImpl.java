@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
         try {
             return userDao.findUserList();
         } catch (DAOException e) {
-            throw new ServiceException("Can't handle findUserList request at UserService",e);
+            throw new ServiceException("Can't handle findUserList request at UserService", e);
         }
     }
 }
