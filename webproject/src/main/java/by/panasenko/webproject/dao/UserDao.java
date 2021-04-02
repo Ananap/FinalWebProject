@@ -8,4 +8,5 @@ import java.util.List;
 public interface UserDao {
     List<User> findUserList() throws DAOException;
     User findUserByName(String name) throws DAOException;
+    User signIn(String login, String password) throws DAOException;
 }

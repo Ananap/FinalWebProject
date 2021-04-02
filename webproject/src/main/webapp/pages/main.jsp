@@ -41,7 +41,9 @@
     <form action="controller" method="post">
         <input type="hidden" name="command" value="age_criteria_command"/>
         <div class="input-group select-form">
-            <input type="number" step="1" min="1" max="100"
+            <input type="number" step="1" min="1" max
+
+                    ="100"
                    class="form-control" name="ageFrom"
                    placeholder="Age From"/>
             <input type="number" step="0.1" min="1" max="100"

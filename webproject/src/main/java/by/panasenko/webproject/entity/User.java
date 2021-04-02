@@ -6,6 +6,8 @@ public class User {
     private long userId;
     private String name;
     private int age;
+    private String login;
+    private String password;
 
     public User() {
     }
@@ -14,18 +16,6 @@ public class User {
         this.userId = id;
         this.name = name;
         this.age = age;
-    }
-
-    public long getId() {
-        return userId;
-    }
-
-    public void setId(long id) {
-        this.userId = id;
-    }
-
-    public void setId(int id) {
-        this.userId = id;
     }
 
     public String getName() {
@@ -42,6 +32,30 @@ public class User {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override

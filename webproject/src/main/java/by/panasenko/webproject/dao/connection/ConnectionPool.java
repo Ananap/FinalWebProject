@@ -3,9 +3,9 @@ package by.panasenko.webproject.dao.connection;
 import by.panasenko.webproject.exception.DAOException;
 
 import java.sql.Connection;
-import java.sql.SQLException;
+import java.sql.PreparedStatement;
 
 public interface ConnectionPool {
-    Connection getConnection() throws SQLException;
-    void closeConnection(Connection connection) throws DAOException;
+    Connection getConnection() throws DAOException;
+    void closeConnection(Connection connection, PreparedStatement ps) throws DAOException;
 }
