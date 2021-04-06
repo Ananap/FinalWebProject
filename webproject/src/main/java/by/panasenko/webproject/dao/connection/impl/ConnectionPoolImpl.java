@@ -75,8 +75,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
 
     @Override
     public Connection getConnection() throws DAOException {
-        Connection connection;
-        connection = freeConnections.poll();
+        Connection connection = freeConnections.poll();
         if (connection == null) {
             throw new DAOException(MESSAGE_NO_FREE_CONNECTION);
         }
