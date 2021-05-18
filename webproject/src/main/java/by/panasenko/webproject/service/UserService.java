@@ -1,12 +1,13 @@
 package by.panasenko.webproject.service;
 
+import by.panasenko.webproject.dao.ResultCode;
+import by.panasenko.webproject.entity.SignInData;
+import by.panasenko.webproject.entity.SignUpData;
 import by.panasenko.webproject.entity.User;
 import by.panasenko.webproject.exception.ServiceException;
 
-import java.sql.SQLException;
-import java.util.List;
-
 public interface UserService {
-    User findUserByName(String name) throws ServiceException, SQLException;
-    List<User> findUserList() throws ServiceException, SQLException;
+    User signIn(SignInData signInData) throws ServiceException;
+
+    ResultCode signUp(SignUpData signUpData) throws ServiceException;
 }

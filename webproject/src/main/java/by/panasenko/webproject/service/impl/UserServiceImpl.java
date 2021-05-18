@@ -1,40 +1,37 @@
 package by.panasenko.webproject.service.impl;
 
-import by.panasenko.webproject.dao.UserDAOImpl;
+import by.panasenko.webproject.dao.DaoProvider;
+import by.panasenko.webproject.dao.ResultCode;
 import by.panasenko.webproject.dao.UserDao;
+import by.panasenko.webproject.entity.SignInData;
+import by.panasenko.webproject.entity.SignUpData;
 import by.panasenko.webproject.entity.User;
 import by.panasenko.webproject.exception.DAOException;
 import by.panasenko.webproject.exception.ServiceException;
 import by.panasenko.webproject.service.UserService;
 
-import java.util.List;
-
 public class UserServiceImpl implements UserService {
-    private static UserServiceImpl instance;
-    private UserDao userDao = UserDAOImpl.getInstance();
-
-    public static UserServiceImpl getInstance() {
-        if (instance == null) {
-            instance = new UserServiceImpl();
-        }
-        return instance;
-    }
+    private static final DaoProvider daoProvider = DaoProvider.getInstance();
+    private static final UserDao userDao = daoProvider.getUserDao();
 
     @Override
-    public User findUserByName(String name) throws ServiceException {
+    public User signIn(SignInData signInData) throws ServiceException {
         try {
-            return userDao.findUserByName(name);
+            return userDao.signIn(signInData);
         } catch (DAOException e) {
-            throw new ServiceException("Can't handle findUserByName request at UserService", e);
+            throw new ServiceException("Can't handle signIn request at UserService", e);
         }
     }
 
     @Override
-    public List<User> findUserList() throws ServiceException {
+    public ResultCode signUp(SignUpData signUpData) throws ServiceException {
+        /*if (!userValidator.validate(signUpData)) {
+            throw new ServiceException("User data didn't passed validation");
+        } else {*/
         try {
-            return userDao.findUserList();
+            return userDao.signUp(signUpData);
         } catch (DAOException e) {
-            throw new ServiceException("Can't handle findUserList request at UserService", e);
+            throw new ServiceException("Can't handle signUp request at UserService", e);
         }
     }
 }
