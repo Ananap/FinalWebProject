@@ -13,7 +13,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
-class ConnectionPool {
+public class ConnectionPool {
     private static Logger logger = LogManager.getLogger(ConnectionPool.class);
     private static final int DEFAULT_POOL_SIZE = 7;
     private static ConnectionPool instance;
@@ -23,8 +23,8 @@ class ConnectionPool {
     private BlockingQueue<ProxyConnection> usedConnections;
 
     private ConnectionPool() {
-        usedConnections = new LinkedBlockingDeque<ProxyConnection>(DEFAULT_POOL_SIZE);
-        freeConnections = new LinkedBlockingDeque<ProxyConnection>(DEFAULT_POOL_SIZE);
+        usedConnections = new LinkedBlockingDeque<>(DEFAULT_POOL_SIZE);
+        freeConnections = new LinkedBlockingDeque<>(DEFAULT_POOL_SIZE);
         for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
             try {
                 Connection connection = ConnectionFactory.createConnection();
