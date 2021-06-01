@@ -5,6 +5,7 @@ import by.panasenko.webproject.controller.command.impl.SignInCommand;
 import by.panasenko.webproject.controller.command.impl.go.GoToAboutPageCommand;
 import by.panasenko.webproject.controller.command.impl.go.GoToErrorPageCommand;
 import by.panasenko.webproject.controller.command.impl.go.GoToLoginPageCommand;
+import by.panasenko.webproject.controller.command.impl.go.GoToSuccessPageCommand;
 
 import java.util.EnumMap;
 
@@ -18,6 +19,7 @@ public class CommandProvider {
         commands.put(CommandName.GO_TO_LOGIN_PAGE_COMMAND, new GoToLoginPageCommand());
         commands.put(CommandName.CHANGE_LOCALE_COMMAND, new ChangeLocaleCommand());
         commands.put(CommandName.SIGN_IN_COMMAND, new SignInCommand());
+        commands.put(CommandName.GO_TO_SUCCESS_PAGE_COMMAND, new GoToSuccessPageCommand());
     }
 
     public static CommandProvider getInstance() {

@@ -23,8 +23,8 @@ public class ConnectionPool {
     private BlockingQueue<ProxyConnection> usedConnections;
 
     private ConnectionPool() {
-        usedConnections = new LinkedBlockingDeque<>(DEFAULT_POOL_SIZE);
-        freeConnections = new LinkedBlockingDeque<>(DEFAULT_POOL_SIZE);
+        usedConnections = new LinkedBlockingDeque<ProxyConnection>(DEFAULT_POOL_SIZE);
+        freeConnections = new LinkedBlockingDeque<ProxyConnection>(DEFAULT_POOL_SIZE);
         for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
             try {
                 Connection connection = ConnectionFactory.createConnection();
@@ -68,36 +68,16 @@ public class ConnectionPool {
     }
 
     public void releaseConnection(Connection connection) {
-        if (!(connection instanceof ProxyConnection) && usedConnections.remove(connection)) {
-            logger.error("wild connection is detected: " + connection);
+        if (!(connection instanceof ProxyConnection)) {
+            logger.error("wild connection is detected");
             throw new RuntimeException("wild connection is detected : " + connection);
         }
+        usedConnections.remove(connection);
         try {
             freeConnections.put((ProxyConnection) connection);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-    }
-
-    public boolean isLeakConnections() {
-        return freeConnections.size() + usedConnections.size() != DEFAULT_POOL_SIZE;
-    }
-
-    public void shutdown() {
-        ProxyConnection proxyConnection = null;
-        for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
-            try {
-                proxyConnection = freeConnections.take();
-                proxyConnection.reallyClose();
-            } catch (SQLException e) {
-                logger.fatal("can't close connection " + proxyConnection + " with exception " + e);
-                throw new RuntimeException("can't close connection " + proxyConnection + " with exception " + e);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
-        logger.info("pool successfully destroyed");
-        deregisterDrivers();
     }
 
     private void deregisterDrivers() {

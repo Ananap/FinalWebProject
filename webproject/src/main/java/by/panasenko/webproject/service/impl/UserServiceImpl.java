@@ -9,8 +9,11 @@ import by.panasenko.webproject.entity.User;
 import by.panasenko.webproject.exception.DAOException;
 import by.panasenko.webproject.exception.ServiceException;
 import by.panasenko.webproject.service.UserService;
+import by.panasenko.webproject.service.validator.UserValidator;
+import org.apache.commons.lang3.RandomStringUtils;
 
 public class UserServiceImpl implements UserService {
+    private static final UserValidator userValidator = UserValidator.getInstance();
     private static final DaoProvider daoProvider = DaoProvider.getInstance();
     private static final UserDao userDao = daoProvider.getUserDao();
 
@@ -25,13 +28,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultCode signUp(SignUpData signUpData) throws ServiceException {
-        /*if (!userValidator.validate(signUpData)) {
+        if (!userValidator.validate(signUpData)) {
             throw new ServiceException("User data didn't passed validation");
-        } else {*/
-        try {
-            return userDao.signUp(signUpData);
-        } catch (DAOException e) {
-            throw new ServiceException("Can't handle signUp request at UserService", e);
+        } else {
+            try {
+                return userDao.signUp(signUpData);
+            } catch (DAOException e) {
+                throw new ServiceException("Can't handle signUp request at UserService", e);
+            }
         }
+    }
+
+    public String generateRandomPassword() {
+        return RandomStringUtils.randomAlphanumeric(12).toUpperCase();
     }
 }

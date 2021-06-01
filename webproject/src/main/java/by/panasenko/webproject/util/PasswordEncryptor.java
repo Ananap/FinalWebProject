@@ -20,3 +20,4 @@ public class PasswordEncryptor {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 }
+

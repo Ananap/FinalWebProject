@@ -8,6 +8,7 @@ import by.panasenko.webproject.exception.ServiceException;
 
 public interface UserService {
     User signIn(SignInData signInData) throws ServiceException;
-
     ResultCode signUp(SignUpData signUpData) throws ServiceException;
+
+    String generateRandomPassword();
 }
