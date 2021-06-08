@@ -18,6 +18,9 @@ public class MailSender {
     private static final String MAIL_USER_NAME = "mail.user.name";
     private static final String MAIL_USER_PASSWORD = "mail.user.password";
     private static final String MAIL_FROM = "mail.from";
+    private static final String MAIL_SUBJECT = "MyFlowershop";
+    private static final String MAIN_MESSAGE = "Hello, %s! \n" + "Welcome to My FlowerShop. \n" + "Your password is %s.";
+    private static final String FORGET_PASSWORD_MESSAGE = "Hello, %s! \n" + "Welcome to My FlowerShop. \n" + "Your new password is %s \n Change your password in your account, if you wish";
 
 
     static {
@@ -29,7 +32,21 @@ public class MailSender {
 
     }
 
-    public static void sendEmail(String emailTo, String subject, String messageText) {
+    public static String messageEmailUser(String username, String password) {
+        return String.format(MAIN_MESSAGE,
+                username,
+                password
+        );
+    }
+
+    public static String messageForgetPassword(String username, String password) {
+        return String.format(FORGET_PASSWORD_MESSAGE,
+                username,
+                password
+        );
+    }
+
+    public static void sendEmail(String emailTo, String messageText) {
         Session session = Session.getInstance(properties,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
@@ -40,7 +57,7 @@ public class MailSender {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(properties.getProperty(MAIL_FROM)));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailTo));
-            message.setSubject(subject);
+            message.setSubject(MAIL_SUBJECT);
             message.setText(messageText);
             Transport.send(message);
         } catch (MessagingException e) {

@@ -1,8 +1,12 @@
 package by.panasenko.webproject.controller;
 
-import by.panasenko.webproject.controller.command.Command;
-import by.panasenko.webproject.controller.command.CommandProvider;
+import by.panasenko.webproject.command.Command;
+import by.panasenko.webproject.command.CommandProvider;
+import by.panasenko.webproject.command.Router;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -14,10 +18,12 @@ import java.util.Locale;
 
 @MultipartConfig
 public class Controller extends HttpServlet {
+    private static Logger logger = LogManager.getLogger(Controller.class);
     private final CommandProvider COMMAND_PROVIDER = CommandProvider.getInstance();
     public static final String ATTRIBUTE_COMMAND = "command";
     private static final String ATTRIBUTE_LOCALE = "locale";
     private static final String ATTRIBUTE_PREV_REQUEST = "prev_request";
+    private static final String ERROR_PAGE_URL = "error.jsp";
     private static final String CONTROLLER_URL = "Controller?";
 
     @Override
@@ -31,24 +37,30 @@ public class Controller extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        final HttpSession SESSION = request.getSession();
-        final String COMMAND_NAME = request.getParameter(ATTRIBUTE_COMMAND);
-        final Command COMMAND = COMMAND_PROVIDER.getCommand(COMMAND_NAME);
-        final String QUERY_STRING = request.getQueryString();
-        final String PREV_REQUEST = CONTROLLER_URL + QUERY_STRING;
-
-        if (SESSION.getAttribute(ATTRIBUTE_LOCALE) == null) {
-            SESSION.setAttribute(ATTRIBUTE_LOCALE, Locale.getDefault());
+        HttpSession session = request.getSession();
+        String commandName = request.getParameter(ATTRIBUTE_COMMAND);
+        Command command = COMMAND_PROVIDER.getCommand(commandName);
+        String queryString = request.getQueryString();
+        String prevRequest = CONTROLLER_URL + queryString;
+        if (session.getAttribute(ATTRIBUTE_LOCALE) == null) {
+            session.setAttribute(ATTRIBUTE_LOCALE, Locale.getDefault());
         }
-
-        if (COMMAND == null) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND);
-        } else {
-            COMMAND.execute(request, response);
-
-            if (QUERY_STRING != null) {
-                SESSION.setAttribute(ATTRIBUTE_PREV_REQUEST, PREV_REQUEST);
-            }
+        Router router = command.execute(request, response);
+        if (queryString != null) {
+            session.setAttribute(ATTRIBUTE_PREV_REQUEST, prevRequest);
+        }
+        switch (router.getRouterType()) {
+            case REDIRECT:
+                response.sendRedirect(router.getPagePath());
+                break;
+            case FORWARD:
+                RequestDispatcher dispatcher = request.getRequestDispatcher(router.getPagePath());
+                dispatcher.forward(request, response);
+                break;
+            default:
+                logger.error("incorrect route type " + router.getRouterType());
+                response.sendRedirect(ERROR_PAGE_URL);
+                break;
         }
     }
 }

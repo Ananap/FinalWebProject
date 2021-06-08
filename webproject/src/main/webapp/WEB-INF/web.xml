@@ -20,14 +20,6 @@
         <url-pattern>/Controller</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>SignUpServlet</servlet-name>
-        <servlet-class>by.panasenko.webproject.controller.SignUpServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SignUpServlet</servlet-name>
-        <url-pattern>/SignUp</url-pattern>
-    </servlet-mapping>
-    <servlet>
         <servlet-name>ExceptionHandler</servlet-name>
         <servlet-class>by.panasenko.webproject.controller.ExceptionHandler</servlet-class>
     </servlet>
@@ -57,6 +49,6 @@
     </error-page>
     <error-page>
         <error-code>404</error-code>
-        <location>/pages/common/404.jsp</location>
+        <location>/404.jsp</location>
     </error-page>
 </web-app>

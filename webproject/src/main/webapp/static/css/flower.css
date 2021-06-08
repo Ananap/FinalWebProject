@@ -1,0 +1,11 @@
+.select-form {
+    width: 80%;
+    margin-right: 30px;
+    gap: 20px;
+}
+
+.pagination-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}

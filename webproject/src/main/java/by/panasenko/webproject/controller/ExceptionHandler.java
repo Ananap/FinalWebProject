@@ -1,6 +1,6 @@
 package by.panasenko.webproject.controller;
 
-import by.panasenko.webproject.controller.command.CommandProvider;
+import by.panasenko.webproject.command.CommandProvider;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

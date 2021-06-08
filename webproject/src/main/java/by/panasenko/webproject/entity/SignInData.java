@@ -7,15 +7,15 @@ public class SignInData implements Serializable {
 
     private static final long serialVersionUID = 5765928860296812438L;
 
-    private String username;
+    private String email;
     private String password;
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -29,7 +29,7 @@ public class SignInData implements Serializable {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("SignInData{");
-        sb.append("username='").append(username).append('\'');
+        sb.append("email='").append(email).append('\'');
         sb.append(", password='").append(password).append('\'');
         sb.append('}');
         return sb.toString();
@@ -40,12 +40,12 @@ public class SignInData implements Serializable {
         if (this == o) return true;
         if (!(o instanceof SignInData)) return false;
         SignInData signInData = (SignInData) o;
-        return username.equals(signInData.username) &&
+        return email.equals(signInData.email) &&
                 password.equals(signInData.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(username, password);
+        return Objects.hash(email, password);
     }
 }

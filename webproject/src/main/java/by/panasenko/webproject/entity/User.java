@@ -10,6 +10,7 @@ public class User {
     private String lastName;
     private String firstName;
     private String address;
+    private String phone;
     private Basket basket;
     private Role role;
     private List<Order> orders;
@@ -92,5 +93,13 @@ public class User {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
