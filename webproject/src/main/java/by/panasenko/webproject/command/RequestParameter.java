@@ -1,6 +1,6 @@
 package by.panasenko.webproject.command;
 
-public class RequestParameter {
+public final class RequestParameter {
     public static final String COMMAND = "command";
     public static final String USERNAME = "username";
     public static final String FIRSTNAME = "firstName";
@@ -19,4 +19,7 @@ public class RequestParameter {
     public static final String FLOWER_PRICE = "flowerPrice";
     public static final String FLOWER_COUNT = "amount";
     public static final String STORAGE_AMOUNT = "storageAmount";
+
+    private RequestParameter() {
+    }
 }

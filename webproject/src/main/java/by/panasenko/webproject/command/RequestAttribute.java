@@ -1,6 +1,6 @@
 package by.panasenko.webproject.command;
 
-public class RequestAttribute {
+public final class RequestAttribute {
     public static final String EXCEPTION = "exception";
     public static final String DUPLICATE_EMAIL = "duplicateEmail";
     public static final String EMAIL_SENT = "emailSent";
@@ -26,4 +26,7 @@ public class RequestAttribute {
     public static final String EMPTY_BASKET = "emptyBasket";
     public static final String PREV_REQUEST = "prev_request";
     public static final String CONTROLLER_URL = "Controller?";
+
+    private RequestAttribute() {
+    }
 }
