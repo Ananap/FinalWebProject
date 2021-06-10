@@ -8,6 +8,5 @@ import java.util.List;
 
 public interface BasketService {
     Basket findUserBasket(Integer id) throws ServiceException;
-
     void updateBasket(Basket basket, List<BasketFlower> basketFlowerList) throws ServiceException;
 }

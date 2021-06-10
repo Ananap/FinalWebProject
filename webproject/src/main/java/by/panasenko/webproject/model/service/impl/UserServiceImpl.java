@@ -3,7 +3,7 @@ package by.panasenko.webproject.model.service.impl;
 import by.panasenko.webproject.entity.SignInData;
 import by.panasenko.webproject.entity.SignUpData;
 import by.panasenko.webproject.entity.User;
-import by.panasenko.webproject.exception.DAOException;
+import by.panasenko.webproject.exception.DaoException;
 import by.panasenko.webproject.exception.ServiceException;
 import by.panasenko.webproject.model.dao.DaoProvider;
 import by.panasenko.webproject.model.dao.ResultCode;
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
                     MailSender.sendEmail(email, MailSender.messageForgetPassword(user.getUsername(), newPassword));
                     return true;
                 }
-            } catch (DAOException e) {
+            } catch (DaoException e) {
                 throw new ServiceException("Can't handle forgetPassword request at UserService", e);
             }
         }
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
         } else {
             try {
                 return userDao.signUp(signUpData);
-            } catch (DAOException e) {
+            } catch (DaoException e) {
                 throw new ServiceException("Can't handle signUp request at UserService", e);
             }
         }
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
     public User signIn(SignInData signInData) throws ServiceException {
         try {
             return userDao.signIn(signInData);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException("Can't handle signIn request at UserService", e);
         }
     }
@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
                 userForUpdate = createUser(user, newPassword, confirmPassword);
             }
             return userDao.updateUser(userForUpdate);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException("Can't handle updateUser request at UserService", e);
         }
     }

@@ -85,4 +85,16 @@ public class SignUpData extends SignInData implements Serializable {
         result = 31 * result + (address != null ? address.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("SignUpData{");
+        sb.append("username='").append(username).append('\'');
+        sb.append(", firstName='").append(firstName).append('\'');
+        sb.append(", lastName='").append(lastName).append('\'');
+        sb.append(", address='").append(address).append('\'');
+        sb.append(", phoneNumber='").append(phoneNumber).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

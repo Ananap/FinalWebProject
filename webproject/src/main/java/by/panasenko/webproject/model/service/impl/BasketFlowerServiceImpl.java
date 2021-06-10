@@ -1,7 +1,7 @@
 package by.panasenko.webproject.model.service.impl;
 
 import by.panasenko.webproject.entity.BasketFlower;
-import by.panasenko.webproject.exception.DAOException;
+import by.panasenko.webproject.exception.DaoException;
 import by.panasenko.webproject.exception.ServiceException;
 import by.panasenko.webproject.model.dao.BasketFlowerDao;
 import by.panasenko.webproject.model.dao.DaoProvider;
@@ -24,7 +24,7 @@ public class BasketFlowerServiceImpl implements BasketFlowerService {
         try {
             BigDecimal subTotal = new BigDecimal(price).multiply(new BigDecimal(count));
             basketFlowerDao.addItemToBasket(id, flowerId, count, subTotal);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException("Can't handle findById request at FlowerService", e);
         }
     }
@@ -34,7 +34,7 @@ public class BasketFlowerServiceImpl implements BasketFlowerService {
         List<BasketFlower> basketFlowerList;
         try {
             basketFlowerList = basketFlowerDao.findByBasketId(id);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException("Can't handle findByBasketId request at BasketFlowerService", e);
         }
         return basketFlowerList;

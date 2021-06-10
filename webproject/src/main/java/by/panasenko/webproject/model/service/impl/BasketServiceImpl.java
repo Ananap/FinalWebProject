@@ -2,7 +2,7 @@ package by.panasenko.webproject.model.service.impl;
 
 import by.panasenko.webproject.entity.Basket;
 import by.panasenko.webproject.entity.BasketFlower;
-import by.panasenko.webproject.exception.DAOException;
+import by.panasenko.webproject.exception.DaoException;
 import by.panasenko.webproject.exception.ServiceException;
 import by.panasenko.webproject.model.dao.BasketDao;
 import by.panasenko.webproject.model.dao.BasketFlowerDao;
@@ -26,7 +26,7 @@ public class BasketServiceImpl implements BasketService {
                 Basket userBasket = basketDao.createBasket(id);
                 return userBasket;
             }
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException("Can't handle findUserBasket at BasketService", e);
         }
         return basket;
@@ -43,9 +43,8 @@ public class BasketServiceImpl implements BasketService {
         }
         basket.setTotalCost(basketTotal);
         try {
-            // todo update basket set total_cost
             basketDao.updateBasket(basket);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException("Can't handle updateBasket at BasketService", e);
         }
     }
@@ -55,9 +54,8 @@ public class BasketServiceImpl implements BasketService {
         bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
         basketFlower.setSubTotal(bigDecimal);
         try {
-            // todo update basketFlower set sub_total
             basketFlowerDao.updateBasketFlower(basketFlower);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException("Can't handle updateBasketFlower at BasketService", e);
         }
     }

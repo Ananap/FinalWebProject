@@ -1,6 +1,7 @@
 package by.panasenko.webproject.command.impl.auth.impl.go;
 
 import by.panasenko.webproject.command.PagePath;
+import by.panasenko.webproject.command.RequestAttribute;
 import by.panasenko.webproject.command.Router;
 import by.panasenko.webproject.command.impl.auth.AuthCommand;
 import by.panasenko.webproject.entity.Basket;
@@ -18,17 +19,11 @@ import java.util.List;
 
 public class GoToBasketPageCommand extends AuthCommand {
     private static final Logger logger = Logger.getLogger(GoToBasketPageCommand.class);
-    private static final String ERROR_MESSAGE = "Error at GoToBasketPageCommand";
-    private static final String ATTRIBUTE_EXCEPTION = "exception";
-    private static final String ATTRIBUTE_USER = "user";
-    private static final String ATTRIBUTE_BASKET_FLOWER_LIST = "basketFlowerList";
-    private static final String ATTRIBUTE_BASKET = "basket";
-    private static final String ATTRIBUTE_EMPTY_BASKET = "emptyBasket";
 
     @Override
     protected Router process(HttpServletRequest req, HttpServletResponse resp) {
         Router router;
-        final User user = (User) req.getSession().getAttribute(ATTRIBUTE_USER);
+        final User user = (User) req.getSession().getAttribute(RequestAttribute.USER);
 
         final ServiceProvider serviceProvider = ServiceProvider.getInstance();
         final BasketService basketService = serviceProvider.getBasketService();
@@ -37,17 +32,16 @@ public class GoToBasketPageCommand extends AuthCommand {
         try {
             Basket basket = user.getBasket();
             List<BasketFlower> basketFlowerList = basketFlowerService.findByBasketId(basket.getId());
-            req.setAttribute(ATTRIBUTE_BASKET_FLOWER_LIST, basketFlowerList);
-            // TODO update basket (count and set sub total)
+            req.setAttribute(RequestAttribute.BASKET_FLOWER_LIST, basketFlowerList);
             basketService.updateBasket(basket, basketFlowerList);
             if (basketFlowerList.isEmpty()) {
-                req.setAttribute(ATTRIBUTE_EMPTY_BASKET, true);
+                req.setAttribute(RequestAttribute.EMPTY_BASKET, true);
             }
-            req.setAttribute(ATTRIBUTE_BASKET, basket);
+            req.setAttribute(RequestAttribute.BASKET, basket);
             router = new Router(PagePath.BASKET_PAGE, Router.RouterType.FORWARD);
         } catch (ServiceException e) {
-            logger.error(ERROR_MESSAGE, e);
-            req.setAttribute(ATTRIBUTE_EXCEPTION, e);
+            logger.error("Error at GoToBasketPageCommand", e);
+            req.setAttribute(RequestAttribute.EXCEPTION, e);
             router = new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
         }
         return router;

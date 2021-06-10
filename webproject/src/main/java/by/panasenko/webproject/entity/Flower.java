@@ -1,7 +1,5 @@
 package by.panasenko.webproject.entity;
 
-import java.util.List;
-
 public class Flower {
     private int id;
     private String name;
@@ -13,8 +11,6 @@ public class Flower {
     private String originCountry;
     private String flowerImage;
     private FlowerType flowerType;
-    private List<OrderFlower> orders;
-    private List<BasketFlower> baskets;
     private Storage storage;
 
     public int getId() {
@@ -97,27 +93,69 @@ public class Flower {
         this.flowerType = flowerType;
     }
 
-    public List<OrderFlower> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<OrderFlower> orders) {
-        this.orders = orders;
-    }
-
-    public List<BasketFlower> getBaskets() {
-        return baskets;
-    }
-
-    public void setBaskets(List<BasketFlower> baskets) {
-        this.baskets = baskets;
-    }
-
     public Storage getStorage() {
         return storage;
     }
 
     public void setStorage(Storage storage) {
         this.storage = storage;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Flower flower = (Flower) o;
+
+        if (id != flower.id) return false;
+        if (Double.compare(flower.price, price) != 0) return false;
+        if (watering != flower.watering) return false;
+        if (light != flower.light) return false;
+        if (name != null ? !name.equals(flower.name) : flower.name != null) return false;
+        if (description != null ? !description.equals(flower.description) : flower.description != null) return false;
+        if (soil != null ? !soil.equals(flower.soil) : flower.soil != null) return false;
+        if (originCountry != null ? !originCountry.equals(flower.originCountry) : flower.originCountry != null)
+            return false;
+        if (flowerImage != null ? !flowerImage.equals(flower.flowerImage) : flower.flowerImage != null) return false;
+        if (flowerType != null ? !flowerType.equals(flower.flowerType) : flower.flowerType != null) return false;
+        return storage != null ? storage.equals(flower.storage) : flower.storage == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        temp = Double.doubleToLongBits(price);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (soil != null ? soil.hashCode() : 0);
+        result = 31 * result + watering;
+        result = 31 * result + (light ? 1 : 0);
+        result = 31 * result + (originCountry != null ? originCountry.hashCode() : 0);
+        result = 31 * result + (flowerImage != null ? flowerImage.hashCode() : 0);
+        result = 31 * result + (flowerType != null ? flowerType.hashCode() : 0);
+        result = 31 * result + (storage != null ? storage.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Flower{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", description='").append(description).append('\'');
+        sb.append(", price=").append(price);
+        sb.append(", soil=").append(soil);
+        sb.append(", watering=").append(watering);
+        sb.append(", light=").append(light);
+        sb.append(", originCountry='").append(originCountry).append('\'');
+        sb.append(", flowerImage='").append(flowerImage).append('\'');
+        sb.append(", flowerType=").append(flowerType);
+        sb.append(", storage=").append(storage);
+        sb.append('}');
+        return sb.toString();
     }
 }

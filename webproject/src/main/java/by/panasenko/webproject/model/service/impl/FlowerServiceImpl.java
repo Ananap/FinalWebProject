@@ -1,7 +1,7 @@
 package by.panasenko.webproject.model.service.impl;
 
 import by.panasenko.webproject.entity.Flower;
-import by.panasenko.webproject.exception.DAOException;
+import by.panasenko.webproject.exception.DaoException;
 import by.panasenko.webproject.exception.ServiceException;
 import by.panasenko.webproject.model.dao.DaoProvider;
 import by.panasenko.webproject.model.dao.FlowerDao;
@@ -20,7 +20,7 @@ public class FlowerServiceImpl implements FlowerService {
         List<Flower> flowerList;
         try {
             flowerList = flowerDao.findAll();
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException("Can't handle findAll request at FlowerService", e);
         }
         return flowerList;
@@ -34,7 +34,7 @@ public class FlowerServiceImpl implements FlowerService {
         List<Flower> flowerList;
         try {
             flowerList = flowerDao.findByCategory(category);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException("Can't handle findByCategory request at FlowerService", e);
         }
         return flowerList;
@@ -48,7 +48,7 @@ public class FlowerServiceImpl implements FlowerService {
         Flower flower;
         try {
             flower = flowerDao.findById(flowerId);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException("Can't handle findById request at FlowerService", e);
         }
         return flower;

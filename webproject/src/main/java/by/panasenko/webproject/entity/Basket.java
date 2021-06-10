@@ -1,13 +1,11 @@
 package by.panasenko.webproject.entity;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public class Basket {
     private int id;
     private BigDecimal totalCost;
     private User user;
-    private List<BasketFlower> flowers;
 
     public int getId() {
         return id;
@@ -33,11 +31,33 @@ public class Basket {
         this.user = user;
     }
 
-    public List<BasketFlower> getFlowers() {
-        return flowers;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Basket basket = (Basket) o;
+
+        if (id != basket.id) return false;
+        if (totalCost != null ? !totalCost.equals(basket.totalCost) : basket.totalCost != null) return false;
+        return user != null ? user.equals(basket.user) : basket.user == null;
     }
 
-    public void setFlowers(List<BasketFlower> flowers) {
-        this.flowers = flowers;
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (totalCost != null ? totalCost.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Basket{");
+        sb.append("id=").append(id);
+        sb.append(", totalCost=").append(totalCost);
+        sb.append(", user=").append(user);
+        sb.append('}');
+        return sb.toString();
     }
 }

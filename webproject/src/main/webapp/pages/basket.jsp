@@ -110,11 +110,11 @@
                                     <form action="Controller" method="post">
                                         <input type="hidden" name="command" value="remove_item_command"/>
                                         <input type="hidden" name="basketFlowerId" value="${basketFlower.id}"/>
-                                        <button class="btn btn-xs" type="submit">${locale_operation_delete}</button>
+                                        <button class="btn btn-info" type="submit">${locale_operation_delete}</button>
                                     </form>
                                 </div>
                             </div>
-                            <div class="col-xs-2"> line-through
+                            <div class="col-xs-2">
                                 <h5 style="color: orangered; font-size: large">Br<span
                                         style="<c:if
                                                 test="${basketFlower.flower.storage.count} == 0">text-decoration: line-through</c:if>">${basketFlower.flower.price}</span>
@@ -123,9 +123,9 @@
                             <div class="col-xs-2">
                                 <input hidden="hidden" name="id" value="${basketFlower.id}"/>
                                 <input id="${basketFlower.id}" name="count"
-                                       disabled="${basketFlower.flower.storage.count==0}"
+                                       <c:if test="${basketFlower.flower.storage.count==0}">disabled</c:if>
                                        class="form-control basketFlowerCount" value="${basketFlower.count}"/>
-                                <button style="display: none;" id="'update-item-'+${basketFlower.id}" type="submit"
+                                <button style="display: none;" id="update-item-${basketFlower.id}" type="submit"
                                         class="btn btn-warning btn-xs">${locale_common_update}</button>
                             </div>
                         </form>

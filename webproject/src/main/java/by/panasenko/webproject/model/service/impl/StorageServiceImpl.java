@@ -1,7 +1,7 @@
 package by.panasenko.webproject.model.service.impl;
 
 import by.panasenko.webproject.entity.Storage;
-import by.panasenko.webproject.exception.DAOException;
+import by.panasenko.webproject.exception.DaoException;
 import by.panasenko.webproject.exception.ServiceException;
 import by.panasenko.webproject.model.dao.DaoProvider;
 import by.panasenko.webproject.model.dao.StorageDao;
@@ -16,7 +16,7 @@ public class StorageServiceImpl implements StorageService {
         Storage storage;
         try {
             storage = storageDao.findByFlowerId(flowerId);
-        } catch (DAOException e) {
+        } catch (DaoException e) {
             throw new ServiceException("Can't handle findByFlowerId request at StorageService", e);
         }
         return storage;

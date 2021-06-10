@@ -1,8 +1,6 @@
 package by.panasenko.webproject.command.impl;
 
-import by.panasenko.webproject.command.Command;
-import by.panasenko.webproject.command.PagePath;
-import by.panasenko.webproject.command.Router;
+import by.panasenko.webproject.command.*;
 import by.panasenko.webproject.command.Router.RouterType;
 import by.panasenko.webproject.entity.Flower;
 import by.panasenko.webproject.entity.Storage;
@@ -17,16 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 
 public class FlowerDetailCommand implements Command {
     private static final Logger logger = Logger.getLogger(FlowerDetailCommand.class);
-    private static final String ERROR_MESSAGE = "Error at FlowerDetailCommand";
-    private static final String ATTRIBUTE_FLOWER_ID = "flowerId";
-    private static final String ATTRIBUTE_EXCEPTION = "exception";
-    private static final String ATTRIBUTE_FLOWER = "flower";
-    private static final String ATTRIBUTE_STORAGE = "storage";
 
     @Override
     public Router execute(HttpServletRequest req, HttpServletResponse res) {
         Router router;
-        String flowerId = req.getParameter(ATTRIBUTE_FLOWER_ID);
+        String flowerId = req.getParameter(RequestParameter.FLOWER_ID);
 
         final ServiceProvider serviceProvider = ServiceProvider.getInstance();
         final FlowerService flowerService = serviceProvider.getFlowerService();
@@ -35,12 +28,12 @@ public class FlowerDetailCommand implements Command {
         try {
             Flower flower = flowerService.findById(flowerId);
             Storage storage = storageService.findByFlowerId(flowerId);
-            req.setAttribute(ATTRIBUTE_FLOWER, flower);
-            req.setAttribute(ATTRIBUTE_STORAGE, storage);
+            req.setAttribute(RequestAttribute.FLOWER, flower);
+            req.setAttribute(RequestAttribute.STORAGE, storage);
             router = new Router(PagePath.ITEM_DETAIL_PAGE, RouterType.FORWARD);
         } catch (ServiceException e) {
-            logger.error(ERROR_MESSAGE, e);
-            req.setAttribute(ATTRIBUTE_EXCEPTION, e);
+            logger.error("Error at FlowerDetailCommand", e);
+            req.setAttribute(RequestAttribute.EXCEPTION, e);
             router = new Router(PagePath.ERROR_PAGE, RouterType.FORWARD);
         }
         return router;
