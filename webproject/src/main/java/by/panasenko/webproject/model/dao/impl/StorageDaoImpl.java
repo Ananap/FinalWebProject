@@ -1,7 +1,7 @@
 package by.panasenko.webproject.model.dao.impl;
 
 import by.panasenko.webproject.entity.Storage;
-import by.panasenko.webproject.exception.DAOException;
+import by.panasenko.webproject.exception.DaoException;
 import by.panasenko.webproject.model.connection.ConnectionPool;
 import by.panasenko.webproject.model.dao.ColumnName;
 import by.panasenko.webproject.model.dao.StorageDao;
@@ -50,7 +50,7 @@ public class StorageDaoImpl implements StorageDao {
     }
 
     @Override
-    public Storage findByFlowerId(String flowerId) throws DAOException {
+    public Storage findByFlowerId(String flowerId) throws DaoException {
         Storage storage = new Storage();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_STORAGE_BY_FLOWER)) {
@@ -61,7 +61,7 @@ public class StorageDaoImpl implements StorageDao {
                 storage.setCount(resultSet.getInt(ColumnName.STORAGE_COUNT));
             }
         } catch (SQLException e) {
-            throw new DAOException(MESSAGE_SELECT_STORAGE_PROBLEM, e);
+            throw new DaoException(MESSAGE_SELECT_STORAGE_PROBLEM, e);
         }
         return storage;
     }

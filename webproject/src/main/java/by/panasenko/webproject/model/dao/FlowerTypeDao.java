@@ -1,7 +1,7 @@
 package by.panasenko.webproject.model.dao;
 
 import by.panasenko.webproject.entity.FlowerType;
-import by.panasenko.webproject.exception.DAOException;
+import by.panasenko.webproject.exception.DaoException;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * Methods should connect to database and manipulate with data(save, edit, etc.).
  */
 public interface FlowerTypeDao {
-    List<FlowerType> findAll() throws DAOException;
+    List<FlowerType> findAll() throws DaoException;
 
-    FlowerType findById(String category) throws DAOException;
+    FlowerType findById(String category) throws DaoException;
 }

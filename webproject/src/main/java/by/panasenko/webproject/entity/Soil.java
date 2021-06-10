@@ -5,6 +5,10 @@ public final class Soil {
     private String name;
     private String description;
 
+    public Soil(String description) {
+        this.description = description;
+    }
+
     public int getSoilId() {
         return soilId;
     }

@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 public class SignInCommand implements Command {
     private static final Logger logger = Logger.getLogger(SignInCommand.class);
@@ -32,15 +33,16 @@ public class SignInCommand implements Command {
         signInData.setPassword(password);
 
         try {
-            User user = userService.signIn(signInData);
-            if (user == null) {
-                req.setAttribute(RequestAttribute.WRONG_DATA, true);
-                router = new Router(PagePath.GO_TO_LOGIN_PAGE, RouterType.FORWARD);
-            } else {
+            Optional<User> optionalUser = userService.signIn(signInData);
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
                 Basket basket = basketService.findUserBasket(user.getId());
                 user.setBasket(basket);
                 req.getSession().setAttribute(RequestAttribute.USER, user);
                 router = new Router(PagePath.GO_TO_PROFILE_PAGE, RouterType.REDIRECT);
+            } else {
+                req.setAttribute(RequestAttribute.WRONG_DATA, true);
+                router = new Router(PagePath.GO_TO_LOGIN_PAGE, RouterType.FORWARD);
             }
         } catch (ServiceException e) {
             logger.error("Error at SignInCommand", e);

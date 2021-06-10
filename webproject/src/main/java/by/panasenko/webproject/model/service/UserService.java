@@ -6,8 +6,10 @@ import by.panasenko.webproject.entity.User;
 import by.panasenko.webproject.exception.ServiceException;
 import by.panasenko.webproject.model.dao.ResultCode;
 
+import java.util.Optional;
+
 public interface UserService {
-    User signIn(SignInData signInData) throws ServiceException;
+    Optional<User> signIn(SignInData signInData) throws ServiceException;
 
     ResultCode signUp(SignUpData signUpData) throws ServiceException;
 

@@ -4,7 +4,7 @@ import by.panasenko.webproject.entity.Flower;
 import by.panasenko.webproject.entity.FlowerCategory;
 import by.panasenko.webproject.entity.FlowerType;
 import by.panasenko.webproject.entity.Soil;
-import by.panasenko.webproject.exception.DAOException;
+import by.panasenko.webproject.exception.DaoException;
 import by.panasenko.webproject.model.connection.ConnectionPool;
 import by.panasenko.webproject.model.dao.ColumnName;
 import by.panasenko.webproject.model.dao.FlowerDao;
@@ -25,9 +25,9 @@ public class FlowerDaoImpl implements FlowerDao {
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     /**
-     * Query for database to get all record in flower_type table
+     * Query for database to get all record in flower table
      */
-    private static final String SELECT_ALL_FLOWER_TYPE_SQL = "SELECT id, name, description, price, flower_image FROM flower";
+    private static final String SELECT_ALL_FLOWER_SQL = "SELECT id, name, description, price, flower_image FROM flower";
 
     /**
      * Query for database to get flower by category
@@ -39,8 +39,9 @@ public class FlowerDaoImpl implements FlowerDao {
     /**
      * Query for database to get flower by id
      */
-    private static final String FIND_FLOWER_BY_ID = "SELECT id, name, description, price, flower_image, soil, origin, light, watering, type_id, category, type_description FROM flower flowers " +
+    private static final String FIND_FLOWER_BY_ID = "SELECT id, name, description, price, flower_image, soil_description, origin, light, watering, type_id, category, type_description FROM flower flowers " +
             "JOIN flower_type type ON flowers.flower_type_id = type.type_id " +
+            "JOIN soil s ON flowers.soil_id = s.soil_id " +
             "WHERE (id = ?)";
 
     /**
@@ -69,11 +70,11 @@ public class FlowerDaoImpl implements FlowerDao {
     }
 
     @Override
-    public List<Flower> findAll() throws DAOException {
+    public List<Flower> findAll() throws DaoException {
         List<Flower> flowerList = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection();
              Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(SELECT_ALL_FLOWER_TYPE_SQL);
+            ResultSet resultSet = statement.executeQuery(SELECT_ALL_FLOWER_SQL);
             while (resultSet.next()) {
                 Flower flower = new Flower();
                 flower.setId(resultSet.getInt(ColumnName.FLOWER_ID));
@@ -84,13 +85,13 @@ public class FlowerDaoImpl implements FlowerDao {
                 flowerList.add(flower);
             }
         } catch (SQLException e) {
-            throw new DAOException(MESSAGE_SELECT_FLOWERS_PROBLEM, e);
+            throw new DaoException(MESSAGE_SELECT_FLOWERS_PROBLEM, e);
         }
         return flowerList;
     }
 
     @Override
-    public List<Flower> findByCategory(String category) throws DAOException {
+    public List<Flower> findByCategory(String category) throws DaoException {
         List<Flower> flowerList = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_FLOWER_BY_CATEGORY)) {
@@ -106,13 +107,13 @@ public class FlowerDaoImpl implements FlowerDao {
                 flowerList.add(flower);
             }
         } catch (SQLException e) {
-            throw new DAOException(MESSAGE_SELECT_FLOWER_BY_CATEGORY, e);
+            throw new DaoException(MESSAGE_SELECT_FLOWER_BY_CATEGORY, e);
         }
         return flowerList;
     }
 
     @Override
-    public Flower findById(String flowerId) throws DAOException {
+    public Flower findById(String flowerId) throws DaoException {
         Flower flower = new Flower();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_FLOWER_BY_ID)) {
@@ -124,8 +125,6 @@ public class FlowerDaoImpl implements FlowerDao {
                 flower.setDescription(resultSet.getString(ColumnName.FLOWER_DESCRIPTION));
                 flower.setPrice(resultSet.getDouble(ColumnName.FLOWER_PRICE));
                 flower.setFlowerImage(resultSet.getString(ColumnName.FLOWER_IMAGE));
-                Soil soil = Soil.valueOf(resultSet.getString(ColumnName.FLOWER_SOIL));
-                flower.setSoil(soil);
                 flower.setOriginCountry(resultSet.getString(ColumnName.FLOWER_COUNTRY));
                 flower.setLight(resultSet.getBoolean(ColumnName.FLOWER_LIGHT));
                 flower.setWatering(resultSet.getInt(ColumnName.FLOWER_WATERING));
@@ -135,9 +134,11 @@ public class FlowerDaoImpl implements FlowerDao {
                 flowerType.setCategory(flowerCategory);
                 flowerType.setDescription(resultSet.getString(ColumnName.FLOWER_TYPE_DESCRIPTION));
                 flower.setFlowerType(flowerType);
+                Soil soil = new Soil(resultSet.getString(ColumnName.SOIL_DESCRIPTION));
+                flower.setSoil(soil);
             }
         } catch (SQLException e) {
-            throw new DAOException(MESSAGE_SELECT_FLOWER_BY_CATEGORY, e);
+            throw new DaoException(MESSAGE_SELECT_FLOWER_BY_CATEGORY, e);
         }
         return flower;
     }

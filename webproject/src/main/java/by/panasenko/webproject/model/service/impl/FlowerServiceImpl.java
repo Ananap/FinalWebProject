@@ -11,7 +11,6 @@ import by.panasenko.webproject.validator.FlowerValidator;
 import java.util.List;
 
 public class FlowerServiceImpl implements FlowerService {
-    private static final FlowerValidator flowerValidator = FlowerValidator.getInstance();
     private static final DaoProvider daoProvider = DaoProvider.getInstance();
     private static final FlowerDao flowerDao = daoProvider.getFlowerDao();
 
@@ -28,7 +27,7 @@ public class FlowerServiceImpl implements FlowerService {
 
     @Override
     public List<Flower> findByCategory(String category) throws ServiceException {
-        if (!flowerValidator.validateFlowerTypeId(category)) {
+        if (!FlowerValidator.validateFlowerTypeId(category)) {
             throw new ServiceException("Flower Type data didn't passed validation");
         }
         List<Flower> flowerList;
@@ -42,7 +41,7 @@ public class FlowerServiceImpl implements FlowerService {
 
     @Override
     public Flower findById(String flowerId) throws ServiceException {
-        if (!flowerValidator.validateFlowerId(flowerId)) {
+        if (!FlowerValidator.validateFlowerId(flowerId)) {
             throw new ServiceException("Flower data didn't passed validation");
         }
         Flower flower;

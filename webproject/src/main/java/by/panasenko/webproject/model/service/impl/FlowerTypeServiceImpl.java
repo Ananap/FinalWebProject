@@ -11,13 +11,12 @@ import by.panasenko.webproject.validator.FlowerValidator;
 import java.util.List;
 
 public class FlowerTypeServiceImpl implements FlowerTypeService {
-    private static final FlowerValidator flowerValidator = FlowerValidator.getInstance();
     private static final DaoProvider daoProvider = DaoProvider.getInstance();
     private static final FlowerTypeDao flowerTypeDao = daoProvider.getFlowerTypeDao();
 
     @Override
     public FlowerType findById(String category) throws ServiceException {
-        if (!flowerValidator.validateFlowerTypeId(category)) {
+        if (!FlowerValidator.validateFlowerTypeId(category)) {
             throw new ServiceException("Flower type data didn't passed validation");
         }
         FlowerType flowerType;

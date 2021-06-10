@@ -13,45 +13,37 @@ public class UserValidator {
     private static final String REGEXP_USERNAME = "regexp.username";
     private static final String REGEXP_EMAIL = "regexp.email";
 
-    private static final UserValidator instance = new UserValidator();
     private static final RegexpPropertyUtil regexpPropertyUtil = RegexpPropertyUtil.getInstance();
 
-    private UserValidator() {
-    }
-
-    public static UserValidator getInstance() {
-        return instance;
-    }
-
-    public boolean validate(SignUpData signUpData) {
+    public static boolean validate(SignUpData signUpData) {
         return validateData(signUpData.getUsername(), signUpData.getFirstName(), signUpData.getLastName(), signUpData.getPhoneNumber(), signUpData.getEmail());
     }
 
-    public boolean validate(User user) {
+    public static boolean validate(User user) {
         return validateData(user.getUsername(), user.getFirstName(), user.getLastName(), user.getPhone(), user.getEmail());
     }
 
-    private boolean validateData(String username, String firstName, String lastName, String phoneNumber, String email) {
+    private static boolean validateData(String username, String firstName, String lastName, String phoneNumber, String email) {
         return validateUsername(username) || validateFIO(firstName) || validateFIO(lastName) || validatePhoneNumber(phoneNumber) || !validateEmail(email);
     }
 
-    private boolean validateUsername(String username) {
+    private static boolean validateUsername(String username) {
         return isMatchFounded(username, regexpPropertyUtil.getProperty(REGEXP_USERNAME));
     }
 
-    private boolean validateFIO(String fio) {
+    private static boolean validateFIO(String fio) {
         return isMatchFounded(fio, regexpPropertyUtil.getProperty(REGEXP_USER_FIO));
     }
 
-    private boolean validatePhoneNumber(String phoneNumber) {
+    private static boolean validatePhoneNumber(String phoneNumber) {
         return isMatchFounded(phoneNumber, regexpPropertyUtil.getProperty(REGEXP_PHONE_NUM));
     }
 
-    public boolean validateEmail(String email) {
+    public static boolean validateEmail(String email) {
         return isMatchFounded(email, regexpPropertyUtil.getProperty(REGEXP_EMAIL));
     }
 
-    private boolean isMatchFounded(String text, String regex) {
+    private static boolean isMatchFounded(String text, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(text);
         return matcher.find();

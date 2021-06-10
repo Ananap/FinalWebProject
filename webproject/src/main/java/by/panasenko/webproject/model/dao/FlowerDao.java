@@ -2,7 +2,7 @@ package by.panasenko.webproject.model.dao;
 
 
 import by.panasenko.webproject.entity.Flower;
-import by.panasenko.webproject.exception.DAOException;
+import by.panasenko.webproject.exception.DaoException;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import java.util.List;
  * Methods should connect to database and manipulate with data(save, edit, etc.).
  */
 public interface FlowerDao {
-    List<Flower> findAll() throws DAOException;
+    List<Flower> findAll() throws DaoException;
 
-    List<Flower> findByCategory(String category) throws DAOException;
+    List<Flower> findByCategory(String category) throws DaoException;
 
-    Flower findById(String flowerId) throws DAOException;
+    Flower findById(String flowerId) throws DaoException;
 }

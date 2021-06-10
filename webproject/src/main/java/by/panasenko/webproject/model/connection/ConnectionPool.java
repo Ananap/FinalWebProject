@@ -37,10 +37,6 @@ public class ConnectionPool {
         if (freeConnections.isEmpty()) {
             logger.fatal("can't create connections, empty pool");
             throw new RuntimeException("can't create connections, empty pool");
-        } else if (freeConnections.size() == DEFAULT_POOL_SIZE) {
-            logger.info("pool successfully created");
-        } else if (freeConnections.size() < DEFAULT_POOL_SIZE) {
-            logger.info("not full pool, need create others connections");
         }
     }
 

@@ -2,7 +2,7 @@ package by.panasenko.webproject.model.dao.impl;
 
 import by.panasenko.webproject.entity.FlowerCategory;
 import by.panasenko.webproject.entity.FlowerType;
-import by.panasenko.webproject.exception.DAOException;
+import by.panasenko.webproject.exception.DaoException;
 import by.panasenko.webproject.model.connection.ConnectionPool;
 import by.panasenko.webproject.model.dao.ColumnName;
 import by.panasenko.webproject.model.dao.FlowerTypeDao;
@@ -59,7 +59,7 @@ public class FlowerTypeDaoImpl implements FlowerTypeDao {
     }
 
     @Override
-    public List<FlowerType> findAll() throws DAOException {
+    public List<FlowerType> findAll() throws DaoException {
         List<FlowerType> flowerTypeList = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection();
              Statement statement = connection.createStatement()) {
@@ -73,13 +73,13 @@ public class FlowerTypeDaoImpl implements FlowerTypeDao {
                 flowerTypeList.add(flowerType);
             }
         } catch (SQLException e) {
-            throw new DAOException(MESSAGE_SELECT_FLOWERS_PROBLEM, e);
+            throw new DaoException(MESSAGE_SELECT_FLOWERS_PROBLEM, e);
         }
         return flowerTypeList;
     }
 
     @Override
-    public FlowerType findById(String category) throws DAOException {
+    public FlowerType findById(String category) throws DaoException {
         FlowerType flowerType = new FlowerType();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_FLOWER_TYPE_BY_ID)) {
@@ -92,7 +92,7 @@ public class FlowerTypeDaoImpl implements FlowerTypeDao {
                 flowerType.setDescription(resultSet.getString(ColumnName.FLOWER_TYPE_DESCRIPTION));
             }
         } catch (SQLException e) {
-            throw new DAOException(MESSAGE_SELECT_FLOWER_BY_CATEGORY, e);
+            throw new DaoException(MESSAGE_SELECT_FLOWER_BY_CATEGORY, e);
         }
         return flowerType;
     }

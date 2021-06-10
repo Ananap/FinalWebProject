@@ -12,13 +12,12 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class BasketFlowerServiceImpl implements BasketFlowerService {
-    private static final FlowerValidator flowerValidator = FlowerValidator.getInstance();
     private static final DaoProvider daoProvider = DaoProvider.getInstance();
     private static final BasketFlowerDao basketFlowerDao = daoProvider.getBasketFlowerDao();
 
     @Override
     public void addToBasket(int id, String flowerId, String count, String price) throws ServiceException {
-        if (!flowerValidator.validateFlowerId(count)) {
+        if (!FlowerValidator.validateFlowerId(count)) {
             throw new ServiceException("Flower data didn't passed validation");
         }
         try {

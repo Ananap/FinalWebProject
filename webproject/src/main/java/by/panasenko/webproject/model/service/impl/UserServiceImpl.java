@@ -13,14 +13,15 @@ import by.panasenko.webproject.util.MailSender;
 import by.panasenko.webproject.util.PasswordEncryptor;
 import by.panasenko.webproject.validator.UserValidator;
 
+import java.util.Optional;
+
 public class UserServiceImpl implements UserService {
-    private static final UserValidator userValidator = UserValidator.getInstance();
     private static final DaoProvider daoProvider = DaoProvider.getInstance();
     private static final UserDao userDao = daoProvider.getUserDao();
 
     @Override
     public boolean forgetPassword(String email) throws ServiceException {
-        if (!userValidator.validateEmail(email)) {
+        if (!UserValidator.validateEmail(email)) {
             throw new ServiceException("User email didn't passed validation");
         } else {
             try {
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultCode signUp(SignUpData signUpData) throws ServiceException {
-        if (!userValidator.validate(signUpData)) {
+        if (!UserValidator.validate(signUpData)) {
             throw new ServiceException("User data didn't passed validation");
         } else {
             try {
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User signIn(SignInData signInData) throws ServiceException {
+    public Optional<User> signIn(SignInData signInData) throws ServiceException {
         try {
             return userDao.signIn(signInData);
         } catch (DaoException e) {
@@ -62,10 +63,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultCode updateUser(SignInData signInData, User user, String newPassword, String confirmPassword) throws ServiceException {
-        if (signIn(signInData) == null) {
+        if (!signIn(signInData).isPresent()) {
             return ResultCode.WRONG_PASSWORD;
         }
-        if (!userValidator.validate(user)) {
+        if (!UserValidator.validate(user)) {
             throw new ServiceException("User data didn't passed validation");
         }
         try {

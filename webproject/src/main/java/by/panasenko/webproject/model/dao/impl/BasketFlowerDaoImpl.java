@@ -4,7 +4,7 @@ import by.panasenko.webproject.entity.Basket;
 import by.panasenko.webproject.entity.BasketFlower;
 import by.panasenko.webproject.entity.Flower;
 import by.panasenko.webproject.entity.Storage;
-import by.panasenko.webproject.exception.DAOException;
+import by.panasenko.webproject.exception.DaoException;
 import by.panasenko.webproject.model.connection.ConnectionPool;
 import by.panasenko.webproject.model.dao.BasketFlowerDao;
 import by.panasenko.webproject.model.dao.ColumnName;
@@ -42,6 +42,11 @@ public class BasketFlowerDaoImpl implements BasketFlowerDao {
             "WHERE (basket_id = ?)";
 
     /**
+     * Query for database to set sub total cost
+     */
+    private static final String SET_SUB_TOTAL = "UPDATE basket_flower SET sub_total = ? WHERE basket_flower_id = ?";
+
+    /**
      * Message, that is putted in Exception if there are add item to basket problem
      */
     private static final String MESSAGE_ADD_ITEM_PROBLEM = "Can't handle BasketFlowerDao.addItemToBasket request";
@@ -50,6 +55,11 @@ public class BasketFlowerDaoImpl implements BasketFlowerDao {
      * Message, that is putted in Exception if there find by basket problem problem
      */
     private static final String MESSAGE_FIND_BY_BASKET_PROBLEM = "Can't handle BasketFlowerDao.findByBasketId request";
+
+    /**
+     * Message, that is putted in Exception if there find by basket problem problem
+     */
+    private static final String MESSAGE_SET_SUB_TOTAL_PROBLEM = "Can't handle BasketFlowerDao.updateBasketFlower request";
 
     /**
      * Returns the instance of the class
@@ -67,26 +77,26 @@ public class BasketFlowerDaoImpl implements BasketFlowerDao {
     }
 
     @Override
-    public void addItemToBasket(int id, String flowerId, String count, BigDecimal subTotal) throws DAOException {
+    public void addItemToBasket(int id, String flowerId, String count, BigDecimal subTotal) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
-             PreparedStatement ps = connection.prepareStatement(ADD_ITEM_SQL)) {
-            ps.setInt(AddItemIndex.BASKET_ID, id);
-            ps.setInt(AddItemIndex.FLOWER_ID, Integer.parseInt(flowerId));
-            ps.setInt(AddItemIndex.COUNT, Integer.parseInt(count));
-            ps.setBigDecimal(AddItemIndex.SUB_TOTAL, subTotal);
-            ps.execute();
+             PreparedStatement statement = connection.prepareStatement(ADD_ITEM_SQL)) {
+            statement.setInt(AddItemIndex.BASKET_ID, id);
+            statement.setInt(AddItemIndex.FLOWER_ID, Integer.parseInt(flowerId));
+            statement.setInt(AddItemIndex.COUNT, Integer.parseInt(count));
+            statement.setBigDecimal(AddItemIndex.SUB_TOTAL, subTotal);
+            statement.execute();
         } catch (SQLException e) {
-            throw new DAOException(MESSAGE_ADD_ITEM_PROBLEM, e);
+            throw new DaoException(MESSAGE_ADD_ITEM_PROBLEM, e);
         }
     }
 
     @Override
-    public List<BasketFlower> findByBasketId(int id) throws DAOException {
+    public List<BasketFlower> findByBasketId(int id) throws DaoException {
         List<BasketFlower> basketFlowerList = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection();
-             PreparedStatement ps = connection.prepareStatement(SELECT_ITEMS_BY_BASKET_ID_SQL)) {
-            ps.setInt(FindItemIndex.BASKET_ID, id);
-            ResultSet resultSet = ps.executeQuery();
+             PreparedStatement statement = connection.prepareStatement(SELECT_ITEMS_BY_BASKET_ID_SQL)) {
+            statement.setInt(FindItemIndex.BASKET_ID, id);
+            ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 Storage storage = new Storage();
                 storage.setCount(resultSet.getInt(ColumnName.STORAGE_COUNT));
@@ -106,14 +116,21 @@ public class BasketFlowerDaoImpl implements BasketFlowerDao {
                 basketFlowerList.add(basketFlower);
             }
         } catch (SQLException e) {
-            throw new DAOException(MESSAGE_FIND_BY_BASKET_PROBLEM, e);
+            throw new DaoException(MESSAGE_FIND_BY_BASKET_PROBLEM, e);
         }
         return basketFlowerList;
     }
 
     @Override
-    public void updateBasketFlower(BasketFlower basketFlower) throws DAOException {
-
+    public void updateBasketFlower(BasketFlower basketFlower) throws DaoException {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SET_SUB_TOTAL)) {
+            statement.setBigDecimal(SetSubTotalIndex.SUB_TOTAL, basketFlower.getSubTotal());
+            statement.setInt(SetSubTotalIndex.ID, basketFlower.getId());
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DaoException(MESSAGE_SET_SUB_TOTAL_PROBLEM, e);
+        }
     }
 
     /**
@@ -132,5 +149,13 @@ public class BasketFlowerDaoImpl implements BasketFlowerDao {
      */
     private static class FindItemIndex {
         private static final int BASKET_ID = 1;
+    }
+
+    /**
+     * Static class that contains parameter indexes for setting sub_total
+     */
+    private static class SetSubTotalIndex {
+        private static final int SUB_TOTAL = 1;
+        private static final int ID = 2;
     }
 }

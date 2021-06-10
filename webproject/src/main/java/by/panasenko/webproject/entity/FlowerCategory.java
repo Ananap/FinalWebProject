@@ -5,4 +5,3 @@ public enum FlowerCategory {
     BOUQUET,
     SINGLE_FLOWERS
 }
-

@@ -61,7 +61,7 @@
                        aria-expanded="false">${locale_main_catalog}<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="Controller?command=go_to_item_page_command">${locale_main_flower_list}</a></li>
-                        <c:if test="${user.role.id == 2}">
+                        <c:if test="${user.role == 'ADMIN'}">
                             <li><a href="Controller?command=go_to_add_item_page_command">${locale_main_add_item}</a>
                             </li>
                             <li>
@@ -98,12 +98,12 @@
                         </li>
                     </ul>
                 </li>
-                <c:if test="${user.role.id == 2}">
+                <c:if test="${user.role == 'ADMIN'}">
                     <li>
                         <a href="Controller?command=go_to_order_Info_page_command">${locale_main_admin_order}</a>
                     </li>
                 </c:if>
-                <c:if test="${user.role.id == 1 || user.role.id == 2}">
+                <c:if test="${user.role == 'USER' || user.role == 'ADMIN'}">
                     <li>
                         <a href="Controller?command=go_to_basket_page_command">${locale_main_basket_title}</a>
                     </li>
