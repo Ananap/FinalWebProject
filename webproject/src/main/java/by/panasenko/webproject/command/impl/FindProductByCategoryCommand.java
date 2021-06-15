@@ -20,7 +20,7 @@ public class FindProductByCategoryCommand implements Command {
     @Override
     public Router execute(HttpServletRequest req, HttpServletResponse res) {
         Router router;
-        String category = req.getParameter(RequestParameter.CATEGORY);
+        final String category = req.getParameter(RequestParameter.CATEGORY);
 
         final ServiceProvider serviceProvider = ServiceProvider.getInstance();
         final FlowerService flowerService = serviceProvider.getFlowerService();
@@ -39,7 +39,7 @@ public class FindProductByCategoryCommand implements Command {
         } catch (ServiceException e) {
             logger.error("Error at FindProductByCategoryCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);
-            router = new Router(PagePath.ERROR_PAGE, RouterType.FORWARD);
+            router = new Router(PagePath.ERROR_PAGE, RouterType.REDIRECT);
         }
         return router;
     }

@@ -4,5 +4,11 @@ import by.panasenko.webproject.entity.Storage;
 import by.panasenko.webproject.exception.DaoException;
 
 public interface StorageDao {
-    Storage findByFlowerId(String flowerId) throws DaoException;
+    Storage findByFlowerId(Integer flowerId) throws DaoException;
+
+    void updateStorage(Storage storage) throws DaoException;
+
+    void insertStorage(Storage storage) throws DaoException;
+
+    void updateStorageByFlower(Integer flowerId, Integer count) throws DaoException;
 }

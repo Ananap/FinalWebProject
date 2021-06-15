@@ -33,6 +33,17 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
+    public Basket findById(String basketId) throws ServiceException {
+        Basket basket;
+        try {
+            basket = basketDao.findById(Integer.parseInt(basketId));
+        } catch (DaoException e) {
+            throw new ServiceException("Can't handle findUserBasket at BasketService", e);
+        }
+        return basket;
+    }
+
+    @Override
     public void updateBasket(Basket basket, List<BasketFlower> basketFlowerList) throws ServiceException {
         BigDecimal basketTotal = new BigDecimal(0);
         for (BasketFlower basketFlower : basketFlowerList) {
@@ -46,6 +57,15 @@ public class BasketServiceImpl implements BasketService {
             basketDao.updateBasket(basket);
         } catch (DaoException e) {
             throw new ServiceException("Can't handle updateBasket at BasketService", e);
+        }
+    }
+
+    @Override
+    public void updateTotalCost(Basket basket) throws ServiceException {
+        try {
+            basketDao.updateBasket(basket);
+        } catch (DaoException e) {
+            throw new ServiceException("Can't handle updateTotalCost at BasketService", e);
         }
     }
 

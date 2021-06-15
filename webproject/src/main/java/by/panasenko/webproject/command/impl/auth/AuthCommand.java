@@ -19,7 +19,7 @@ public abstract class AuthCommand implements Command {
     private Router checkAuthAndProcess(HttpServletRequest req, HttpServletResponse resp) {
         if (req.getSession().getAttribute(RequestAttribute.USER) == null) {
             req.setAttribute(RequestAttribute.MESSAGE, true);
-            Router router = new Router(PagePath.GO_TO_LOGIN_PAGE, RouterType.REDIRECT);
+            Router router = new Router(PagePath.GO_TO_LOGIN_PAGE, RouterType.FORWARD);
             return router;
         } else {
             return process(req, resp);

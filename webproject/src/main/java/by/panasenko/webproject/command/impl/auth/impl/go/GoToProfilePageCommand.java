@@ -13,6 +13,7 @@ public class GoToProfilePageCommand extends AuthCommand {
 
     @Override
     public Router process(HttpServletRequest req, HttpServletResponse resp) {
+        // todo order info
         req.setAttribute(RequestAttribute.ACTIVE_EDIT, true);
         Router router = new Router(PagePath.PROFILE_PAGE, RouterType.FORWARD);
         return router;

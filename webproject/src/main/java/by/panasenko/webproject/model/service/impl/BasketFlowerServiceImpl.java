@@ -1,5 +1,6 @@
 package by.panasenko.webproject.model.service.impl;
 
+import by.panasenko.webproject.entity.Basket;
 import by.panasenko.webproject.entity.BasketFlower;
 import by.panasenko.webproject.exception.DaoException;
 import by.panasenko.webproject.exception.ServiceException;
@@ -17,14 +18,14 @@ public class BasketFlowerServiceImpl implements BasketFlowerService {
 
     @Override
     public void addToBasket(int id, String flowerId, String count, String price) throws ServiceException {
-        if (!FlowerValidator.validateFlowerId(count)) {
+        if (!FlowerValidator.validateId(count)) {
             throw new ServiceException("Flower data didn't passed validation");
         }
         try {
             BigDecimal subTotal = new BigDecimal(price).multiply(new BigDecimal(count));
             basketFlowerDao.addItemToBasket(id, flowerId, count, subTotal);
         } catch (DaoException e) {
-            throw new ServiceException("Can't handle findById request at FlowerService", e);
+            throw new ServiceException("Can't handle addToBasket request at BasketFlowerService", e);
         }
     }
 
@@ -37,5 +38,41 @@ public class BasketFlowerServiceImpl implements BasketFlowerService {
             throw new ServiceException("Can't handle findByBasketId request at BasketFlowerService", e);
         }
         return basketFlowerList;
+    }
+
+    @Override
+    public void updateBasketFlower(String basketFlowerId, String count) throws ServiceException {
+        if (!FlowerValidator.validateId(count)) {
+            throw new ServiceException("Data didn't passed validation");
+        }
+        try {
+            BasketFlower basketFlower = basketFlowerDao.findById(Integer.parseInt(basketFlowerId));
+            basketFlower.setCount(Integer.parseInt(count));
+            basketFlowerDao.setCountBasketFlower(basketFlower);
+        } catch (DaoException e) {
+            throw new ServiceException("Can't handle updateBasketFlower request at BasketFlowerService", e);
+        }
+    }
+
+    @Override
+    public void deleteBasketFlower(String basketFlowerId) throws ServiceException {
+        if (!FlowerValidator.validateId(basketFlowerId)) {
+            throw new ServiceException("Data didn't passed validation");
+        }
+        try {
+            basketFlowerDao.deleteBasketFlower(Integer.parseInt(basketFlowerId));
+        } catch (DaoException e) {
+            throw new ServiceException("Can't handle deleteBasketFlower request at BasketFlowerService", e);
+        }
+    }
+
+    @Override
+    public Basket clearBasket(Basket basket) throws ServiceException {
+        List<BasketFlower> basketFlowerList = findByBasketId(basket.getId());
+        for (BasketFlower basketFlower : basketFlowerList) {
+            deleteBasketFlower(String.valueOf(basketFlower.getId()));
+        }
+        basket.setTotalCost(new BigDecimal(0));
+        return basket;
     }
 }

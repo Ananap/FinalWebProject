@@ -30,7 +30,7 @@
 <!doctype html>
 <html>
 <body>
-<jsp:include page="../header.jsp"/>
+<jsp:include page="../../header.jsp"/>
 <div class="container">
     <div class="row" style="margin-bottom: -100px">
         <div class="col-xs-8">
@@ -39,11 +39,11 @@
             </h2>
         </div>
         <div class="col-xs-4">
-            <img src="../static/image/logo1.jpg" class="img-responsive">
+            <img src="static/image/logo1.jpg" class="img-responsive">
         </div>
     </div>
     <hr style="position: absolute; width: 75%; height: 6px; background-color: #1b6d85; z-index: -1; margin-top: -80px;"/>
-    <img class="img-responsive" src="../static/image/flower1.jpg" style="margin-top: -75px;">
+    <img class="img-responsive" src="static/image/flower1.jpg" style="margin-top: -75px;">
 
     <div class="row" style="margin-top: 20px">
         <div class="col-xs-12">
@@ -54,8 +54,8 @@
                 </div>
                 <div class="col-xs-6 text-right">
                     <form action="Controller" method="post">
-                        <input type="hidden" name="command" value="check_out_command">
-                        <input type="hidden" name="basketId" value="${basket.id}">
+                        <input type="hidden" name="command" value="go_to_check_out_page_command">
+                        <input type="hidden" name="id" value="${basket.id}">
                         <button class="btn btn-primary" type="submit">${locale_order_check}</button>
                     </form>
                 </div>
@@ -85,8 +85,6 @@
                 <!--Display Flowers in Cart-->
                 <c:forEach items="${basketFlowerList}" var="basketFlower">
                     <div class="row">
-                        <form action="Controller" method="post">
-                            <input type="hidden" name="command" value="basket_update_command"/>
                             <hr/>
                             <div class="col-xs-2">
                                 <img style="width: 80px" class="img-responsive flower"
@@ -120,15 +118,17 @@
                                                 test="${basketFlower.flower.storage.count} == 0">text-decoration: line-through</c:if>">${basketFlower.flower.price}</span>
                                 </h5>
                             </div>
-                            <div class="col-xs-2">
+                        <div class="col-xs-2">
+                            <form action="Controller" method="post">
+                                <input type="hidden" name="command" value="update_basket_command"/>
                                 <input hidden="hidden" name="id" value="${basketFlower.id}"/>
-                                <input id="${basketFlower.id}" name="count"
+                                <input id="count" name="count" type="number" min="1"
                                        <c:if test="${basketFlower.flower.storage.count==0}">disabled</c:if>
                                        class="form-control basketFlowerCount" value="${basketFlower.count}"/>
                                 <button style="display: none;" id="update-item-${basketFlower.id}" type="submit"
                                         class="btn btn-warning btn-xs">${locale_common_update}</button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </c:forEach>
                 <div class="row">
@@ -140,6 +140,6 @@
         </div>
     </div>
 </div>
-<jsp:include page="../footer.jsp"/>
+<jsp:include page="../../footer.jsp"/>
 </body>
 </html>

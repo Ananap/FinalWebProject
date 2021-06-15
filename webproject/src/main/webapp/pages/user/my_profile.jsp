@@ -29,6 +29,7 @@
 <fmt:message key="user.order.detail" var="locale_order_detail"/>
 <fmt:message key="common.order.payment" var="locale_order_payment"/>
 <fmt:message key="admin.order.cash" var="locale_admin_order_cash"/>
+<fmt:message key="admin.order.card" var="locale_admin_order_card"/>
 <fmt:message key="user.card.name" var="locale_user_card_name"/>
 <fmt:message key="user.card.holder" var="locale_user_card_holder"/>
 <fmt:message key="user.card.number" var="locale_user_card_number"/>
@@ -44,7 +45,7 @@
 <!doctype html>
 <html lang="en">
 <body>
-<jsp:include page="../header.jsp"/>
+<jsp:include page="../../header.jsp"/>
 <div class="container">
     <div class="row" style="margin-bottom: -100px">
         <div class="col-xs-8">
@@ -53,11 +54,11 @@
             </h2>
         </div>
         <div class="col-xs-4">
-            <img src="../static/image/logo1.jpg" class="img-responsive">
+            <img src="static/image/logo1.jpg" class="img-responsive">
         </div>
     </div>
     <hr style="position: absolute; width: 75%; height: 6px; background-color: #1b6d85; z-index: -1; margin-top: -80px;"/>
-    <img class="img-responsive" src="../static/image/flower1.jpg" style="margin-top: -75px;">
+    <img class="img-responsive" src="static/image/flower1.jpg" style="margin-top: -75px;">
 
     <div class="row" style="margin-top: 60px;">
         <div class="col-xs-8 col-xs-offset-2">
@@ -203,16 +204,7 @@
                                                                 <div>${locale_admin_order_cash}</div>
                                                             </c:if>
                                                             <c:if test="${!cash}">
-                                                                <div class="panel-body">
-                                                                    <span>${locale_user_card_name}</span>
-                                                                    <span>${order.payment.cardName}</span><br/>
-                                                                    <span>${locale_user_card_holder}</span>
-                                                                    <span>${order.payment.holderName}</span><br/>
-                                                                    <span>${locale_user_card_number}:</span>
-                                                                    <span>${order.payment.cardNumber}</span><br/>
-                                                                    <span>${locale_user_card_date}</span>
-                                                                    <span>${order.payment.expiryMonth}</span>/<span>${order.payment.expiryYear}</span><br/>
-                                                                </div>
+                                                                <div>${locale_admin_order_card}</div>
                                                             </c:if>
                                                         </div>
                                                     </div>
@@ -284,6 +276,6 @@
         </div>
     </div>
 </div>
-<jsp:include page="../footer.jsp"/>
+<jsp:include page="../../footer.jsp"/>
 </body>
 </html>

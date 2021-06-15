@@ -10,10 +10,7 @@ import java.util.Optional;
 
 public interface UserService {
     Optional<User> signIn(SignInData signInData) throws ServiceException;
-
     ResultCode signUp(SignUpData signUpData) throws ServiceException;
-
     boolean forgetPassword(String email) throws ServiceException;
-
     ResultCode updateUser(SignInData signInData, User user, String newPassword, String confirmPassword) throws ServiceException;
 }

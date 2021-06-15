@@ -11,6 +11,7 @@ import java.util.List;
  */
 public interface FlowerTypeDao {
     List<FlowerType> findAll() throws DaoException;
-
     FlowerType findById(String category) throws DaoException;
+
+    FlowerType findByCategory(String category) throws DaoException;
 }

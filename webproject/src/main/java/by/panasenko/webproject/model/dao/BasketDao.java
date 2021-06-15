@@ -5,8 +5,8 @@ import by.panasenko.webproject.exception.DaoException;
 
 public interface BasketDao {
     Basket findByUserId(Integer id) throws DaoException;
-
     Basket createBasket(Integer id) throws DaoException;
-
     void updateBasket(Basket basket) throws DaoException;
+
+    Basket findById(int id) throws DaoException;
 }

@@ -3,6 +3,7 @@ package by.panasenko.webproject.command.impl.auth.impl.go;
 import by.panasenko.webproject.command.PagePath;
 import by.panasenko.webproject.command.RequestAttribute;
 import by.panasenko.webproject.command.Router;
+import by.panasenko.webproject.command.Router.RouterType;
 import by.panasenko.webproject.command.impl.auth.AuthCommand;
 import by.panasenko.webproject.entity.Basket;
 import by.panasenko.webproject.entity.BasketFlower;
@@ -38,11 +39,11 @@ public class GoToBasketPageCommand extends AuthCommand {
                 req.setAttribute(RequestAttribute.EMPTY_BASKET, true);
             }
             req.setAttribute(RequestAttribute.BASKET, basket);
-            router = new Router(PagePath.BASKET_PAGE, Router.RouterType.FORWARD);
+            router = new Router(PagePath.BASKET_PAGE, RouterType.FORWARD);
         } catch (ServiceException e) {
             logger.error("Error at GoToBasketPageCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);
-            router = new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
+            router = new Router(PagePath.ERROR_PAGE, RouterType.REDIRECT);
         }
         return router;
     }

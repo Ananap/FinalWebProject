@@ -9,7 +9,9 @@ public class DaoProvider {
     private static final FlowerTypeDao flowerTypeDao = FlowerTypeDaoImpl.getInstance();
     private static final StorageDao storageDao = StorageDaoImpl.getInstance();
     private static final BasketDao basketDao = BasketDaoImpl.getInstance();
+    private static final OrderDao orderDao = OrderDaoImpl.getInstance();
     private static final BasketFlowerDao basketFlowerDao = BasketFlowerDaoImpl.getInstance();
+    private static final OrderFlowerDao orderFlowerDao = OrderFlowerDaoImpl.getInstance();
 
     private DaoProvider() {
     }
@@ -40,5 +42,13 @@ public class DaoProvider {
 
     public static BasketFlowerDao getBasketFlowerDao() {
         return basketFlowerDao;
+    }
+
+    public static OrderDao getOrderDao() {
+        return orderDao;
+    }
+
+    public static OrderFlowerDao getOrderFlowerDao() {
+        return orderFlowerDao;
     }
 }

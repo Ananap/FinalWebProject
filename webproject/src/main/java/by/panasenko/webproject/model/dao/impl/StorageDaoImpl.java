@@ -30,9 +30,39 @@ public class StorageDaoImpl implements StorageDao {
             "WHERE (flowers_id = ?)";
 
     /**
+     * Query for database to add storage
+     */
+    private static final String INSERT_STORAGE_SQL = "INSERT INTO storage (storage_count, flowers_id) VALUES (?,?)";
+
+    /**
+     * Query for database to set storage count
+     */
+    private static final String SET_STORAGE_COUNT = "UPDATE storage SET storage_count = ? WHERE storage_id = ?";
+
+    /**
+     * Query for database to set storage count by flower
+     */
+    private static final String SET_STORAGE_COUNT_BY_FLOWER = "UPDATE storage SET storage_count = ? WHERE flowers_id = ?";
+
+    /**
      * Message, that is putted in Exception if there are select storage problem
      */
     private static final String MESSAGE_SELECT_STORAGE_PROBLEM = "Can't handle StorageDao.findByFlowerId request";
+
+    /**
+     * Message, that is putted in Exception if there are set storage count problem
+     */
+    private static final String MESSAGE_SET_COUNT_PROBLEM = "Can't handle StorageDao.updateStorage request";
+
+    /**
+     * Message, that is putted in Exception if there are insert storage problem
+     */
+    private static final String MESSAGE_INSERT_STORAGE_PROBLEM = "Can't handle StorageDao.insertStorage request";
+
+    /**
+     * Message, that is putted in Exception if there are update storage count by flower problem
+     */
+    private static final String MESSAGE_UPDATE_COUNT_BY_FLOWER_PROBLEM = "Can't handle StorageDao.updateStorageByFlower request";
 
     /**
      * Returns the instance of the class
@@ -50,11 +80,11 @@ public class StorageDaoImpl implements StorageDao {
     }
 
     @Override
-    public Storage findByFlowerId(String flowerId) throws DaoException {
+    public Storage findByFlowerId(Integer flowerId) throws DaoException {
         Storage storage = new Storage();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_STORAGE_BY_FLOWER)) {
-            statement.setInt(FindStorageIndex.ID, Integer.parseInt(flowerId));
+            statement.setInt(FindStorageIndex.ID, flowerId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 storage.setId(resultSet.getInt(ColumnName.STORAGE_ID));
@@ -66,10 +96,62 @@ public class StorageDaoImpl implements StorageDao {
         return storage;
     }
 
+    @Override
+    public void updateStorage(Storage storage) throws DaoException {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SET_STORAGE_COUNT)) {
+            statement.setInt(SetStorageIndex.COUNT, storage.getCount());
+            statement.setInt(SetStorageIndex.ID, storage.getId());
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DaoException(MESSAGE_SET_COUNT_PROBLEM, e);
+        }
+    }
+
+    @Override
+    public void insertStorage(Storage storage) throws DaoException {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(INSERT_STORAGE_SQL)) {
+            statement.setInt(InserStorage.COUNT, storage.getCount());
+            statement.setInt(InserStorage.FLOWER_ID, storage.getFlower().getId());
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DaoException(MESSAGE_INSERT_STORAGE_PROBLEM, e);
+        }
+    }
+
+    @Override
+    public void updateStorageByFlower(Integer flowerId, Integer count) throws DaoException {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SET_STORAGE_COUNT_BY_FLOWER)) {
+            statement.setInt(SetStorageIndex.COUNT, count);
+            statement.setInt(SetStorageIndex.ID, flowerId);
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DaoException(MESSAGE_UPDATE_COUNT_BY_FLOWER_PROBLEM, e);
+        }
+    }
+
     /**
      * Static class that contains parameter indexes for getting storage data by flower ID
      */
     private static class FindStorageIndex {
         private static final int ID = 1;
+    }
+
+    /**
+     * Static class that contains parameter indexes for setting storage count
+     */
+    private static class SetStorageIndex {
+        private static final int COUNT = 1;
+        private static final int ID = 2;
+    }
+
+    /**
+     * Static class that contains parameter indexes for setting storage count
+     */
+    private static class InserStorage {
+        private static final int COUNT = 1;
+        private static final int FLOWER_ID = 2;
     }
 }

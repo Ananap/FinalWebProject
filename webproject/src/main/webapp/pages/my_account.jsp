@@ -35,11 +35,11 @@
             <h2 class="section-headline"><span>${locale_user_account}</span></h2>
         </div>
         <div class="col-xs-4">
-            <img src="../static/image/logo1.jpg" class="img-responsive">
+            <img src="static/image/logo1.jpg" class="img-responsive">
         </div>
     </div>
     <hr style="position: absolute; width: 75%; height: 6px; background-color: #1b6d85; z-index: -1; margin-top: -80px;"/>
-    <img class="img-responsive" src="../static/image/flower1.jpg" style="margin-top: -75px;">
+    <img class="img-responsive" src="static/image/flower1.jpg" style="margin-top: -75px;">
 
     <div class="row" style="margin-top: 60px;">
         <div class="col-xs-8 col-xs-offset-2">

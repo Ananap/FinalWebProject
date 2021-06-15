@@ -5,6 +5,14 @@ public class Storage {
     private int count;
     private Flower flower;
 
+    public Storage(Flower flower, int count) {
+        this.flower = flower;
+        this.count = count;
+    }
+
+    public Storage() {
+    }
+
     public int getId() {
         return id;
     }

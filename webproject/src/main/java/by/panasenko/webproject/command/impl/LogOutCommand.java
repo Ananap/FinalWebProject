@@ -12,7 +12,7 @@ public class LogOutCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest req, HttpServletResponse resp) {
-        req.getSession().invalidate();
+        req.getSession(false).invalidate();
         Router router = new Router(PagePath.ABOUT_PAGE, RouterType.REDIRECT);
         return router;
     }

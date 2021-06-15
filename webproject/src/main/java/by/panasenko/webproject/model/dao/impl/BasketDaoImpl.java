@@ -30,6 +30,12 @@ public class BasketDaoImpl implements BasketDao {
             "WHERE (user_id_foreign = ?)";
 
     /**
+     * Query for database to get basket by id
+     */
+    private static final String FIND_BASKET_BY_ID = "SELECT id, total_cost FROM basket b " +
+            "WHERE (id = ?)";
+
+    /**
      * Query for database to create basket
      */
     private static final String INSERT_BASKET_SQL = "INSERT INTO basket (user_id_foreign) VALUE (?)";
@@ -55,6 +61,11 @@ public class BasketDaoImpl implements BasketDao {
     private static final String MESSAGE_SET_TOTAL_COST_PROBLEM = "Can't handle BasketDao.updateBasket request";
 
     /**
+     * Message, that is putted in Exception if there are find by id problem
+     */
+    private static final String MESSAGE_FIND_BY_ID_PROBLEM = "Can't handle BasketDao.findById request";
+
+    /**
      * Returns the instance of the class
      *
      * @return Object of {@link BasketDaoImpl}
@@ -70,11 +81,28 @@ public class BasketDaoImpl implements BasketDao {
     }
 
     @Override
-    public Basket findByUserId(Integer id) throws DaoException {
+    public Basket findById(int id) throws DaoException {
+        Basket basket = new Basket();
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_BASKET_BY_ID)) {
+            statement.setInt(FindBasketIndex.ID, id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                basket.setId(resultSet.getInt(ColumnName.BASKET_ID));
+                basket.setTotalCost(resultSet.getBigDecimal(ColumnName.BASKET_TOTAL_COST));
+            }
+        } catch (SQLException e) {
+            throw new DaoException(MESSAGE_FIND_BY_ID_PROBLEM, e);
+        }
+        return basket;
+    }
+
+    @Override
+    public Basket findByUserId(Integer userId) throws DaoException {
         Basket basket = new Basket();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_BASKET_BY_USER)) {
-            statement.setInt(FindBasketIndex.ID, id);
+            statement.setInt(FindBasketIndex.ID, userId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 basket.setId(resultSet.getInt(ColumnName.BASKET_ID));
@@ -87,15 +115,15 @@ public class BasketDaoImpl implements BasketDao {
     }
 
     @Override
-    public Basket createBasket(Integer id) throws DaoException {
+    public Basket createBasket(Integer userId) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(INSERT_BASKET_SQL)) {
-            statement.setInt(FindBasketIndex.ID, id);
+            statement.setInt(FindBasketIndex.ID, userId);
             statement.execute();
         } catch (SQLException e) {
             throw new DaoException(MESSAGE_INSERT_BASKET_PROBLEM, e);
         }
-        return findByUserId(id);
+        return findByUserId(userId);
     }
 
     @Override

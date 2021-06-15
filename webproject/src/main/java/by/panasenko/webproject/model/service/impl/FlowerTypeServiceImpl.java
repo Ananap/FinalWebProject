@@ -15,13 +15,27 @@ public class FlowerTypeServiceImpl implements FlowerTypeService {
     private static final FlowerTypeDao flowerTypeDao = daoProvider.getFlowerTypeDao();
 
     @Override
-    public FlowerType findById(String category) throws ServiceException {
-        if (!FlowerValidator.validateFlowerTypeId(category)) {
+    public FlowerType findById(String id) throws ServiceException {
+        if (!FlowerValidator.validateFlowerTypeId(id)) {
             throw new ServiceException("Flower type data didn't passed validation");
         }
         FlowerType flowerType;
         try {
-            flowerType = flowerTypeDao.findById(category);
+            flowerType = flowerTypeDao.findById(id);
+        } catch (DaoException e) {
+            throw new ServiceException("Can't handle findById request at FlowerTypeService", e);
+        }
+        return flowerType;
+    }
+
+    @Override
+    public FlowerType findByCategory(String category) throws ServiceException {
+        if (!FlowerValidator.validateCategory(category)) {
+            throw new ServiceException("Flower type data didn't passed validation");
+        }
+        FlowerType flowerType;
+        try {
+            flowerType = flowerTypeDao.findByCategory(category);
         } catch (DaoException e) {
             throw new ServiceException("Can't handle findByCategory request at FlowerTypeService", e);
         }

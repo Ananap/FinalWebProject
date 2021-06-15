@@ -23,6 +23,7 @@ public final class ColumnName {
     public static final String FLOWER_DESCRIPTION = "description";
     public static final String FLOWER_PRICE = "price";
     public static final String FLOWER_IMAGE = "flower_image";
+    public static final String SOIL = "soil";
     public static final String FLOWER_WATERING = "watering";
     public static final String FLOWER_COUNTRY = "origin";
     public static final String FLOWER_LIGHT = "light";
@@ -41,11 +42,6 @@ public final class ColumnName {
     public static final String BASKET_FLOWER_FLOWER_ID = "flower_id";
     public static final String BASKET_FLOWER_COUNT = "count";
     public static final String BASKET_FLOWER_SUB_TOTAL = "sub_total";
-
-    /*Soil table*/
-    public static final String SOIL_ID = "soil_id";
-    public static final String SOIL_NAME = "soil_name";
-    public static final String SOIL_DESCRIPTION = "soil_description";
 
     private ColumnName() {
     }

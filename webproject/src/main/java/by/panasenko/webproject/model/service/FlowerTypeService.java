@@ -8,5 +8,7 @@ import java.util.List;
 public interface FlowerTypeService {
     List<FlowerType> findAll() throws ServiceException;
 
-    FlowerType findById(String category) throws ServiceException;
+    FlowerType findById(String id) throws ServiceException;
+
+    FlowerType findByCategory(String category) throws ServiceException;
 }

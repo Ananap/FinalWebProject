@@ -1,4 +1,4 @@
-package by.panasenko.webproject.command.impl;
+package by.panasenko.webproject.command.impl.go;
 
 import by.panasenko.webproject.command.*;
 import by.panasenko.webproject.command.Router.RouterType;
@@ -13,8 +13,8 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class FlowerDetailCommand implements Command {
-    private static final Logger logger = Logger.getLogger(FlowerDetailCommand.class);
+public class GoToFlowerDetailPageCommand implements Command {
+    private static final Logger logger = Logger.getLogger(GoToFlowerDetailPageCommand.class);
 
     @Override
     public Router execute(HttpServletRequest req, HttpServletResponse res) {
@@ -34,7 +34,7 @@ public class FlowerDetailCommand implements Command {
         } catch (ServiceException e) {
             logger.error("Error at FlowerDetailCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);
-            router = new Router(PagePath.ERROR_PAGE, RouterType.FORWARD);
+            router = new Router(PagePath.ERROR_PAGE, RouterType.REDIRECT);
         }
         return router;
     }

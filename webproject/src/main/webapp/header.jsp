@@ -67,9 +67,6 @@
                             <li>
                                 <a href="Controller?command=go_to_flower_list_page_command">${locale_main_admin_flowerlist}</a>
                             </li>
-                            <li>
-                                <a href="Controller?command=go_to_create_admin_page_command">${locale_main_admin_create}</a>
-                            </li>
                         </c:if>
                     </ul>
                 </li>
@@ -100,7 +97,7 @@
                 </li>
                 <c:if test="${user.role == 'ADMIN'}">
                     <li>
-                        <a href="Controller?command=go_to_order_Info_page_command">${locale_main_admin_order}</a>
+                        <a href="Controller?command=go_to_order_info_page_command">${locale_main_admin_order}</a>
                     </li>
                 </c:if>
                 <c:if test="${user.role == 'USER' || user.role == 'ADMIN'}">

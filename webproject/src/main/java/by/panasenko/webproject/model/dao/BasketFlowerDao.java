@@ -12,4 +12,10 @@ public interface BasketFlowerDao {
     List<BasketFlower> findByBasketId(int id) throws DaoException;
 
     void updateBasketFlower(BasketFlower basketFlower) throws DaoException;
+
+    void setCountBasketFlower(BasketFlower basketFlower) throws DaoException;
+
+    BasketFlower findById(int id) throws DaoException;
+
+    void deleteBasketFlower(int id) throws DaoException;
 }

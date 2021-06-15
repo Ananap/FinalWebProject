@@ -10,8 +10,8 @@ public class ServiceProvider {
     private final FlowerTypeService flowerTypeService = new FlowerTypeServiceImpl();
     private final StorageService storageService = new StorageServiceImpl();
     private final BasketService basketService = new BasketServiceImpl();
+    private final OrderService orderService = new OrderServiceImpl();
     private final BasketFlowerService basketFlowerService = new BasketFlowerServiceImpl();
-
 
     private ServiceProvider() {
     }
@@ -42,5 +42,9 @@ public class ServiceProvider {
 
     public BasketFlowerService getBasketFlowerService() {
         return basketFlowerService;
+    }
+
+    public OrderService getOrderService() {
+        return orderService;
     }
 }

@@ -33,11 +33,11 @@
             </h2>
         </div>
         <div class="col-xs-4">
-            <img src="../static/image/logo1.jpg" class="img-responsive">
+            <img src="static/image/logo1.jpg" class="img-responsive">
         </div>
     </div>
     <hr style="position: absolute; width: 75%; height: 6px; background-color: #1b6d85; z-index: -1; margin-top: -80px;"/>
-    <img class="img-responsive" src="../static/image/flower1.jpg" style="margin-top: -75px;">
+    <img class="img-responsive" src="static/image/flower1.jpg" style="margin-top: -75px;">
 
     <form action="Controller" method="post">
         <input type="hidden" name="command" value="add_item_to_basket_command">
@@ -63,14 +63,24 @@
                 <div class="row">
                     <div class="col-xs-5">
                         <h5><strong>${locale_main_category} </strong><span>${flower.flowerType.description}</span></h5>
-                        <h5><strong>${locale_main_soil} </strong><span>${flower.soil.getValue()}</span></h5>
+                        <h5><strong>${locale_main_soil} </strong>
+                            <c:if test="${flower.soil == 'PODZOLIC'}">
+                                <span>Подзолистая</span>
+                            </c:if>
+                            <c:if test="${flower.soil == 'SODPODZOLIC'}">
+                                <span>Дерново-подзолистая</span>
+                            </c:if>
+                            <c:if test="${flower.soil == 'UNPAVED'}">
+                                <span>Грунтовая</span>
+                            </c:if>
+                        </h5>
                         <h5><strong>${locale_flower_watering} </strong><span>${flower.watering}  Мл в неделю</span></h5>
                         <h5><strong>${locale_country_name} </strong><span>${flower.originCountry}</span></h5>
                         <c:if test="${flower.light}">
-                            <h5><strong>${locale_light_name} </strong><span>светолюбивое</span></h5>
+                            <h5><strong>${locale_light_name} </strong><span>Светолюбивое</span></h5>
                         </c:if>
                         <c:if test="${!flower.light}">
-                            <h5><strong>${locale_light_name} </strong><span>темнолюбивое</span></h5>
+                            <h5><strong>${locale_light_name} </strong><span>Темнолюбивое</span></h5>
                         </c:if>
                     </div>
                     <div class="col-xs-7">

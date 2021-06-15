@@ -13,6 +13,20 @@ public class Flower {
     private FlowerType flowerType;
     private Storage storage;
 
+    public Flower(String name, String description, double price, Soil soil, int watering, boolean light, String originCountry, FlowerType flowerType) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.soil = soil;
+        this.watering = watering;
+        this.light = light;
+        this.originCountry = originCountry;
+        this.flowerType = flowerType;
+    }
+
+    public Flower() {
+    }
+
     public int getId() {
         return id;
     }

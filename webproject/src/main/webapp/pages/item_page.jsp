@@ -36,11 +36,11 @@
             </h2>
         </div>
         <div class="col-xs-4">
-            <img src="../static/image/logo1.jpg" class="img-responsive">
+            <img src="static/image/logo1.jpg" class="img-responsive">
         </div>
     </div>
     <hr style="position: absolute; width: 75%; height: 6px; background-color: #1b6d85; z-index: -1; margin-top: -80px;"/>
-    <img class="img-responsive" src="../static/image/flower1.jpg" style="margin-top: -75px;">
+    <img class="img-responsive" src="static/image/flower1.jpg" style="margin-top: -75px;">
     <div class="row" style="margin-top: 60px;">
         <div class="col-xs-2">
             <form action="Controller">
@@ -90,7 +90,8 @@
                                         <span style="font-size: x-large; color: darkorange">Br<span>${flower.price}</span></span>
                                         <p>${fn:substring(flower.description, 0, 500)}</p>
                                         <form action="Controller" method="post">
-                                            <input type="hidden" name="command" value="flower_detail_command"/>
+                                            <input type="hidden" name="command"
+                                                   value="go_to_flower_detail_page_command"/>
                                             <input type="hidden" value="${flower.id}" name="flowerId">
                                             <button type="submit" class="btn btn-info">${locale_flower_detail}</button>
                                         </form>
