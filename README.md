@@ -10,12 +10,12 @@ The websystem provides an opportunity to buy flowers of various type. It works l
 + User
   + Edit personal information in the profile
   + View information about available flowers
-  + Search by filters and make an order for specific date
-  + Save credit cards
-  + View iformation about previous orders
+  + Search by filters 
+  + Make an order for specific date
+  + View information about previous orders
 + Admin
-  + Add and edit items
-  + Add new admins
+  + Add new items
+  + Edit items
   + Change status of an order
 
 
