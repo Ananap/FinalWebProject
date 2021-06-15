@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 public class GoToErrorPageCommand implements Command {
 
     @Override
-    public Router execute(HttpServletRequest req, HttpServletResponse resp) {
+    public Router execute(HttpServletRequest req) {
         Throwable throwable = (Throwable) req.getAttribute(RequestAttribute.EXCEPTION_CLASS);
         if (throwable != null && req.getAttribute(RequestAttribute.EXCEPTION_CLASS) != null) {
             req.setAttribute(RequestAttribute.EXCEPTION, throwable);

@@ -17,7 +17,7 @@ public class GoToFlowerDetailPageCommand implements Command {
     private static final Logger logger = Logger.getLogger(GoToFlowerDetailPageCommand.class);
 
     @Override
-    public Router execute(HttpServletRequest req, HttpServletResponse res) {
+    public Router execute(HttpServletRequest req) {
         Router router;
         String flowerId = req.getParameter(RequestParameter.FLOWER_ID);
 

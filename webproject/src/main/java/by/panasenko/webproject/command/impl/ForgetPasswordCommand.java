@@ -14,7 +14,7 @@ public class ForgetPasswordCommand implements Command {
     private static final Logger logger = Logger.getLogger(ForgetPasswordCommand.class);
 
     @Override
-    public Router execute(HttpServletRequest req, HttpServletResponse res) {
+    public Router execute(HttpServletRequest req) {
         Router router;
         String email = req.getParameter(RequestParameter.RECOVER_EMAIL);
 

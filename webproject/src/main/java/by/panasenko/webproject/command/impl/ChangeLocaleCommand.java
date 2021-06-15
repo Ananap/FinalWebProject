@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 public class ChangeLocaleCommand implements Command {
 
     @Override
-    public Router execute(HttpServletRequest req, HttpServletResponse resp) {
+    public Router execute(HttpServletRequest req) {
         final HttpSession SESSION = req.getSession();
         final String LOCALE = req.getParameter(RequestParameter.LOCALE);
         final String PREVIOUS_REQUEST = (String) SESSION.getAttribute(RequestAttribute.PREV_REQUEST);

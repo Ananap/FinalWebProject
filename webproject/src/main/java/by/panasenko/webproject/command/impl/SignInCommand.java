@@ -19,7 +19,7 @@ public class SignInCommand implements Command {
     private static final Logger logger = Logger.getLogger(SignInCommand.class);
 
     @Override
-    public Router execute(HttpServletRequest req, HttpServletResponse resp) {
+    public Router execute(HttpServletRequest req) {
         Router router;
         String email = req.getParameter(RequestParameter.EMAIL);
         String password = req.getParameter(RequestParameter.PASSWORD);

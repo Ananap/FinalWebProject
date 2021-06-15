@@ -23,7 +23,7 @@ public class PlaceOrderCommand extends AuthCommand {
     private static final Logger logger = Logger.getLogger(PlaceOrderCommand.class);
 
     @Override
-    protected Router process(HttpServletRequest req, HttpServletResponse resp) {
+    protected Router process(HttpServletRequest req) {
         Router router;
         final User user = (User) req.getSession().getAttribute(RequestAttribute.USER);
         final String address = req.getParameter(RequestParameter.ADDRESS);

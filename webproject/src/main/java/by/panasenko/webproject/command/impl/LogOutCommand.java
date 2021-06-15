@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LogOutCommand implements Command {
 
     @Override
-    public Router execute(HttpServletRequest req, HttpServletResponse resp) {
+    public Router execute(HttpServletRequest req) {
         req.getSession(false).invalidate();
         Router router = new Router(PagePath.ABOUT_PAGE, RouterType.REDIRECT);
         return router;

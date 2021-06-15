@@ -12,19 +12,19 @@ import javax.servlet.http.HttpServletResponse;
 public abstract class AuthCommand implements Command {
 
     @Override
-    public final Router execute(HttpServletRequest req, HttpServletResponse resp) {
-        return checkAuthAndProcess(req, resp);
+    public final Router execute(HttpServletRequest req) {
+        return checkAuthAndProcess(req);
     }
 
-    private Router checkAuthAndProcess(HttpServletRequest req, HttpServletResponse resp) {
+    private Router checkAuthAndProcess(HttpServletRequest req) {
         if (req.getSession().getAttribute(RequestAttribute.USER) == null) {
             req.setAttribute(RequestAttribute.MESSAGE, true);
             Router router = new Router(PagePath.GO_TO_LOGIN_PAGE, RouterType.FORWARD);
             return router;
         } else {
-            return process(req, resp);
+            return process(req);
         }
     }
 
-    protected abstract Router process(HttpServletRequest req, HttpServletResponse resp);
+    protected abstract Router process(HttpServletRequest req);
 }

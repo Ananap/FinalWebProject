@@ -17,7 +17,7 @@ public class RemoveItemCommand extends AuthCommand {
     private static final Logger logger = Logger.getLogger(RemoveItemCommand.class);
 
     @Override
-    protected Router process(HttpServletRequest req, HttpServletResponse resp) {
+    protected Router process(HttpServletRequest req) {
         Router router;
         final String basketFlowerId = req.getParameter(RequestParameter.BASKET_FLOWER_ID);
 

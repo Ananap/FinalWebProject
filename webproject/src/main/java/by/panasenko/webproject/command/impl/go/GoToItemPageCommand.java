@@ -21,7 +21,7 @@ public class GoToItemPageCommand implements Command {
     private static final Logger logger = Logger.getLogger(GoToItemPageCommand.class);
 
     @Override
-    public Router execute(HttpServletRequest req, HttpServletResponse res) {
+    public Router execute(HttpServletRequest req) {
         Router router;
         final ServiceProvider serviceProvider = ServiceProvider.getInstance();
         final FlowerService flowerService = serviceProvider.getFlowerService();

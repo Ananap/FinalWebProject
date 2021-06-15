@@ -4,5 +4,5 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public interface Command {
-    Router execute(HttpServletRequest req, HttpServletResponse res);
+    Router execute(HttpServletRequest req);
 }

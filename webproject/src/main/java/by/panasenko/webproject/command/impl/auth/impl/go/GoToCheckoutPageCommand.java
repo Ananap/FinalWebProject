@@ -21,7 +21,7 @@ public class GoToCheckoutPageCommand extends AuthCommand {
     private static final Logger logger = Logger.getLogger(GoToCheckoutPageCommand.class);
 
     @Override
-    protected Router process(HttpServletRequest req, HttpServletResponse resp) {
+    protected Router process(HttpServletRequest req) {
         Router router;
         final String basketId = req.getParameter(RequestParameter.BASKET_ID);
 

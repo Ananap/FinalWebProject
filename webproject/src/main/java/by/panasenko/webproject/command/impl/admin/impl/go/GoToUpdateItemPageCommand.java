@@ -27,7 +27,7 @@ public class GoToUpdateItemPageCommand extends AdminCommand {
     private static final String REGEXP_PROP_QUANTITY = "regexp.flower.quantity";
 
     @Override
-    protected Router process(HttpServletRequest req, HttpServletResponse resp) {
+    protected Router process(HttpServletRequest req) {
         Router router;
 
         final String flowerId = req.getParameter(RequestParameter.FLOWER_ID);

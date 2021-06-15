@@ -18,7 +18,7 @@ public class DeleteItemCommand extends AdminCommand {
     private static final Logger logger = Logger.getLogger(DeleteItemCommand.class);
 
     @Override
-    protected Router process(HttpServletRequest req, HttpServletResponse resp) {
+    protected Router process(HttpServletRequest req) {
         Router router;
 
         final String flowerId = req.getParameter(RequestParameter.FLOWER_ID);

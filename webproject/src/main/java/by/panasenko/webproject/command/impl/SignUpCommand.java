@@ -18,7 +18,7 @@ public class SignUpCommand implements Command {
     private static final Logger logger = Logger.getLogger(SignUpCommand.class);
 
     @Override
-    public Router execute(HttpServletRequest req, HttpServletResponse res) {
+    public Router execute(HttpServletRequest req) {
         Router router;
         final ServiceProvider serviceProvider = ServiceProvider.getInstance();
         final UserService userService = serviceProvider.getUserService();

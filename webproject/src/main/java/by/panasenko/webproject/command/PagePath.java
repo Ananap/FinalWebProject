@@ -11,7 +11,8 @@ public final class PagePath {
     public static final String ADD_ITEM_PAGE = "pages/admin/add_item.jsp";
     public static final String UPDATE_ITEM_PAGE = "pages/admin/update_item.jsp";
     public static final String FLOWER_LIST_PAGE = "pages/admin/flower_list.jsp";
-    public static final String ITEM_INFO_PAGE = "pages/admin/item_info.jsp";
+    public static final String ORDER_ALL_INFO_PAGE = "pages/admin/order_all_info.jsp";
+    public static final String ORDER_DETAIL_PAGE = "pages/admin/order_detail.jsp";
     public static final String ORDER_SUBMIT = "order_submitted.jsp";
     public static final String ERROR_404_PAGE = "404.jsp";
     public static final String ERROR_PAGE = "error.jsp";

@@ -25,6 +25,7 @@
 <fmt:message key="admin.storage.name" var="locale_storage_name"/>
 <fmt:message key="admin.choose.operation" var="locale_choose_operation"/>
 <fmt:message key="admin.operation.delete" var="locale_operation_delete"/>
+<fmt:message key="common.edit" var="locale_common_edit"/>
 
 <!doctype html>
 <html lang="en">
@@ -83,6 +84,11 @@
                     <td>${flower.price}</td>
                     <td>${flower.storage.count}</td>
                     <td>
+                        <form action="Controller" method="post">
+                            <input type="hidden" name="command" value="go_to_update_item_page_command"/>
+                            <input type="hidden" name="flowerId" value="${flower.id}"/>
+                            <button class="btn btn-default" type="submit">${locale_common_edit}</button>
+                        </form>
                         <form action="Controller" method="post">
                             <input type="hidden" name="command" value="delete_item_command"/>
                             <input type="hidden" name="flowerId" value="${flower.id}"/>

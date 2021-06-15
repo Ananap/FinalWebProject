@@ -6,7 +6,6 @@ import by.panasenko.webproject.command.impl.admin.impl.DeleteItemCommand;
 import by.panasenko.webproject.command.impl.admin.impl.UpdateItemCommand;
 import by.panasenko.webproject.command.impl.admin.impl.go.GoToAddItemPageCommand;
 import by.panasenko.webproject.command.impl.admin.impl.go.GoToFlowerListPageCommand;
-import by.panasenko.webproject.command.impl.admin.impl.go.GoToItemInfoPageCommand;
 import by.panasenko.webproject.command.impl.admin.impl.go.GoToUpdateItemPageCommand;
 import by.panasenko.webproject.command.impl.auth.impl.*;
 import by.panasenko.webproject.command.impl.auth.impl.go.GoToBasketPageCommand;
@@ -31,7 +30,6 @@ public class CommandProvider {
         commands.put(CommandType.GO_TO_ADD_ITEM_PAGE_COMMAND, new GoToAddItemPageCommand());
         commands.put(CommandType.GO_TO_FLOWER_DETAIL_PAGE_COMMAND, new GoToFlowerDetailPageCommand());
         commands.put(CommandType.GO_TO_FLOWER_LIST_PAGE_COMMAND, new GoToFlowerListPageCommand());
-        commands.put(CommandType.GO_TO_ITEM_INFO_PAGE_COMMAND, new GoToItemInfoPageCommand());
         commands.put(CommandType.GO_TO_UPDATE_ITEM_PAGE_COMMAND, new GoToUpdateItemPageCommand());
         commands.put(CommandType.CHANGE_LOCALE_COMMAND, new ChangeLocaleCommand());
         commands.put(CommandType.SIGN_IN_COMMAND, new SignInCommand());

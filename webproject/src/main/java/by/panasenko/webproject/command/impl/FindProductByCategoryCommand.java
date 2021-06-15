@@ -18,7 +18,7 @@ public class FindProductByCategoryCommand implements Command {
     private static final Logger logger = Logger.getLogger(FindProductByCategoryCommand.class);
 
     @Override
-    public Router execute(HttpServletRequest req, HttpServletResponse res) {
+    public Router execute(HttpServletRequest req) {
         Router router;
         final String category = req.getParameter(RequestParameter.CATEGORY);
 

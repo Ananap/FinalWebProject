@@ -71,13 +71,6 @@
                     </ul>
                 </li>
             </ul>
-            <ul class="nav navbar-nav navbar-left">
-                <form method="get" class="navbar-form">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="${locale_main_flower_title}"/>
-                    </div>
-                </form>
-            </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -97,7 +90,7 @@
                 </li>
                 <c:if test="${user.role == 'ADMIN'}">
                     <li>
-                        <a href="Controller?command=go_to_order_info_page_command">${locale_main_admin_order}</a>
+                        <a href="Controller?command=go_to_orders_page_command">${locale_main_admin_order}</a>
                     </li>
                 </c:if>
                 <c:if test="${user.role == 'USER' || user.role == 'ADMIN'}">

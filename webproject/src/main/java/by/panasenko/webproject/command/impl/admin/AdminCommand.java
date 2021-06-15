@@ -13,16 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 public abstract class AdminCommand implements Command {
 
     @Override
-    public final Router execute(HttpServletRequest req, HttpServletResponse resp) {
-        return checkAuthAndProcess(req, resp);
+    public final Router execute(HttpServletRequest req) {
+        return checkAuthAndProcess(req);
     }
 
-    private Router checkAuthAndProcess(HttpServletRequest req, HttpServletResponse resp) {
+    private Router checkAuthAndProcess(HttpServletRequest req) {
         Router router;
         User user = (User) req.getSession().getAttribute(RequestAttribute.USER);
         if (user != null) {
             if (user.getRole() == Role.ADMIN) {
-                return process(req, resp);
+                return process(req);
             } else {
                 router = new Router(PagePath.ERROR_404_PAGE, Router.RouterType.REDIRECT);
             }
@@ -33,5 +33,5 @@ public abstract class AdminCommand implements Command {
         return router;
     }
 
-    protected abstract Router process(HttpServletRequest req, HttpServletResponse resp);
+    protected abstract Router process(HttpServletRequest req);
 }

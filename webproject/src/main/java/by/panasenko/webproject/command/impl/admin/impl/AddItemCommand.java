@@ -28,7 +28,7 @@ public class AddItemCommand extends AdminCommand {
     private static final String PATH_IMG = "path.image";
 
     @Override
-    protected Router process(HttpServletRequest req, HttpServletResponse resp) {
+    protected Router process(HttpServletRequest req) {
         Router router;
         Part inputFile;
         InputStream inputStream;

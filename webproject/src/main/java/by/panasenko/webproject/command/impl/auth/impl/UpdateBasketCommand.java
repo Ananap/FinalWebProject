@@ -18,7 +18,7 @@ public class UpdateBasketCommand extends AuthCommand {
     private static final Logger logger = Logger.getLogger(UpdateBasketCommand.class);
 
     @Override
-    protected Router process(HttpServletRequest req, HttpServletResponse resp) {
+    protected Router process(HttpServletRequest req) {
         Router router;
         final String basketFlowerId = req.getParameter(RequestParameter.BASKET_ID);
         final String count = req.getParameter(RequestParameter.COUNT);

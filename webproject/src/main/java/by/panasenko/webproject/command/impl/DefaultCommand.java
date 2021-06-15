@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 public class DefaultCommand implements Command {
 
     @Override
-    public Router execute(HttpServletRequest req, HttpServletResponse res) {
+    public Router execute(HttpServletRequest req) {
         return new Router(PagePath.ERROR_404_PAGE, RouterType.REDIRECT);
     }
 }

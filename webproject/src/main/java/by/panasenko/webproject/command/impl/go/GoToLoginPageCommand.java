@@ -19,7 +19,7 @@ public class GoToLoginPageCommand implements Command {
     private static final String REGEXP_PROP_EMAIL = "regexp.email";
 
     @Override
-    public Router execute(HttpServletRequest req, HttpServletResponse resp) {
+    public Router execute(HttpServletRequest req) {
         Router router;
         RegexpPropertyUtil regexpPropertyUtil = RegexpPropertyUtil.getInstance();
 

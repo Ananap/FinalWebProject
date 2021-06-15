@@ -20,7 +20,7 @@ public class AddItemToBasketCommand extends AuthCommand {
     private static final Logger logger = Logger.getLogger(AddItemToBasketCommand.class);
 
     @Override
-    protected Router process(HttpServletRequest req, HttpServletResponse resp) {
+    protected Router process(HttpServletRequest req) {
         Router router;
         final User user = (User) req.getSession().getAttribute(RequestAttribute.USER);
 

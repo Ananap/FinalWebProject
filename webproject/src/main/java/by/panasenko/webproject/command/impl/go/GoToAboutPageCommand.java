@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 public class GoToAboutPageCommand implements Command {
 
     @Override
-    public Router execute(HttpServletRequest req, HttpServletResponse resp) {
+    public Router execute(HttpServletRequest req) {
         Router router = new Router(PagePath.ABOUT_PAGE, RouterType.FORWARD);
         return router;
     }
