@@ -73,7 +73,7 @@
                     <label class="col-md-2 control-label" for="description">${locale_main_description}</label>
                     <div class="col-md-8">
                     <textarea required rows="5" class="form-control"
-                              id="description" name="description" maxlength="1000" minlength="5"
+                              id="description" name="description" maxlength="700" minlength="5"
                               placeholder="${locale_main_description}"></textarea>
                         <span class="help-block">${locale_description_item}</span>
                     </div>

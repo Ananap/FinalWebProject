@@ -9,6 +9,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Implementation of {@link OrderFlowerDao}. Provides methods to interact with OrderFlower data from database.
+ * Methods connect to database using {@link Connection} from {@link ConnectionPool} and manipulate with data(save, edit, etc.).
+ */
 public class OrderFlowerDaoImpl implements OrderFlowerDao {
     /**
      * A single instance of the class (pattern Singleton)
@@ -20,9 +24,6 @@ public class OrderFlowerDaoImpl implements OrderFlowerDao {
 
     /** Query for database to add order */
     private static final String INSERT_ORDER_FLOWER_SQL = "INSERT INTO order_flower (flower_id, count, order_id, sub_total) VALUES (?,?,?,?)";
-
-    /** Message, that is putted in Exception if there are add item to basket problem */
-    private static final String MESSAGE_INSERT_ORDER_FLOWER_PROBLEM = "Can't handle OrderFlowerDao.saveOrderFlower request";
 
     /**
      * Returns the instance of the class
@@ -48,7 +49,7 @@ public class OrderFlowerDaoImpl implements OrderFlowerDao {
             statement.setBigDecimal(InsertOrderFlowerIndex.SUB_TOTAL, orderFlower.getSubTotal());
             statement.execute();
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_INSERT_ORDER_FLOWER_PROBLEM, e);
+            throw new DaoException("Can't handle OrderFlowerDao.saveOrderFlower request", e);
         }
     }
 

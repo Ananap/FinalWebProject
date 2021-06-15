@@ -4,24 +4,33 @@ import by.panasenko.webproject.entity.FlowerCategory;
 import by.panasenko.webproject.entity.FlowerType;
 import by.panasenko.webproject.exception.DaoException;
 import by.panasenko.webproject.model.connection.ConnectionPool;
-import by.panasenko.webproject.model.dao.ColumnName;
 import by.panasenko.webproject.model.dao.FlowerTypeDao;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static by.panasenko.webproject.model.dao.ColumnName.*;
+
+/**
+ * Implementation of {@link FlowerTypeDao}. Provides methods to interact with FlowerType data from database.
+ * Methods connect to database using {@link Connection} from {@link ConnectionPool} and manipulate with data(save, edit, etc.).
+ */
 public class FlowerTypeDaoImpl implements FlowerTypeDao {
     /**
      * A single instance of the class (pattern Singleton)
      */
     private static final FlowerTypeDaoImpl instance = new FlowerTypeDaoImpl();
 
-    /** An object of {@link ConnectionPool} */
+    /**
+     * An object of {@link ConnectionPool}
+     */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    /** Query for database to get all record in flower_type table*/
-    private static final String SELECT_ALL_FLOWER_TYPE_SQL = "SELECT * FROM flower_type";
+    /**
+     * Query for database to get all record in flower_type table
+     */
+    private static final String SELECT_ALL_FLOWER_TYPE_SQL = "SELECT type_id, category, type_description FROM flower_type";
 
     /**Query for database to get all record in flower_type table*/
     private static final String SELECT_FLOWER_TYPE_BY_ID = "SELECT type_id, category, type_description FROM flower_type " +
@@ -30,15 +39,6 @@ public class FlowerTypeDaoImpl implements FlowerTypeDao {
     /** Query for database to get all record in flower_type table */
     private static final String SELECT_FLOWER_TYPE_BY_CATEGORY = "SELECT type_id, category, type_description FROM flower_type " +
             "WHERE (category = ?)";
-
-    /** Message, that is putted in Exception if there are select flower_type problem */
-    private static final String MESSAGE_SELECT_FLOWERS_PROBLEM = "Can't handle FlowerTypeDao.findAll request";
-
-    /** Message, that is putted in Exception if there are select flower_type by id problem */
-    private static final String MESSAGE_SELECT_FLOWER_BY_ID = "Can't handle FlowerTypeDao.findById request";
-
-    /** Message, that is putted in Exception if there are select flower_type by category problem */
-    private static final String MESSAGE_SELECT_FLOWER_BY_CATEGORY = "Can't handle FlowerTypeDao.findByCategory request";
 
     /**
      * Returns the instance of the class
@@ -60,14 +60,14 @@ public class FlowerTypeDaoImpl implements FlowerTypeDao {
             ResultSet resultSet = statement.executeQuery(SELECT_ALL_FLOWER_TYPE_SQL);
             while (resultSet.next()) {
                 FlowerType flowerType = new FlowerType();
-                flowerType.setId(resultSet.getInt(ColumnName.FLOWER_TYPE_ID));
-                FlowerCategory category = FlowerCategory.valueOf(resultSet.getString(ColumnName.FLOWER_TYPE_CATEGORY));
+                flowerType.setId(resultSet.getInt(FLOWER_TYPE_ID));
+                FlowerCategory category = FlowerCategory.valueOf(resultSet.getString(FLOWER_TYPE_CATEGORY));
                 flowerType.setCategory(category);
-                flowerType.setDescription(resultSet.getString(ColumnName.FLOWER_TYPE_DESCRIPTION));
+                flowerType.setDescription(resultSet.getString(FLOWER_TYPE_DESCRIPTION));
                 flowerTypeList.add(flowerType);
             }
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_SELECT_FLOWERS_PROBLEM, e);
+            throw new DaoException("Can't handle FlowerTypeDao.findAll request", e);
         }
         return flowerTypeList;
     }
@@ -80,13 +80,13 @@ public class FlowerTypeDaoImpl implements FlowerTypeDao {
             statement.setInt(FindFlowerTypeIndexID.ID, Integer.parseInt(category));
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                flowerType.setId(resultSet.getInt(ColumnName.FLOWER_TYPE_ID));
-                FlowerCategory flowerCategory = FlowerCategory.valueOf(resultSet.getString(ColumnName.FLOWER_TYPE_CATEGORY));
+                flowerType.setId(resultSet.getInt(FLOWER_TYPE_ID));
+                FlowerCategory flowerCategory = FlowerCategory.valueOf(resultSet.getString(FLOWER_TYPE_CATEGORY));
                 flowerType.setCategory(flowerCategory);
-                flowerType.setDescription(resultSet.getString(ColumnName.FLOWER_TYPE_DESCRIPTION));
+                flowerType.setDescription(resultSet.getString(FLOWER_TYPE_DESCRIPTION));
             }
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_SELECT_FLOWER_BY_ID, e);
+            throw new DaoException("Can't handle FlowerTypeDao.findById request", e);
         }
         return flowerType;
     }
@@ -99,13 +99,13 @@ public class FlowerTypeDaoImpl implements FlowerTypeDao {
             statement.setString(FindFlowerTypeCategory.CATEGORY, category);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                flowerType.setId(resultSet.getInt(ColumnName.FLOWER_TYPE_ID));
-                FlowerCategory flowerCategory = FlowerCategory.valueOf(resultSet.getString(ColumnName.FLOWER_TYPE_CATEGORY));
+                flowerType.setId(resultSet.getInt(FLOWER_TYPE_ID));
+                FlowerCategory flowerCategory = FlowerCategory.valueOf(resultSet.getString(FLOWER_TYPE_CATEGORY));
                 flowerType.setCategory(flowerCategory);
-                flowerType.setDescription(resultSet.getString(ColumnName.FLOWER_TYPE_DESCRIPTION));
+                flowerType.setDescription(resultSet.getString(FLOWER_TYPE_DESCRIPTION));
             }
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_SELECT_FLOWER_BY_CATEGORY, e);
+            throw new DaoException("Can't handle FlowerTypeDao.findByCategory request", e);
         }
         return flowerType;
     }

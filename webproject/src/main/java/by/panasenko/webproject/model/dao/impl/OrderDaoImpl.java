@@ -7,6 +7,10 @@ import by.panasenko.webproject.model.dao.OrderDao;
 
 import java.sql.*;
 
+/**
+ * Implementation of {@link OrderDao}. Provides methods to interact with Order data from database.
+ * Methods connect to database using {@link Connection} from {@link ConnectionPool} and manipulate with data(save, edit, etc.).
+ */
 public class OrderDaoImpl implements OrderDao {
     /**
      * A single instance of the class (pattern Singleton)
@@ -18,9 +22,6 @@ public class OrderDaoImpl implements OrderDao {
 
     /** Query for database to add order */
     private static final String INSERT_ORDER_SQL = "INSERT INTO orders (status_order, date_delivery, user_id, total_cost, time_order, address, date_order, cash) VALUES (?,?,?,?,?,?,?,?)";
-
-    /** Message, that is putted in Exception if there are add item to basket problem */
-    private static final String MESSAGE_INSERT_ORDER_PROBLEM = "Can't handle OrderDao.saveOrder request";
 
     /**
      * Returns the instance of the class
@@ -60,7 +61,7 @@ public class OrderDaoImpl implements OrderDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_INSERT_ORDER_PROBLEM, e);
+            throw new DaoException("Can't handle OrderDao.saveOrder request", e);
         }
         return order;
     }

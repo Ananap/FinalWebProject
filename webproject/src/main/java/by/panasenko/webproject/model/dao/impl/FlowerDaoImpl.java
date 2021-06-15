@@ -3,80 +3,88 @@ package by.panasenko.webproject.model.dao.impl;
 import by.panasenko.webproject.entity.*;
 import by.panasenko.webproject.exception.DaoException;
 import by.panasenko.webproject.model.connection.ConnectionPool;
-import by.panasenko.webproject.model.dao.ColumnName;
 import by.panasenko.webproject.model.dao.FlowerDao;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static by.panasenko.webproject.model.dao.ColumnName.*;
+
+/**
+ * Implementation of {@link FlowerDao}. Provides methods to interact with Flower data from database.
+ * Methods connect to database using {@link Connection} from {@link ConnectionPool} and manipulate with data(save, edit, etc.).
+ */
 public class FlowerDaoImpl implements FlowerDao {
     /**
      * A single instance of the class (pattern Singleton)
      */
     private static final FlowerDaoImpl instance = new FlowerDaoImpl();
 
-    /** An object of {@link ConnectionPool}*/
+    /**
+     * An object of {@link ConnectionPool}
+     */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    /** Query for database to add flower*/
-    private static final String INSERT_FLOWER_SQL = "INSERT INTO flower (name, description, price, soil, origin, light, flower_type_id, watering) VALUES (?,?,?,?,?,?,?,?)";
-
-    /** Query for database to set flower image */
-    private static final String SET_IMAGE_SQL = "UPDATE flower SET flower_image = ? WHERE id = ?";
-
-    /** Query for database to update flower */
-    private static final String UPDATE_FLOWER_SQL = "UPDATE flower SET name = ?, description = ?, price = ?, soil = ?, origin = ?, light = ?, flower_type_id = ?, watering = ? WHERE id = ?";
-
-    /** Query for database to get record in flower table */
+    /**
+     * Query for database to get record in flower table
+     */
     private static final String SELECT_ALL_FLOWER_SQL = "SELECT id, name, description, price, flower_image FROM flower";
 
-    /** Query for database to get all record in flower table */
+    /**
+     * Query for database to get all record in flower table
+     */
     private static final String SELECT_ALL_FLOWER_LIST_SQL = "SELECT id, name, description, price, flower_image, soil, origin, light, watering, type_id, category, type_description, storage_count FROM flower flowers " +
             "JOIN flower_type type ON flowers.flower_type_id = type.type_id " +
             "JOIN storage s ON flowers.id = s.flowers_id ";
 
-    /** Query for database to get flower by category */
+    /**
+     * Query for database to get flower by category
+     */
     private static final String FIND_FLOWER_BY_CATEGORY = "SELECT id, name, description, price, flower_image FROM flower flowers " +
             "JOIN flower_type type ON flowers.flower_type_id = type.type_id " +
             "WHERE (flower_type_id = ?)";
 
-    /** Query for database to get flower by id */
+    /**
+     * Query for database to get flower by id
+     */
     private static final String FIND_FLOWER_BY_ID = "SELECT id, name, description, price, flower_image, soil, origin, light, watering, type_id, category, type_description, storage_count FROM flower flowers " +
             "JOIN flower_type type ON flowers.flower_type_id = type.type_id " +
             "JOIN storage s ON flowers.id = s.flowers_id " +
             "WHERE (id = ?)";
 
-    /** Message, that is putted in Exception if there are select flower problem*/
-    private static final String MESSAGE_SELECT_FLOWERS_PROBLEM = "Can't handle FlowerDao.findAll request";
+    /**
+     * Query for database to add flower
+     */
+    private static final String INSERT_FLOWER_SQL = "INSERT INTO flower (name, description, price, soil, origin, light, flower_type_id, watering) VALUES (?,?,?,?,?,?,?,?)";
 
-    /** Message, that is putted in Exception if there are select flower by category problem */
-    private static final String MESSAGE_SELECT_FLOWER_BY_CATEGORY_PROBLEM = "Can't handle FlowerDao.findByCategory request";
+    /**
+     * Query for database to set flower image
+     */
+    private static final String SET_IMAGE_SQL = "UPDATE flower SET flower_image = ? WHERE id = ?";
 
-    /** Message, that is putted in Exception if there are insert flower problem */
-    private static final String MESSAGE_INSERT_FLOWER_PROBLEM = "Can't handle FlowerDao.createFlower request";
+    /**
+     * Query for database to update flower
+     */
+    private static final String UPDATE_FLOWER_SQL = "UPDATE flower SET name = ?, description = ?, price = ?, soil = ?, origin = ?, light = ?, flower_type_id = ?, watering = ? WHERE id = ?";
 
-    /** Message, that is putted in Exception if there are update flower image problem */
-    private static final String MESSAGE_UPDATE_IMAGE_PROBLEM = "Can't handle FlowerDao.updateFlowerImage request";
-
-    /** Message, that is putted in Exception if there are select by id flower problem */
-    private static final String MESSAGE_SELECT_BY_ID_PROBLEM = "Can't handle FlowerDao.findById request";
-
-    /** Message, that is putted in Exception if there are select all flower list problem */
-    private static final String MESSAGE_SELECT_FLOWER_LIST_PROBLEM = "Can't handle FlowerDao.findAllFlowerList request";
-
-    /** Message, that is putted in Exception if there are update flower problem */
-    private static final String MESSAGE_UPDATE_FLOWER_PROBLEM = "Can't handle FlowerDao.updateFlower request";
+    /**
+     * Query for database to delete flower
+     */
+    private static final String DELETE_FLOWER_SQL = "DELETE FROM flower WHERE id = ?";
 
     /**
      * Returns the instance of the class
+     *
      * @return Object of {@link FlowerDaoImpl}
      */
     public static FlowerDaoImpl getInstance() {
         return instance;
     }
 
-    /** Private constructor without parameters */
+    /**
+     * Private constructor without parameters
+     */
     private FlowerDaoImpl() {
     }
 
@@ -105,7 +113,7 @@ public class FlowerDaoImpl implements FlowerDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_INSERT_FLOWER_PROBLEM, e);
+            throw new DaoException("Can't handle FlowerDao.createFlower request", e);
         }
         return flower;
     }
@@ -118,15 +126,15 @@ public class FlowerDaoImpl implements FlowerDao {
             ResultSet resultSet = statement.executeQuery(SELECT_ALL_FLOWER_SQL);
             while (resultSet.next()) {
                 Flower flower = new Flower();
-                flower.setId(resultSet.getInt(ColumnName.FLOWER_ID));
-                flower.setName(resultSet.getString(ColumnName.FLOWER_NAME));
-                flower.setDescription(resultSet.getString(ColumnName.FLOWER_DESCRIPTION));
-                flower.setPrice(resultSet.getDouble(ColumnName.FLOWER_PRICE));
-                flower.setFlowerImage(resultSet.getString(ColumnName.FLOWER_IMAGE));
+                flower.setId(resultSet.getInt(FLOWER_ID));
+                flower.setName(resultSet.getString(FLOWER_NAME));
+                flower.setDescription(resultSet.getString(FLOWER_DESCRIPTION));
+                flower.setPrice(resultSet.getDouble(FLOWER_PRICE));
+                flower.setFlowerImage(resultSet.getString(FLOWER_IMAGE));
                 flowerList.add(flower);
             }
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_SELECT_FLOWERS_PROBLEM, e);
+            throw new DaoException("Can't handle FlowerDao.findAll request", e);
         }
         return flowerList;
     }
@@ -140,15 +148,15 @@ public class FlowerDaoImpl implements FlowerDao {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Flower flower = new Flower();
-                flower.setId(resultSet.getInt(ColumnName.FLOWER_ID));
-                flower.setName(resultSet.getString(ColumnName.FLOWER_NAME));
-                flower.setDescription(resultSet.getString(ColumnName.FLOWER_DESCRIPTION));
-                flower.setPrice(resultSet.getDouble(ColumnName.FLOWER_PRICE));
-                flower.setFlowerImage(resultSet.getString(ColumnName.FLOWER_IMAGE));
+                flower.setId(resultSet.getInt(FLOWER_ID));
+                flower.setName(resultSet.getString(FLOWER_NAME));
+                flower.setDescription(resultSet.getString(FLOWER_DESCRIPTION));
+                flower.setPrice(resultSet.getDouble(FLOWER_PRICE));
+                flower.setFlowerImage(resultSet.getString(FLOWER_IMAGE));
                 flowerList.add(flower);
             }
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_SELECT_FLOWER_BY_CATEGORY_PROBLEM, e);
+            throw new DaoException("Can't handle FlowerDao.findByCategory request", e);
         }
         return flowerList;
     }
@@ -161,28 +169,28 @@ public class FlowerDaoImpl implements FlowerDao {
             statement.setInt(FindFlowerIndex.INDEX, Integer.parseInt(flowerId));
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                flower.setId(resultSet.getInt(ColumnName.FLOWER_ID));
-                flower.setName(resultSet.getString(ColumnName.FLOWER_NAME));
-                flower.setDescription(resultSet.getString(ColumnName.FLOWER_DESCRIPTION));
-                flower.setPrice(resultSet.getDouble(ColumnName.FLOWER_PRICE));
-                flower.setFlowerImage(resultSet.getString(ColumnName.FLOWER_IMAGE));
-                flower.setOriginCountry(resultSet.getString(ColumnName.FLOWER_COUNTRY));
-                flower.setLight(resultSet.getBoolean(ColumnName.FLOWER_LIGHT));
-                flower.setWatering(resultSet.getInt(ColumnName.FLOWER_WATERING));
+                flower.setId(resultSet.getInt(FLOWER_ID));
+                flower.setName(resultSet.getString(FLOWER_NAME));
+                flower.setDescription(resultSet.getString(FLOWER_DESCRIPTION));
+                flower.setPrice(resultSet.getDouble(FLOWER_PRICE));
+                flower.setFlowerImage(resultSet.getString(FLOWER_IMAGE));
+                flower.setOriginCountry(resultSet.getString(FLOWER_COUNTRY));
+                flower.setLight(resultSet.getBoolean(FLOWER_LIGHT));
+                flower.setWatering(resultSet.getInt(FLOWER_WATERING));
                 FlowerType flowerType = new FlowerType();
-                flowerType.setId(resultSet.getInt(ColumnName.FLOWER_TYPE_ID));
-                FlowerCategory flowerCategory = FlowerCategory.valueOf(resultSet.getString(ColumnName.FLOWER_TYPE_CATEGORY));
+                flowerType.setId(resultSet.getInt(FLOWER_TYPE_ID));
+                FlowerCategory flowerCategory = FlowerCategory.valueOf(resultSet.getString(FLOWER_TYPE_CATEGORY));
                 flowerType.setCategory(flowerCategory);
-                flowerType.setDescription(resultSet.getString(ColumnName.FLOWER_TYPE_DESCRIPTION));
+                flowerType.setDescription(resultSet.getString(FLOWER_TYPE_DESCRIPTION));
                 flower.setFlowerType(flowerType);
-                Soil soil = Soil.valueOf(resultSet.getString(ColumnName.SOIL));
+                Soil soil = Soil.valueOf(resultSet.getString(SOIL));
                 flower.setSoil(soil);
                 Storage storage = new Storage();
-                storage.setCount(resultSet.getInt(ColumnName.STORAGE_COUNT));
+                storage.setCount(resultSet.getInt(STORAGE_COUNT));
                 flower.setStorage(storage);
             }
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_SELECT_BY_ID_PROBLEM, e);
+            throw new DaoException("Can't handle FlowerDao.findById request", e);
         }
         return flower;
     }
@@ -195,7 +203,7 @@ public class FlowerDaoImpl implements FlowerDao {
             statement.setInt(UpdateImageIndex.ID, dbFlower.getId());
             statement.execute();
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_UPDATE_IMAGE_PROBLEM, e);
+            throw new DaoException("Can't handle FlowerDao.updateFlowerImage request", e);
         }
     }
 
@@ -207,29 +215,29 @@ public class FlowerDaoImpl implements FlowerDao {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Flower flower = new Flower();
-                flower.setId(resultSet.getInt(ColumnName.FLOWER_ID));
-                flower.setName(resultSet.getString(ColumnName.FLOWER_NAME));
-                flower.setDescription(resultSet.getString(ColumnName.FLOWER_DESCRIPTION));
-                flower.setPrice(resultSet.getDouble(ColumnName.FLOWER_PRICE));
-                flower.setFlowerImage(resultSet.getString(ColumnName.FLOWER_IMAGE));
-                flower.setOriginCountry(resultSet.getString(ColumnName.FLOWER_COUNTRY));
-                flower.setLight(resultSet.getBoolean(ColumnName.FLOWER_LIGHT));
-                flower.setWatering(resultSet.getInt(ColumnName.FLOWER_WATERING));
+                flower.setId(resultSet.getInt(FLOWER_ID));
+                flower.setName(resultSet.getString(FLOWER_NAME));
+                flower.setDescription(resultSet.getString(FLOWER_DESCRIPTION));
+                flower.setPrice(resultSet.getDouble(FLOWER_PRICE));
+                flower.setFlowerImage(resultSet.getString(FLOWER_IMAGE));
+                flower.setOriginCountry(resultSet.getString(FLOWER_COUNTRY));
+                flower.setLight(resultSet.getBoolean(FLOWER_LIGHT));
+                flower.setWatering(resultSet.getInt(FLOWER_WATERING));
                 FlowerType flowerType = new FlowerType();
-                flowerType.setId(resultSet.getInt(ColumnName.FLOWER_TYPE_ID));
-                FlowerCategory flowerCategory = FlowerCategory.valueOf(resultSet.getString(ColumnName.FLOWER_TYPE_CATEGORY));
+                flowerType.setId(resultSet.getInt(FLOWER_TYPE_ID));
+                FlowerCategory flowerCategory = FlowerCategory.valueOf(resultSet.getString(FLOWER_TYPE_CATEGORY));
                 flowerType.setCategory(flowerCategory);
-                flowerType.setDescription(resultSet.getString(ColumnName.FLOWER_TYPE_DESCRIPTION));
+                flowerType.setDescription(resultSet.getString(FLOWER_TYPE_DESCRIPTION));
                 flower.setFlowerType(flowerType);
-                Soil soil = Soil.valueOf(resultSet.getString(ColumnName.SOIL));
+                Soil soil = Soil.valueOf(resultSet.getString(SOIL));
                 flower.setSoil(soil);
                 Storage storage = new Storage();
-                storage.setCount(resultSet.getInt(ColumnName.STORAGE_COUNT));
+                storage.setCount(resultSet.getInt(STORAGE_COUNT));
                 flower.setStorage(storage);
                 flowerList.add(flower);
             }
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_SELECT_FLOWER_LIST_PROBLEM, e);
+            throw new DaoException("Can't handle FlowerDao.findAllFlowerList request", e);
         }
         return flowerList;
     }
@@ -249,13 +257,19 @@ public class FlowerDaoImpl implements FlowerDao {
             statement.setInt(FlowerIndex.ID, id);
             statement.execute();
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_UPDATE_FLOWER_PROBLEM, e);
+            throw new DaoException("Can't handle FlowerDao.updateFlower request", e);
         }
     }
 
     @Override
     public void deleteById(int id) throws DaoException {
-
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_FLOWER_SQL)) {
+            statement.setInt(FindFlowerIndex.INDEX, id);
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DaoException("Can't handle FlowerDao.deleteById request", e);
+        }
     }
 
     /**

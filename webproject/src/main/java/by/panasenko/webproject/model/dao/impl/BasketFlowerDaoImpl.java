@@ -7,7 +7,6 @@ import by.panasenko.webproject.entity.Storage;
 import by.panasenko.webproject.exception.DaoException;
 import by.panasenko.webproject.model.connection.ConnectionPool;
 import by.panasenko.webproject.model.dao.BasketFlowerDao;
-import by.panasenko.webproject.model.dao.ColumnName;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -17,16 +16,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static by.panasenko.webproject.model.dao.ColumnName.*;
+
+/**
+ * Implementation of {@link BasketFlowerDao}. Provides methods to interact with BasketFlower data from database.
+ * Methods connect to database using {@link Connection} from {@link ConnectionPool} and manipulate with data(save, edit, etc.).
+ */
 public class BasketFlowerDaoImpl implements BasketFlowerDao {
     /**
      * A single instance of the class (pattern Singleton)
      */
     private static final BasketFlowerDaoImpl instance = new BasketFlowerDaoImpl();
 
-    /** An object of {@link ConnectionPool} */
+    /**
+     * An object of {@link ConnectionPool}
+     */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    /** Query for database to select basketflower by id */
+    /**
+     * Query for database to select basketflower by id
+     */
     private static final String SELECT_BY_ID_SQL = "SELECT basket_flower_id, count, sub_total FROM basket_flower WHERE (basket_flower_id = ?)";
 
     /** Query for database to select items by basket id */
@@ -46,24 +55,6 @@ public class BasketFlowerDaoImpl implements BasketFlowerDao {
 
     /** Query for database to delete basketFlower by id */
     private static final String DELETE_ITEM_SQL = "DELETE FROM basket_flower WHERE basket_flower_id = ?";
-
-    /** Message, that is putted in Exception if there are add item to basket problem */
-    private static final String MESSAGE_ADD_ITEM_PROBLEM = "Can't handle BasketFlowerDao.addItemToBasket request";
-
-    /** Message, that is putted in Exception if there find by basket problem */
-    private static final String MESSAGE_FIND_BY_BASKET_PROBLEM = "Can't handle BasketFlowerDao.findByBasketId request";
-
-    /** Message, that is putted in Exception if there find by basket problem */
-    private static final String MESSAGE_SET_SUB_TOTAL_PROBLEM = "Can't handle BasketFlowerDao.updateBasketFlower request";
-
-    /** Message, that is putted in Exception if there find by basket problem */
-    private static final String MESSAGE_SET_COUNT_PROBLEM = "Can't handle BasketFlowerDao.setCountBasketFlower request";
-
-    /** Message, that is putted in Exception if there find by id problem */
-    private static final String MESSAGE_FIND_BY_ID_PROBLEM = "Can't handle BasketFlowerDao.findById request";
-
-    /** Message, that is putted in Exception if there delete by id problem */
-    private static final String MESSAGE_DELETE_BY_ID_PROBLEM = "Can't handle BasketFlowerDao.deleteBasketFlower request";
 
     /**
      * Returns the instance of the class
@@ -88,12 +79,12 @@ public class BasketFlowerDaoImpl implements BasketFlowerDao {
             statement.setInt(ItemIndex.BASKET_ID, id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                basketFlower.setId(resultSet.getInt(ColumnName.BASKET_FLOWER_ID));
-                basketFlower.setCount(resultSet.getInt(ColumnName.BASKET_FLOWER_COUNT));
-                basketFlower.setSubTotal(resultSet.getBigDecimal(ColumnName.BASKET_FLOWER_SUB_TOTAL));
+                basketFlower.setId(resultSet.getInt(BASKET_FLOWER_ID));
+                basketFlower.setCount(resultSet.getInt(BASKET_FLOWER_COUNT));
+                basketFlower.setSubTotal(resultSet.getBigDecimal(BASKET_FLOWER_SUB_TOTAL));
             }
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_FIND_BY_ID_PROBLEM, e);
+            throw new DaoException("Can't handle BasketFlowerDao.findById request", e);
         }
         return basketFlower;
     }
@@ -105,7 +96,7 @@ public class BasketFlowerDaoImpl implements BasketFlowerDao {
             statement.setInt(ItemIndex.BASKET_ID, id);
             statement.execute();
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_DELETE_BY_ID_PROBLEM, e);
+            throw new DaoException("Can't handle BasketFlowerDao.deleteBasketFlower request", e);
         }
     }
 
@@ -119,7 +110,7 @@ public class BasketFlowerDaoImpl implements BasketFlowerDao {
             statement.setBigDecimal(AddItemIndex.SUB_TOTAL, subTotal);
             statement.execute();
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_ADD_ITEM_PROBLEM, e);
+            throw new DaoException("Can't handle BasketFlowerDao.addItemToBasket request", e);
         }
     }
 
@@ -135,22 +126,22 @@ public class BasketFlowerDaoImpl implements BasketFlowerDao {
                 Flower flower = new Flower();
                 Basket basket = new Basket();
                 Storage storage = new Storage();
-                basketFlower.setId(resultSet.getInt(ColumnName.BASKET_FLOWER_ID));
+                basketFlower.setId(resultSet.getInt(BASKET_FLOWER_ID));
                 basketFlower.setBasket(basket);
                 basketFlower.setFlower(flower);
-                basketFlower.setSubTotal(resultSet.getBigDecimal(ColumnName.BASKET_FLOWER_SUB_TOTAL));
-                basketFlower.setCount(resultSet.getInt(ColumnName.BASKET_FLOWER_COUNT));
-                flower.setId(resultSet.getInt(ColumnName.BASKET_FLOWER_FLOWER_ID));
-                flower.setFlowerImage(resultSet.getString(ColumnName.FLOWER_IMAGE));
-                flower.setName(resultSet.getString(ColumnName.FLOWER_NAME));
+                basketFlower.setSubTotal(resultSet.getBigDecimal(BASKET_FLOWER_SUB_TOTAL));
+                basketFlower.setCount(resultSet.getInt(BASKET_FLOWER_COUNT));
+                flower.setId(resultSet.getInt(BASKET_FLOWER_FLOWER_ID));
+                flower.setFlowerImage(resultSet.getString(FLOWER_IMAGE));
+                flower.setName(resultSet.getString(FLOWER_NAME));
                 flower.setStorage(storage);
-                flower.setPrice(resultSet.getDouble(ColumnName.FLOWER_PRICE));
-                basket.setId(resultSet.getInt(ColumnName.BASKET_FLOWER_BASKET_ID));
-                storage.setCount(resultSet.getInt(ColumnName.STORAGE_COUNT));
+                flower.setPrice(resultSet.getDouble(FLOWER_PRICE));
+                basket.setId(resultSet.getInt(BASKET_FLOWER_BASKET_ID));
+                storage.setCount(resultSet.getInt(STORAGE_COUNT));
                 basketFlowerList.add(basketFlower);
             }
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_FIND_BY_BASKET_PROBLEM, e);
+            throw new DaoException("Can't handle BasketFlowerDao.findByBasketId request", e);
         }
         return basketFlowerList;
     }
@@ -163,7 +154,7 @@ public class BasketFlowerDaoImpl implements BasketFlowerDao {
             statement.setInt(SetSubTotalIndex.ID, basketFlower.getId());
             statement.execute();
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_SET_SUB_TOTAL_PROBLEM, e);
+            throw new DaoException("Can't handle BasketFlowerDao.updateBasketFlower request", e);
         }
     }
 
@@ -175,7 +166,7 @@ public class BasketFlowerDaoImpl implements BasketFlowerDao {
             statement.setInt(SetSubTotalIndex.ID, basketFlower.getId());
             statement.execute();
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_SET_COUNT_PROBLEM, e);
+            throw new DaoException("Can't handle BasketFlowerDao.setCountBasketFlower request", e);
         }
     }
 

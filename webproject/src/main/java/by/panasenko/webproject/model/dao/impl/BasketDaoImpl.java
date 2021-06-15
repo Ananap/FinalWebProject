@@ -4,23 +4,33 @@ import by.panasenko.webproject.entity.Basket;
 import by.panasenko.webproject.exception.DaoException;
 import by.panasenko.webproject.model.connection.ConnectionPool;
 import by.panasenko.webproject.model.dao.BasketDao;
-import by.panasenko.webproject.model.dao.ColumnName;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static by.panasenko.webproject.model.dao.ColumnName.BASKET_ID;
+import static by.panasenko.webproject.model.dao.ColumnName.BASKET_TOTAL_COST;
+
+/**
+ * Implementation of {@link BasketDao}. Provides methods to interact with Basket data from database.
+ * Methods connect to database using {@link Connection} from {@link ConnectionPool} and manipulate with data(save, edit, etc.).
+ */
 public class BasketDaoImpl implements BasketDao {
     /**
      * A single instance of the class (pattern Singleton)
      */
     private static final BasketDaoImpl instance = new BasketDaoImpl();
 
-    /** An object of {@link ConnectionPool} */
+    /**
+     * An object of {@link ConnectionPool}
+     */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    /** Query for database to get basket by user id */
+    /**
+     * Query for database to get basket by user id
+     */
     private static final String FIND_BASKET_BY_USER = "SELECT id, user_id_foreign, total_cost FROM basket b " +
             "JOIN users u ON b.user_id_foreign = u.user_id " +
             "WHERE (user_id_foreign = ?)";
@@ -34,18 +44,6 @@ public class BasketDaoImpl implements BasketDao {
 
     /** Query for database to set total cost to basket */
     private static final String SET_TOTAL_COST = "UPDATE basket SET total_cost = ? WHERE id = ?";
-
-    /** Message, that is putted in Exception if there are select basket by user id problem */
-    private static final String MESSAGE_SELECT_BASKET_PROBLEM = "Can't handle BasketDao.findByUserId request";
-
-    /** Message, that is putted in Exception if there are create basket problem */
-    private static final String MESSAGE_INSERT_BASKET_PROBLEM = "Can't handle BasketDao.createBasket request";
-
-    /** Message, that is putted in Exception if there are set total cost problem */
-    private static final String MESSAGE_SET_TOTAL_COST_PROBLEM = "Can't handle BasketDao.updateBasket request";
-
-    /** Message, that is putted in Exception if there are find by id problem */
-    private static final String MESSAGE_FIND_BY_ID_PROBLEM = "Can't handle BasketDao.findById request";
 
     /**
      * Returns the instance of the class
@@ -67,11 +65,11 @@ public class BasketDaoImpl implements BasketDao {
             statement.setInt(FindBasketIndex.ID, id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                basket.setId(resultSet.getInt(ColumnName.BASKET_ID));
-                basket.setTotalCost(resultSet.getBigDecimal(ColumnName.BASKET_TOTAL_COST));
+                basket.setId(resultSet.getInt(BASKET_ID));
+                basket.setTotalCost(resultSet.getBigDecimal(BASKET_TOTAL_COST));
             }
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_FIND_BY_ID_PROBLEM, e);
+            throw new DaoException("Can't handle BasketDao.findById request", e);
         }
         return basket;
     }
@@ -84,11 +82,11 @@ public class BasketDaoImpl implements BasketDao {
             statement.setInt(FindBasketIndex.ID, userId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                basket.setId(resultSet.getInt(ColumnName.BASKET_ID));
-                basket.setTotalCost(resultSet.getBigDecimal(ColumnName.BASKET_TOTAL_COST));
+                basket.setId(resultSet.getInt(BASKET_ID));
+                basket.setTotalCost(resultSet.getBigDecimal(BASKET_TOTAL_COST));
             }
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_SELECT_BASKET_PROBLEM, e);
+            throw new DaoException("Can't handle BasketDao.findByUserId request", e);
         }
         return basket;
     }
@@ -100,7 +98,7 @@ public class BasketDaoImpl implements BasketDao {
             statement.setInt(FindBasketIndex.ID, userId);
             statement.execute();
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_INSERT_BASKET_PROBLEM, e);
+            throw new DaoException("Can't handle BasketDao.createBasket request", e);
         }
         return findByUserId(userId);
     }
@@ -113,7 +111,7 @@ public class BasketDaoImpl implements BasketDao {
             statement.setInt(SetCostIndex.ID, basket.getId());
             statement.execute();
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_SET_TOTAL_COST_PROBLEM, e);
+            throw new DaoException("Can't handle BasketDao.updateBasket request", e);
         }
     }
 

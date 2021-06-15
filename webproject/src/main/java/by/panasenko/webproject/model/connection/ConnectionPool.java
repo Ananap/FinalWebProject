@@ -1,5 +1,6 @@
 package by.panasenko.webproject.model.connection;
 
+import by.panasenko.webproject.exception.ConnectionPoolException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -15,7 +16,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ConnectionPool {
     private static Logger logger = LogManager.getLogger(ConnectionPool.class);
-    private static final int DEFAULT_POOL_SIZE = 7;
+    private static final int DEFAULT_POOL_SIZE = 8;
     private static ConnectionPool instance;
     private static ReentrantLock lock = new ReentrantLock();
     private static AtomicBoolean isPoolCreated = new AtomicBoolean(false);
@@ -23,6 +24,9 @@ public class ConnectionPool {
     private BlockingQueue<ProxyConnection> usedConnections;
 
     private ConnectionPool() {
+    }
+
+    public void initPool() throws ConnectionPoolException {
         usedConnections = new LinkedBlockingDeque<>(DEFAULT_POOL_SIZE);
         freeConnections = new LinkedBlockingDeque<>(DEFAULT_POOL_SIZE);
         for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
@@ -76,7 +80,7 @@ public class ConnectionPool {
         }
     }
 
-    public void destroyPool() {
+    public void destroyPool() throws ConnectionPoolException {
         for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
             try {
                 freeConnections.take().reallyClose();

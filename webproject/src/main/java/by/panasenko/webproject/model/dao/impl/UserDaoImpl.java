@@ -6,7 +6,6 @@ import by.panasenko.webproject.entity.SignUpData;
 import by.panasenko.webproject.entity.User;
 import by.panasenko.webproject.exception.DaoException;
 import by.panasenko.webproject.model.connection.ConnectionPool;
-import by.panasenko.webproject.model.dao.ColumnName;
 import by.panasenko.webproject.model.dao.ResultCode;
 import by.panasenko.webproject.model.dao.UserDao;
 import by.panasenko.webproject.util.PasswordEncryptor;
@@ -17,13 +16,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
+import static by.panasenko.webproject.model.dao.ColumnName.*;
+
 /**
  * Implementation of {@link UserDao}. Provides methods to interact with Users data from database.
  * Methods connect to database using {@link Connection} from {@link ConnectionPool} and manipulate with data(save, edit, etc.).
  */
 public class UserDaoImpl implements UserDao {
 
-    /** A single instance of the class (pattern Singleton) */
+    /**
+     * A single instance of the class (pattern Singleton)
+     */
     private static final UserDaoImpl instance = new UserDaoImpl();
 
     /**
@@ -42,21 +45,6 @@ public class UserDaoImpl implements UserDao {
 
     /** Query for database to update user data by user ID */
     private static final String UPDATE_USER_BY_ID_SQL = "UPDATE Users SET username = ?, password = ?, first_name = ?, last_name = ?, address = ?, phone = ? WHERE user_id = ?";
-
-    /** Message, that is putted in Exception if there are sign ip problem */
-    private static final String MESSAGE_SIGN_IN_PROBLEM = "Can't handle UserDao.signIn request";
-
-    /** Message, that is putted in Exception if there are sign up problem */
-    private static final String MESSAGE_SIGN_UP_PROBLEM = "Can't handle UserDao.signUp request";
-
-    /** Message, that is putted in Exception if there are email exists problem */
-    private static final String MESSAGE_IS_EMAIL_EXISTS_PROBLEM = "Can't handle UserDao.findUserByEmail request";
-
-    /** Message, that is putted in Exception if there are set password problem */
-    private static final String MESSAGE_SET_PASSWORD_PROBLEM = "Can't handle UserDao.setPasswordByID request";
-
-    /** Message, that is putted in Exception if there are update user problem */
-    private static final String MESSAGE_UPDATE_USER_PROBLEM = "Can't handle UserDao.updateUser request";
 
     /**
      * Returns the instance of the class
@@ -87,23 +75,23 @@ public class UserDaoImpl implements UserDao {
             statement.setString(FindUserIndex.EMAIL, signInData.getEmail());
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                String hashedPassword = resultSet.getString(ColumnName.USERS_PASSWORD);
+                String hashedPassword = resultSet.getString(USERS_PASSWORD);
                 if (!passwordEncryptor.checkHash(signInData.getPassword(), hashedPassword)) {
                     return Optional.empty();
                 }
-                user.setId(resultSet.getInt(ColumnName.USERS_ID));
-                user.setUsername(resultSet.getString(ColumnName.USERS_USERNAME));
-                user.setPassword(resultSet.getString(ColumnName.USERS_PASSWORD));
-                user.setEmail(resultSet.getString(ColumnName.USERS_EMAIL));
-                user.setRole(Role.valueOf(resultSet.getString(ColumnName.USERS_ROLE)));
-                user.setFirstName(resultSet.getString(ColumnName.USERS_FIRST_NAME));
-                user.setLastName(resultSet.getString(ColumnName.USERS_LAST_NAME));
-                user.setAddress(resultSet.getString(ColumnName.USERS_ADDRESS));
-                user.setPhone(resultSet.getString(ColumnName.USERS_PHONE));
+                user.setId(resultSet.getInt(USERS_ID));
+                user.setUsername(resultSet.getString(USERS_USERNAME));
+                user.setPassword(resultSet.getString(USERS_PASSWORD));
+                user.setEmail(resultSet.getString(USERS_EMAIL));
+                user.setRole(Role.valueOf(resultSet.getString(USERS_ROLE)));
+                user.setFirstName(resultSet.getString(USERS_FIRST_NAME));
+                user.setLastName(resultSet.getString(USERS_LAST_NAME));
+                user.setAddress(resultSet.getString(USERS_ADDRESS));
+                user.setPhone(resultSet.getString(USERS_PHONE));
             }
             optionalUser = Optional.of(user);
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_SIGN_IN_PROBLEM, e);
+            throw new DaoException("Can't handle UserDao.signIn request", e);
         }
         return optionalUser;
     }
@@ -137,7 +125,7 @@ public class UserDaoImpl implements UserDao {
             if (e.getErrorCode() == DUBLICATE_EMAIL_ERROR_CODE) {
                 return ResultCode.ERROR_DUPLICATE_EMAIL;
             } else {
-                throw new DaoException(MESSAGE_SIGN_UP_PROBLEM, e);
+                throw new DaoException("Can't handle UserDao.signUp request", e);
             }
         }
     }
@@ -150,12 +138,12 @@ public class UserDaoImpl implements UserDao {
             statement.setString(FindUserIndex.EMAIL, email);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                user.setId(resultSet.getInt(ColumnName.USERS_ID));
-                user.setUsername(resultSet.getString(ColumnName.USERS_USERNAME));
-                user.setPassword(resultSet.getString(ColumnName.USERS_PASSWORD));
+                user.setId(resultSet.getInt(USERS_ID));
+                user.setUsername(resultSet.getString(USERS_USERNAME));
+                user.setPassword(resultSet.getString(USERS_PASSWORD));
             }
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_IS_EMAIL_EXISTS_PROBLEM, e);
+            throw new DaoException("Can't handle UserDao.findUserByEmail request", e);
         }
         return user;
     }
@@ -169,7 +157,7 @@ public class UserDaoImpl implements UserDao {
             statement.setInt(SetPasswordIndex.ID, id);
             statement.execute();
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_SET_PASSWORD_PROBLEM, e);
+            throw new DaoException("Can't handle UserDao.setPasswordByID request", e);
         }
     }
 
@@ -188,7 +176,7 @@ public class UserDaoImpl implements UserDao {
             statement.execute();
             return ResultCode.SUCCESS;
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_UPDATE_USER_PROBLEM, e);
+            throw new DaoException("Can't handle UserDao.updateUser request", e);
         }
     }
 

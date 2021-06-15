@@ -3,7 +3,6 @@ package by.panasenko.webproject.model.dao.impl;
 import by.panasenko.webproject.entity.Storage;
 import by.panasenko.webproject.exception.DaoException;
 import by.panasenko.webproject.model.connection.ConnectionPool;
-import by.panasenko.webproject.model.dao.ColumnName;
 import by.panasenko.webproject.model.dao.StorageDao;
 
 import java.sql.Connection;
@@ -11,16 +10,27 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static by.panasenko.webproject.model.dao.ColumnName.STORAGE_COUNT;
+import static by.panasenko.webproject.model.dao.ColumnName.STORAGE_ID;
+
+/**
+ * Implementation of {@link StorageDao}. Provides methods to interact with Storage data from database.
+ * Methods connect to database using {@link Connection} from {@link ConnectionPool} and manipulate with data(save, edit, etc.).
+ */
 public class StorageDaoImpl implements StorageDao {
     /**
      * A single instance of the class (pattern Singleton)
      */
     private static final StorageDaoImpl instance = new StorageDaoImpl();
 
-    /** An object of {@link ConnectionPool} */
+    /**
+     * An object of {@link ConnectionPool}
+     */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    /** Query for database to get storage record by flower table */
+    /**
+     * Query for database to get storage record by flower table
+     */
     private static final String SELECT_STORAGE_BY_FLOWER = "SELECT storage_id, storage_count FROM storage st " +
             "JOIN flower fl ON fl.id = st.flowers_id " +
             "WHERE (flowers_id = ?)";
@@ -33,18 +43,6 @@ public class StorageDaoImpl implements StorageDao {
 
     /** Query for database to set storage count by flower */
     private static final String SET_STORAGE_COUNT_BY_FLOWER = "UPDATE storage SET storage_count = ? WHERE flowers_id = ?";
-
-    /** Message, that is putted in Exception if there are select storage problem */
-    private static final String MESSAGE_SELECT_STORAGE_PROBLEM = "Can't handle StorageDao.findByFlowerId request";
-
-    /** Message, that is putted in Exception if there are set storage count problem */
-    private static final String MESSAGE_SET_COUNT_PROBLEM = "Can't handle StorageDao.updateStorage request";
-
-    /** Message, that is putted in Exception if there are insert storage problem */
-    private static final String MESSAGE_INSERT_STORAGE_PROBLEM = "Can't handle StorageDao.insertStorage request";
-
-    /** Message, that is putted in Exception if there are update storage count by flower problem */
-    private static final String MESSAGE_UPDATE_COUNT_BY_FLOWER_PROBLEM = "Can't handle StorageDao.updateStorageByFlower request";
 
     /**
      * Returns the instance of the class
@@ -66,11 +64,11 @@ public class StorageDaoImpl implements StorageDao {
             statement.setInt(FindStorageIndex.ID, flowerId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                storage.setId(resultSet.getInt(ColumnName.STORAGE_ID));
-                storage.setCount(resultSet.getInt(ColumnName.STORAGE_COUNT));
+                storage.setId(resultSet.getInt(STORAGE_ID));
+                storage.setCount(resultSet.getInt(STORAGE_COUNT));
             }
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_SELECT_STORAGE_PROBLEM, e);
+            throw new DaoException("Can't handle StorageDao.findByFlowerId request", e);
         }
         return storage;
     }
@@ -83,7 +81,7 @@ public class StorageDaoImpl implements StorageDao {
             statement.setInt(SetStorageIndex.ID, storage.getId());
             statement.execute();
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_SET_COUNT_PROBLEM, e);
+            throw new DaoException("Can't handle StorageDao.updateStorage request", e);
         }
     }
 
@@ -95,7 +93,7 @@ public class StorageDaoImpl implements StorageDao {
             statement.setInt(InserStorage.FLOWER_ID, storage.getFlower().getId());
             statement.execute();
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_INSERT_STORAGE_PROBLEM, e);
+            throw new DaoException("Can't handle StorageDao.insertStorage request", e);
         }
     }
 
@@ -107,7 +105,7 @@ public class StorageDaoImpl implements StorageDao {
             statement.setInt(SetStorageIndex.ID, flowerId);
             statement.execute();
         } catch (SQLException e) {
-            throw new DaoException(MESSAGE_UPDATE_COUNT_BY_FLOWER_PROBLEM, e);
+            throw new DaoException("Can't handle StorageDao.updateStorageByFlower request", e);
         }
     }
 

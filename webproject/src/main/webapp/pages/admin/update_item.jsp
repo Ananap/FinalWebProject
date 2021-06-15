@@ -36,9 +36,8 @@
 <fmt:message key="admin.storage.name" var="locale_storage_name"/>
 <fmt:message key="admin.storage.flower" var="locale_storage_flower"/>
 <fmt:message key="admin.flower.image" var="locale_flower_image"/>
-<fmt:message key="main.add.item" var="locale_add_item"/>
+<fmt:message key="admin.update.item" var="locale_update_item"/>
 <fmt:message key="main.cancel" var="locale_main_cancel"/>
-
 <fmt:message key="admin.soil.podzolic" var="locale_soil_podzolic"/>
 <fmt:message key="admin.soil.sodpodzolic" var="locale_soil_sodpodzolic"/>
 <fmt:message key="admin.soil.unpaved" var="locale_soil_unpaved"/>
@@ -165,17 +164,10 @@
                         <span class="help-block">${locale_storage_flower}</span>
                     </div>
                 </div>
-                <!--Upload image-->
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="image">${locale_flower_image}</label>
-                    <div class="col-md-8">
-                        <input id="image" type="file" name="image"/>
-                    </div>
-                </div>
                 <div class="form-group">
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
-                        <button type="submit" class="btn btn-success">${locale_add_item}</button>
+                        <button type="submit" class="btn btn-success">${locale_update_item}</button>
                         <a class="btn btn-danger"
                            href="Controller?command=go_to_item_page_command">${locale_main_cancel}</a>
                     </div>
