@@ -15,24 +15,17 @@ public class OrderFlowerDaoImpl implements OrderFlowerDao {
      */
     private static final OrderFlowerDaoImpl instance = new OrderFlowerDaoImpl();
 
-    /**
-     * An object of {@link ConnectionPool}
-     */
+    /** An object of {@link ConnectionPool} */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    /**
-     * Query for database to add order
-     */
+    /** Query for database to add order */
     private static final String INSERT_ORDER_FLOWER_SQL = "INSERT INTO order_flower (flower_id, count, order_id, sub_total) VALUES (?,?,?,?)";
 
-    /**
-     * Message, that is putted in Exception if there are add item to basket problem
-     */
+    /** Message, that is putted in Exception if there are add item to basket problem */
     private static final String MESSAGE_INSERT_ORDER_FLOWER_PROBLEM = "Can't handle OrderFlowerDao.saveOrderFlower request";
 
     /**
      * Returns the instance of the class
-     *
      * @return Object of {@link OrderFlowerDaoImpl}
      */
     public static OrderFlowerDaoImpl getInstance() {

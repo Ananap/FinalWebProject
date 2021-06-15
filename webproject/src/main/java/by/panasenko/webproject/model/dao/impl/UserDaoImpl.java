@@ -31,70 +31,48 @@ public class UserDaoImpl implements UserDao {
      */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    /**
-     * Query for database to sign up new user
-     */
+    /** Query for database to sign up new user */
     private static final String SIGNUP_SQL = "INSERT INTO users (username, password, email, user_role, first_name, last_name, address, phone) VALUES (?,?,?,?,?,?,?,?)";
 
-    /**
-     * Query for database to get user by email
-     */
+    /** Query for database to get user by email */
     private static final String GET_USER_BY_EMAIL_SQL = "SELECT user_id, email, username, password, user_role, first_name, last_name, address, phone FROM Users users WHERE (email = ?)";
 
-    /**
-     * Query for database to set password src by user ID
-     */
+    /** Query for database to set password by user ID */
     private static final String SET_PASSWORD_BY_ID_SQL = "UPDATE Users SET password = ? WHERE user_id = ?";
 
-    /**
-     * Query for database to update user data by user ID
-     */
+    /** Query for database to update user data by user ID */
     private static final String UPDATE_USER_BY_ID_SQL = "UPDATE Users SET username = ?, password = ?, first_name = ?, last_name = ?, address = ?, phone = ? WHERE user_id = ?";
 
-    /**
-     * Message, that is putted in Exception if there are sign ip problem
-     */
+    /** Message, that is putted in Exception if there are sign ip problem */
     private static final String MESSAGE_SIGN_IN_PROBLEM = "Can't handle UserDao.signIn request";
 
-    /**
-     * Message, that is putted in Exception if there are sign up problem
-     */
+    /** Message, that is putted in Exception if there are sign up problem */
     private static final String MESSAGE_SIGN_UP_PROBLEM = "Can't handle UserDao.signUp request";
 
-    /**
-     * Message, that is putted in Exception if there are email exists problem
-     */
+    /** Message, that is putted in Exception if there are email exists problem */
     private static final String MESSAGE_IS_EMAIL_EXISTS_PROBLEM = "Can't handle UserDao.findUserByEmail request";
 
-    /**
-     * Message, that is putted in Exception if there are set password problem
-     */
+    /** Message, that is putted in Exception if there are set password problem */
     private static final String MESSAGE_SET_PASSWORD_PROBLEM = "Can't handle UserDao.setPasswordByID request";
 
-    /**
-     * Message, that is putted in Exception if there are update user problem
-     */
+    /** Message, that is putted in Exception if there are update user problem */
     private static final String MESSAGE_UPDATE_USER_PROBLEM = "Can't handle UserDao.updateUser request";
 
     /**
      * Returns the instance of the class
-     *
      * @return Object of {@link UserDaoImpl}
      */
     public static UserDaoImpl getInstance() {
         return instance;
     }
 
-    /**
-     * Private constructor without parameters
-     */
+    /** Private constructor without parameters */
     private UserDaoImpl() {
     }
 
 
     /**
      * Connects to database, checks the credentials and returns an User object if success.
-     *
      * @param signInData is Object of {@link SignInData}, which contains information about user's username and password.
      * @return {@link User} if user's data exists and password matches, null if user's username and password are not correct.
      * @throws DaoException when problems with database connection occurs.
@@ -132,7 +110,6 @@ public class UserDaoImpl implements UserDao {
 
     /**
      * Connects to database, creates new user by data provided and returns {@link ResultCode} object as result.
-     *
      * @param signUpData Object of {@link SignUpData}, which contains user information.
      * @return {@link ResultCode} enum, that shows the result of the method execution.
      * @throws DaoException when problems with database connection occurs.

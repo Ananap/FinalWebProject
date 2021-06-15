@@ -17,65 +17,44 @@ public class StorageDaoImpl implements StorageDao {
      */
     private static final StorageDaoImpl instance = new StorageDaoImpl();
 
-    /**
-     * An object of {@link ConnectionPool}
-     */
+    /** An object of {@link ConnectionPool} */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    /**
-     * Query for database to get storage record by flower table
-     */
+    /** Query for database to get storage record by flower table */
     private static final String SELECT_STORAGE_BY_FLOWER = "SELECT storage_id, storage_count FROM storage st " +
             "JOIN flower fl ON fl.id = st.flowers_id " +
             "WHERE (flowers_id = ?)";
 
-    /**
-     * Query for database to add storage
-     */
+    /** Query for database to add storage */
     private static final String INSERT_STORAGE_SQL = "INSERT INTO storage (storage_count, flowers_id) VALUES (?,?)";
 
-    /**
-     * Query for database to set storage count
-     */
+    /** Query for database to set storage count */
     private static final String SET_STORAGE_COUNT = "UPDATE storage SET storage_count = ? WHERE storage_id = ?";
 
-    /**
-     * Query for database to set storage count by flower
-     */
+    /** Query for database to set storage count by flower */
     private static final String SET_STORAGE_COUNT_BY_FLOWER = "UPDATE storage SET storage_count = ? WHERE flowers_id = ?";
 
-    /**
-     * Message, that is putted in Exception if there are select storage problem
-     */
+    /** Message, that is putted in Exception if there are select storage problem */
     private static final String MESSAGE_SELECT_STORAGE_PROBLEM = "Can't handle StorageDao.findByFlowerId request";
 
-    /**
-     * Message, that is putted in Exception if there are set storage count problem
-     */
+    /** Message, that is putted in Exception if there are set storage count problem */
     private static final String MESSAGE_SET_COUNT_PROBLEM = "Can't handle StorageDao.updateStorage request";
 
-    /**
-     * Message, that is putted in Exception if there are insert storage problem
-     */
+    /** Message, that is putted in Exception if there are insert storage problem */
     private static final String MESSAGE_INSERT_STORAGE_PROBLEM = "Can't handle StorageDao.insertStorage request";
 
-    /**
-     * Message, that is putted in Exception if there are update storage count by flower problem
-     */
+    /** Message, that is putted in Exception if there are update storage count by flower problem */
     private static final String MESSAGE_UPDATE_COUNT_BY_FLOWER_PROBLEM = "Can't handle StorageDao.updateStorageByFlower request";
 
     /**
      * Returns the instance of the class
-     *
      * @return Object of {@link StorageDaoImpl}
      */
     public static StorageDaoImpl getInstance() {
         return instance;
     }
 
-    /**
-     * Private constructor without parameters
-     */
+    /** Private constructor without parameters */
     private StorageDaoImpl() {
     }
 

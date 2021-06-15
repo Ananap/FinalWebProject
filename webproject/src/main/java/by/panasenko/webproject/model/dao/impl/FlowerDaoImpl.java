@@ -16,100 +16,67 @@ public class FlowerDaoImpl implements FlowerDao {
      */
     private static final FlowerDaoImpl instance = new FlowerDaoImpl();
 
-    /**
-     * An object of {@link ConnectionPool}
-     */
+    /** An object of {@link ConnectionPool}*/
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    /**
-     * Query for database to add flower
-     */
+    /** Query for database to add flower*/
     private static final String INSERT_FLOWER_SQL = "INSERT INTO flower (name, description, price, soil, origin, light, flower_type_id, watering) VALUES (?,?,?,?,?,?,?,?)";
 
-    /**
-     * Query for database to set flower image
-     */
+    /** Query for database to set flower image */
     private static final String SET_IMAGE_SQL = "UPDATE flower SET flower_image = ? WHERE id = ?";
 
-    /**
-     * Query for database to update flower
-     */
+    /** Query for database to update flower */
     private static final String UPDATE_FLOWER_SQL = "UPDATE flower SET name = ?, description = ?, price = ?, soil = ?, origin = ?, light = ?, flower_type_id = ?, watering = ? WHERE id = ?";
 
-    /**
-     * Query for database to get record in flower table
-     */
+    /** Query for database to get record in flower table */
     private static final String SELECT_ALL_FLOWER_SQL = "SELECT id, name, description, price, flower_image FROM flower";
 
-    /**
-     * Query for database to get all record in flower table
-     */
+    /** Query for database to get all record in flower table */
     private static final String SELECT_ALL_FLOWER_LIST_SQL = "SELECT id, name, description, price, flower_image, soil, origin, light, watering, type_id, category, type_description, storage_count FROM flower flowers " +
             "JOIN flower_type type ON flowers.flower_type_id = type.type_id " +
             "JOIN storage s ON flowers.id = s.flowers_id ";
 
-    /**
-     * Query for database to get flower by category
-     */
+    /** Query for database to get flower by category */
     private static final String FIND_FLOWER_BY_CATEGORY = "SELECT id, name, description, price, flower_image FROM flower flowers " +
             "JOIN flower_type type ON flowers.flower_type_id = type.type_id " +
             "WHERE (flower_type_id = ?)";
 
-    /**
-     * Query for database to get flower by id
-     */
+    /** Query for database to get flower by id */
     private static final String FIND_FLOWER_BY_ID = "SELECT id, name, description, price, flower_image, soil, origin, light, watering, type_id, category, type_description, storage_count FROM flower flowers " +
             "JOIN flower_type type ON flowers.flower_type_id = type.type_id " +
             "JOIN storage s ON flowers.id = s.flowers_id " +
             "WHERE (id = ?)";
 
-    /**
-     * Message, that is putted in Exception if there are select flower problem
-     */
+    /** Message, that is putted in Exception if there are select flower problem*/
     private static final String MESSAGE_SELECT_FLOWERS_PROBLEM = "Can't handle FlowerDao.findAll request";
 
-    /**
-     * Message, that is putted in Exception if there are select flower by category problem
-     */
+    /** Message, that is putted in Exception if there are select flower by category problem */
     private static final String MESSAGE_SELECT_FLOWER_BY_CATEGORY_PROBLEM = "Can't handle FlowerDao.findByCategory request";
 
-    /**
-     * Message, that is putted in Exception if there are insert flower problem
-     */
+    /** Message, that is putted in Exception if there are insert flower problem */
     private static final String MESSAGE_INSERT_FLOWER_PROBLEM = "Can't handle FlowerDao.createFlower request";
 
-    /**
-     * Message, that is putted in Exception if there are update flower image problem
-     */
+    /** Message, that is putted in Exception if there are update flower image problem */
     private static final String MESSAGE_UPDATE_IMAGE_PROBLEM = "Can't handle FlowerDao.updateFlowerImage request";
 
-    /**
-     * Message, that is putted in Exception if there are select by id flower problem
-     */
+    /** Message, that is putted in Exception if there are select by id flower problem */
     private static final String MESSAGE_SELECT_BY_ID_PROBLEM = "Can't handle FlowerDao.findById request";
 
-    /**
-     * Message, that is putted in Exception if there are select all flower list problem
-     */
+    /** Message, that is putted in Exception if there are select all flower list problem */
     private static final String MESSAGE_SELECT_FLOWER_LIST_PROBLEM = "Can't handle FlowerDao.findAllFlowerList request";
 
-    /**
-     * Message, that is putted in Exception if there are update flower problem
-     */
+    /** Message, that is putted in Exception if there are update flower problem */
     private static final String MESSAGE_UPDATE_FLOWER_PROBLEM = "Can't handle FlowerDao.updateFlower request";
 
     /**
      * Returns the instance of the class
-     *
      * @return Object of {@link FlowerDaoImpl}
      */
     public static FlowerDaoImpl getInstance() {
         return instance;
     }
 
-    /**
-     * Private constructor without parameters
-     */
+    /** Private constructor without parameters */
     private FlowerDaoImpl() {
     }
 

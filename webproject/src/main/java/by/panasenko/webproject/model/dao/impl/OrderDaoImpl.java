@@ -13,34 +13,24 @@ public class OrderDaoImpl implements OrderDao {
      */
     private static final OrderDaoImpl instance = new OrderDaoImpl();
 
-    /**
-     * An object of {@link ConnectionPool}
-     */
+    /** An object of {@link ConnectionPool} */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    /**
-     * Query for database to add order
-     */
+    /** Query for database to add order */
     private static final String INSERT_ORDER_SQL = "INSERT INTO orders (status_order, date_delivery, user_id, total_cost, time_order, address, date_order, cash) VALUES (?,?,?,?,?,?,?,?)";
 
-    /**
-     * Message, that is putted in Exception if there are add item to basket problem
-     */
+    /** Message, that is putted in Exception if there are add item to basket problem */
     private static final String MESSAGE_INSERT_ORDER_PROBLEM = "Can't handle OrderDao.saveOrder request";
-
 
     /**
      * Returns the instance of the class
-     *
      * @return Object of {@link OrderDaoImpl}
      */
     public static OrderDaoImpl getInstance() {
         return instance;
     }
 
-    /**
-     * Private constructor without parameters
-     */
+    /** Private constructor without parameters */
     private OrderDaoImpl() {
     }
 

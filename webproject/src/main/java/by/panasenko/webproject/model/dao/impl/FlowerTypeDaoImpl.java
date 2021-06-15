@@ -17,55 +17,38 @@ public class FlowerTypeDaoImpl implements FlowerTypeDao {
      */
     private static final FlowerTypeDaoImpl instance = new FlowerTypeDaoImpl();
 
-    /**
-     * An object of {@link ConnectionPool}
-     */
+    /** An object of {@link ConnectionPool} */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    /**
-     * Query for database to get all record in flower_type table
-     */
+    /** Query for database to get all record in flower_type table*/
     private static final String SELECT_ALL_FLOWER_TYPE_SQL = "SELECT * FROM flower_type";
 
-    /**
-     * Query for database to get all record in flower_type table
-     */
+    /**Query for database to get all record in flower_type table*/
     private static final String SELECT_FLOWER_TYPE_BY_ID = "SELECT type_id, category, type_description FROM flower_type " +
             "WHERE (type_id = ?)";
 
-    /**
-     * Query for database to get all record in flower_type table
-     */
+    /** Query for database to get all record in flower_type table */
     private static final String SELECT_FLOWER_TYPE_BY_CATEGORY = "SELECT type_id, category, type_description FROM flower_type " +
             "WHERE (category = ?)";
 
-    /**
-     * Message, that is putted in Exception if there are select flower_type problem
-     */
+    /** Message, that is putted in Exception if there are select flower_type problem */
     private static final String MESSAGE_SELECT_FLOWERS_PROBLEM = "Can't handle FlowerTypeDao.findAll request";
 
-    /**
-     * Message, that is putted in Exception if there are select flower_type by id problem
-     */
+    /** Message, that is putted in Exception if there are select flower_type by id problem */
     private static final String MESSAGE_SELECT_FLOWER_BY_ID = "Can't handle FlowerTypeDao.findById request";
 
-    /**
-     * Message, that is putted in Exception if there are select flower_type by category problem
-     */
+    /** Message, that is putted in Exception if there are select flower_type by category problem */
     private static final String MESSAGE_SELECT_FLOWER_BY_CATEGORY = "Can't handle FlowerTypeDao.findByCategory request";
 
     /**
      * Returns the instance of the class
-     *
      * @return Object of {@link FlowerTypeDaoImpl}
      */
     public static FlowerTypeDaoImpl getInstance() {
         return instance;
     }
 
-    /**
-     * Private constructor without parameters
-     */
+    /** Private constructor without parameters */
     private FlowerTypeDaoImpl() {
     }
 

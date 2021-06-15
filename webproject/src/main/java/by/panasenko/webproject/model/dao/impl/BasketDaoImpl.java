@@ -17,66 +17,45 @@ public class BasketDaoImpl implements BasketDao {
      */
     private static final BasketDaoImpl instance = new BasketDaoImpl();
 
-    /**
-     * An object of {@link ConnectionPool}
-     */
+    /** An object of {@link ConnectionPool} */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    /**
-     * Query for database to get basket by user id
-     */
+    /** Query for database to get basket by user id */
     private static final String FIND_BASKET_BY_USER = "SELECT id, user_id_foreign, total_cost FROM basket b " +
             "JOIN users u ON b.user_id_foreign = u.user_id " +
             "WHERE (user_id_foreign = ?)";
 
-    /**
-     * Query for database to get basket by id
-     */
+    /** Query for database to get basket by id */
     private static final String FIND_BASKET_BY_ID = "SELECT id, total_cost FROM basket b " +
             "WHERE (id = ?)";
 
-    /**
-     * Query for database to create basket
-     */
+    /** Query for database to create basket */
     private static final String INSERT_BASKET_SQL = "INSERT INTO basket (user_id_foreign) VALUE (?)";
 
-    /**
-     * Query for database to set total cost to basket
-     */
+    /** Query for database to set total cost to basket */
     private static final String SET_TOTAL_COST = "UPDATE basket SET total_cost = ? WHERE id = ?";
 
-    /**
-     * Message, that is putted in Exception if there are select basket by user id problem
-     */
+    /** Message, that is putted in Exception if there are select basket by user id problem */
     private static final String MESSAGE_SELECT_BASKET_PROBLEM = "Can't handle BasketDao.findByUserId request";
 
-    /**
-     * Message, that is putted in Exception if there are create basket problem
-     */
+    /** Message, that is putted in Exception if there are create basket problem */
     private static final String MESSAGE_INSERT_BASKET_PROBLEM = "Can't handle BasketDao.createBasket request";
 
-    /**
-     * Message, that is putted in Exception if there are set total cost problem
-     */
+    /** Message, that is putted in Exception if there are set total cost problem */
     private static final String MESSAGE_SET_TOTAL_COST_PROBLEM = "Can't handle BasketDao.updateBasket request";
 
-    /**
-     * Message, that is putted in Exception if there are find by id problem
-     */
+    /** Message, that is putted in Exception if there are find by id problem */
     private static final String MESSAGE_FIND_BY_ID_PROBLEM = "Can't handle BasketDao.findById request";
 
     /**
      * Returns the instance of the class
-     *
      * @return Object of {@link BasketDaoImpl}
      */
     public static BasketDaoImpl getInstance() {
         return instance;
     }
 
-    /**
-     * Private constructor without parameters
-     */
+    /** Private constructor without parameters */
     private BasketDaoImpl() {
     }
 
@@ -138,16 +117,12 @@ public class BasketDaoImpl implements BasketDao {
         }
     }
 
-    /**
-     * Static class that contains parameter indexes for getting basket data by user ID
-     */
+    /** Static class that contains parameter indexes for getting basket data by user ID */
     private static class FindBasketIndex {
         private static final int ID = 1;
     }
 
-    /**
-     * Static class that contains parameter indexes for getting basket data by user ID
-     */
+    /** Static class that contains parameter indexes for getting basket data by user ID */
     private static class SetCostIndex {
         private static final int TOTAL_COST = 1;
         private static final int ID = 2;

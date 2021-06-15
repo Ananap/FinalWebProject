@@ -31,7 +31,7 @@ public class ConnectionPool {
                 ProxyConnection proxyConnection = new ProxyConnection(connection);
                 freeConnections.offer(proxyConnection);
             } catch (SQLException e) {
-                logger.error("can't create connection with exception: {}", e);
+                logger.error("can't create connection with exception: ", e);
             }
         }
         if (freeConnections.isEmpty()) {
