@@ -1,11 +1,16 @@
 package by.panasenko.webproject.model.dao.impl;
 
 import by.panasenko.webproject.entity.Order;
+import by.panasenko.webproject.entity.Status;
 import by.panasenko.webproject.exception.DaoException;
 import by.panasenko.webproject.model.connection.ConnectionPool;
 import by.panasenko.webproject.model.dao.OrderDao;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static by.panasenko.webproject.model.dao.ColumnName.*;
 
 /**
  * Implementation of {@link OrderDao}. Provides methods to interact with Order data from database.
@@ -17,21 +22,48 @@ public class OrderDaoImpl implements OrderDao {
      */
     private static final OrderDaoImpl instance = new OrderDaoImpl();
 
-    /** An object of {@link ConnectionPool} */
+    /**
+     * An object of {@link ConnectionPool}
+     */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    /** Query for database to add order */
+    /**
+     * Query for database to add order
+     */
     private static final String INSERT_ORDER_SQL = "INSERT INTO orders (status_order, date_delivery, user_id, total_cost, time_order, address, date_order, cash) VALUES (?,?,?,?,?,?,?,?)";
 
     /**
+     * Query for database to select order by user
+     */
+    private static final String SELECT_ORDER_BY_USER_SQL = "SELECT id, status_order, date_order, total_cost FROM orders WHERE orders.user_id = ?";
+
+    /**
+     * Query for database to select all order data
+     */
+    private static final String SELECT_ORDERS_SQL = "SELECT id, address, cash, date_delivery, date_order, status_order FROM orders";
+
+    /**
+     * Query for database to select order data by id
+     */
+    private static final String SELECT_ORDER_BY_ID_SQL = "SELECT id, status_order, total_cost FROM orders WHERE id = ?";
+
+    /**
+     * Query for database to select order data by id
+     */
+    private static final String UPDATE_STATUS_SQL = "UPDATE orders SET status_order = ? WHERE id = ?";
+
+    /**
      * Returns the instance of the class
+     *
      * @return Object of {@link OrderDaoImpl}
      */
     public static OrderDaoImpl getInstance() {
         return instance;
     }
 
-    /** Private constructor without parameters */
+    /**
+     * Private constructor without parameters
+     */
     private OrderDaoImpl() {
     }
 
@@ -66,6 +98,82 @@ public class OrderDaoImpl implements OrderDao {
         return order;
     }
 
+    @Override
+    public List<Order> findByUserId(Integer id) throws DaoException {
+        List<Order> orderList = new ArrayList<>();
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SELECT_ORDER_BY_USER_SQL)) {
+            statement.setInt(FindOrder.ID, id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Order order = new Order();
+                order.setId(resultSet.getInt(ORDER_ID));
+                Status status = Status.valueOf(resultSet.getString(ORDER_STATUS));
+                order.setStatusOrder(status);
+                order.setDateOrder(resultSet.getDate(ORDER_DATE));
+                order.setTotalCost(resultSet.getBigDecimal(ORDER_TOTAL_COST));
+                orderList.add(order);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Can't handle OrderDao.findByUserId request", e);
+        }
+        return orderList;
+    }
+
+    @Override
+    public List<Order> findAll() throws DaoException {
+        List<Order> orderList = new ArrayList<>();
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SELECT_ORDERS_SQL)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Order order = new Order();
+                order.setId(resultSet.getInt(ORDER_ID));
+                order.setAddress(resultSet.getString(ORDER_ADDRESS));
+                order.setCash(resultSet.getBoolean(ORDER_CASH));
+                order.setDateDelivery(resultSet.getDate(ORDER_DATE_DELIVERY));
+                order.setDateOrder(resultSet.getDate(ORDER_DATE));
+                Status status = Status.valueOf(resultSet.getString(ORDER_STATUS));
+                order.setStatusOrder(status);
+                orderList.add(order);
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Can't handle OrderDao.findAll request", e);
+        }
+        return orderList;
+    }
+
+    @Override
+    public Order findById(int id) throws DaoException {
+        Order order = new Order();
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SELECT_ORDER_BY_ID_SQL)) {
+            statement.setInt(FindOrder.ID, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                order.setId(resultSet.getInt(ORDER_ID));
+                Status status = Status.valueOf(resultSet.getString(ORDER_STATUS));
+                order.setStatusOrder(status);
+                order.setTotalCost(resultSet.getBigDecimal(ORDER_TOTAL_COST));
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Can't handle OrderDao.findById request", e);
+        }
+        return order;
+    }
+
+    @Override
+    public void updateStatusById(String orderStatus, Integer orderId) throws DaoException {
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_STATUS_SQL)) {
+            statement.setString(UpdateStatusIndex.STATUS, orderStatus);
+            statement.setInt(UpdateStatusIndex.ID, orderId);
+            statement.execute();
+        } catch (SQLException e) {
+            throw new DaoException("Can't handle OrderDao.updateStatusById request", e);
+        }
+    }
+
     /**
      * Static class that contains parameter indexes for inserting order
      */
@@ -78,5 +186,20 @@ public class OrderDaoImpl implements OrderDao {
         private static final int ADDRESS = 6;
         private static final int DATE_ORDER = 7;
         private static final int CASH = 8;
+    }
+
+    /**
+     * Static class that contains parameter indexes for getting order data by user id
+     */
+    private static class FindOrder {
+        private static final int ID = 1;
+    }
+
+    /**
+     * Static class that contains parameter indexes for updating status order
+     */
+    private static class UpdateStatusIndex {
+        private static final int STATUS = 1;
+        private static final int ID = 2;
     }
 }

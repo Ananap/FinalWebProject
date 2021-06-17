@@ -34,6 +34,61 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> findByUser(Integer id) throws ServiceException {
+        List<Order> orderList;
+        try {
+            orderList = orderDao.findByUserId(id);
+        } catch (DaoException e) {
+            throw new ServiceException("Can't handle findByUser request at OrderService", e);
+        }
+        return orderList;
+    }
+
+    @Override
+    public List<Order> findAll() throws ServiceException {
+        List<Order> orderList;
+        try {
+            orderList = orderDao.findAll();
+        } catch (DaoException e) {
+            throw new ServiceException("Can't handle findAll request at OrderService", e);
+        }
+        return orderList;
+    }
+
+    @Override
+    public Order findById(String orderId) throws ServiceException {
+        Order order;
+        int id = Integer.parseInt(orderId);
+        try {
+            order = orderDao.findById(id);
+        } catch (DaoException e) {
+            throw new ServiceException("Can't handle findById request at OrderService", e);
+        }
+        return order;
+    }
+
+    @Override
+    public List<OrderFlower> findByOrder(int id) throws ServiceException {
+        List<OrderFlower> orderFlowerList;
+        try {
+            orderFlowerList = orderFlowerDao.findByOrder(id);
+        } catch (DaoException e) {
+            throw new ServiceException("Can't handle findByOrder request at OrderService", e);
+        }
+        return orderFlowerList;
+    }
+
+    @Override
+    public void changeStatus(String orderStatus, String orderId) throws ServiceException {
+        try {
+            int id = Integer.parseInt(orderId);
+            orderDao.updateStatusById(orderStatus, id);
+        } catch (DaoException e) {
+            throw new ServiceException("Can't handle changeStatus request at OrderService", e);
+        }
+    }
+
+    @Override
     public Optional<Order> createOrder(String address, String cash, String date, String time, User user, Basket basket) {
         if (address.isEmpty() || cash.isEmpty() || date.isEmpty() || time.isEmpty()) {
             return Optional.empty();

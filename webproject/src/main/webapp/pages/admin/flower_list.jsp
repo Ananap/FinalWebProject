@@ -55,13 +55,7 @@
             <tbody>
             <c:forEach items="${flowerList}" var="flower">
                 <tr>
-                    <td>
-                        <form action="Controller" method="post">
-                            <input type="hidden" name="command" value="go_to_item_info_page_command"/>
-                            <input type="hidden" name="flowerId" value="${flower.id}">
-                            <button type="submit" class="btn btn-link">${flower.name}</button>
-                        </form>
-                    </td>
+                    <td>${flower.name}</td>
                     <td>${flower.flowerType.description}</td>
                     <c:if test="${flower.soil == 'PODZOLIC'}">
                         <td>Подзолистая</td>

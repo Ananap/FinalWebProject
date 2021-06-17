@@ -42,6 +42,7 @@ public final class RequestAttribute {
     public static final String REGEXP_WATER = "attribute_regexp_water";
     public static final String REGEXP_COUNT = "attribute_regexp_count";
     public static final String EXCEPTION_CLASS = "javax.servlet.error.exception";
+    public static final String ORDER_LIST = "orderList";
 
     private RequestAttribute() {
     }

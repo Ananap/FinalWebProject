@@ -52,7 +52,7 @@
                     <span>${locale_order_cash}</span>
                     </c:if>
                     <c:if test="${!order.cash}">
-                    <span>${locale_order_card}</span>
+                        <span>${locale_order_card}</span>
                     </c:if>
                 </td>
                 <td>${order.dateDelivery}</td>
@@ -60,8 +60,8 @@
                 <td>${order.statusOrder}</td>
                 <td>
                     <form action="Controller" method="post">
-                        <input type="hidden" name="command" value="go_to_order_detail_page_command" />
-                        <input type="hidden" name="id" value="${order.id}" />
+                        <input type="hidden" name="command" value="go_to_order_detail_page_command"/>
+                        <input type="hidden" name="orderId" value="${order.id}"/>
                         <button type="submit" class="btn btn-link">${locale_common_detail}</button>
                     </form>
                     <br/>

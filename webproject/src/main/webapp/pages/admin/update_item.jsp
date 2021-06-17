@@ -87,7 +87,9 @@
                                 class="form-control">
                             <option value="" selected="selected" disabled="disabled">${locale_category_enter}</option>
                             <c:forEach var="flowerType" items="${flowerTypeList}">
-                                <option value="${flowerType.id}">${flowerType.description}</option>
+                                <option value="${flowerType.id}"
+                                        <c:if test="${flower.flowerType.id == flowerType.id}">selected</c:if>>
+                                        ${flowerType.description}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -98,13 +100,13 @@
                     <div class="col-md-8">
                         <select required id="soil" name="soil"
                                 class="form-control">
-                            <option value="" selected disabled="disabled">${locale_soil_enter}</option>
-                            <option value="PODZOLIC"
-                                    selected="(${flower.soil}=='PODZOLIC')">${locale_soil_podzolic}</option>
-                            <option value="SODPODZOLIC"
-                                    selected="(${flower.soil}=='SODPODZOLIC')">${locale_soil_sodpodzolic}</option>
-                            <option value="UNPAVED"
-                                    selected="(${flower.soil}=='UNPAVED')">${locale_soil_unpaved}</option>
+                            <option selected disabled="disabled">${locale_soil_enter}</option>
+                            <option value="PODZOLIC" <c:if test="${flower.soil=='PODZOLIC'}">selected</c:if>>
+                                ${locale_soil_podzolic}</option>
+                            <option value="SODPODZOLIC" <c:if test="${flower.soil=='SODPODZOLIC'}">selected</c:if>>
+                                ${locale_soil_sodpodzolic}</option>
+                            <option value="UNPAVED" <c:if test="${flower.soil=='UNPAVED'}">selected</c:if>>
+                                ${locale_soil_unpaved}</option>
                         </select>
                     </div>
                 </div>
@@ -135,9 +137,11 @@
                         <div>
                             <p><b>${locale_light_select}</b></p>
                             <p><input name="light" type="radio" value="true"
-                                      checked="(${flower.light}==true)"/>${locale_light_love}</p>
+                                      <c:if test="${flower.light}">checked</c:if> />
+                                ${locale_light_love}</p>
                             <p><input name="light" type="radio" value="false"
-                                      checked="(${flower.light}==false)"/>${locale_dark_love}</p>
+                                      <c:if test="${!flower.light}">checked </c:if> />
+                                ${locale_dark_love}</p>
                         </div>
                     </div>
                 </div>

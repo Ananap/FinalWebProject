@@ -25,6 +25,9 @@ public class Order {
         this.cash = cash;
     }
 
+    public Order() {
+    }
+
     public int getId() {
         return id;
     }

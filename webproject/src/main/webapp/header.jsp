@@ -10,7 +10,6 @@
 <fmt:message key="main.title" var="locale_main_title"/>
 <fmt:message key="main.catalog" var="locale_main_catalog"/>
 <fmt:message key="main.flower.list" var="locale_main_flower_list"/>
-<fmt:message key="main.store.hour" var="locale_main_store_hour"/>
 <fmt:message key="main.add.item" var="locale_main_add_item"/>
 <fmt:message key="main.admin.flowerlist" var="locale_main_admin_flowerlist"/>
 <fmt:message key="main.admin.create" var="locale_main_admin_create"/>

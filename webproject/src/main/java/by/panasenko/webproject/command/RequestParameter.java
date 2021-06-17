@@ -33,6 +33,8 @@ public final class RequestParameter {
     public static final String CASH = "cash";
     public static final String DATE = "date";
     public static final String TIME = "time";
+    public static final String ORDER_ID = "orderId";
+    public static final String ORDER_STATUS = "statusOrder";
 
     private RequestParameter() {
     }

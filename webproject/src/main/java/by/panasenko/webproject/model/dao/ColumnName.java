@@ -43,6 +43,20 @@ public final class ColumnName {
     public static final String BASKET_FLOWER_COUNT = "count";
     public static final String BASKET_FLOWER_SUB_TOTAL = "sub_total";
 
+    /*Order table*/
+    public static final String ORDER_ID = "id";
+    public static final String ORDER_STATUS = "status_order";
+    public static final String ORDER_DATE_DELIVERY = "date_delivery";
+    public static final String ORDER_TOTAL_COST = "total_cost";
+    public static final String ORDER_TIME_ORDER = "time_order";
+    public static final String ORDER_ADDRESS = "address";
+    public static final String ORDER_DATE = "date_order";
+    public static final String ORDER_CASH = "cash";
+
+    /*Order flower table*/
+    public static final String ORDER_FLOWER_COUNT = "count";
+    public static final String ORDER_FLOWER_SUB_TOTAL = "sub_total";
+
     private ColumnName() {
     }
 }

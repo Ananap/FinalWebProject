@@ -2,11 +2,10 @@ package by.panasenko.webproject.command;
 
 import by.panasenko.webproject.command.impl.*;
 import by.panasenko.webproject.command.impl.admin.impl.AddItemCommand;
+import by.panasenko.webproject.command.impl.admin.impl.ChangeOrderStatusCommand;
 import by.panasenko.webproject.command.impl.admin.impl.DeleteItemCommand;
 import by.panasenko.webproject.command.impl.admin.impl.UpdateItemCommand;
-import by.panasenko.webproject.command.impl.admin.impl.go.GoToAddItemPageCommand;
-import by.panasenko.webproject.command.impl.admin.impl.go.GoToFlowerListPageCommand;
-import by.panasenko.webproject.command.impl.admin.impl.go.GoToUpdateItemPageCommand;
+import by.panasenko.webproject.command.impl.admin.impl.go.*;
 import by.panasenko.webproject.command.impl.auth.impl.*;
 import by.panasenko.webproject.command.impl.auth.impl.go.GoToBasketPageCommand;
 import by.panasenko.webproject.command.impl.auth.impl.go.GoToCheckoutPageCommand;
@@ -31,6 +30,8 @@ public class CommandProvider {
         commands.put(CommandType.GO_TO_FLOWER_DETAIL_PAGE_COMMAND, new GoToFlowerDetailPageCommand());
         commands.put(CommandType.GO_TO_FLOWER_LIST_PAGE_COMMAND, new GoToFlowerListPageCommand());
         commands.put(CommandType.GO_TO_UPDATE_ITEM_PAGE_COMMAND, new GoToUpdateItemPageCommand());
+        commands.put(CommandType.GO_TO_ORDERS_PAGE_COMMAND, new GoToOrdersPageCommand());
+        commands.put(CommandType.GO_TO_ORDER_DETAIL_PAGE_COMMAND, new GoToOrderDetailPageCommand());
         commands.put(CommandType.CHANGE_LOCALE_COMMAND, new ChangeLocaleCommand());
         commands.put(CommandType.SIGN_IN_COMMAND, new SignInCommand());
         commands.put(CommandType.SIGN_UP_COMMAND, new SignUpCommand());
@@ -46,6 +47,7 @@ public class CommandProvider {
         commands.put(CommandType.ADD_ITEM_COMMAND, new AddItemCommand());
         commands.put(CommandType.UPDATE_ITEM_COMMAND, new UpdateItemCommand());
         commands.put(CommandType.DELETE_ITEM_COMMAND, new DeleteItemCommand());
+        commands.put(CommandType.CHANGE_ORDER_STATUS_COMMAND, new ChangeOrderStatusCommand());
     }
 
     public static CommandProvider getInstance() {

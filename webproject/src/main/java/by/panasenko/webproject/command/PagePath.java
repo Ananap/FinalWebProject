@@ -23,6 +23,7 @@ public final class PagePath {
     public static final String GO_TO_BASKET_PAGE = "Controller?command=go_to_basket_page_command";
     public static final String GO_TO_CHECKOUT_PAGE = "Controller?command=go_to_check_out_page_command";
     public static final String GO_TO_FLOWER_LIST = "Controller?command=go_to_flower_list_page_command";
+    public static final String GO_TO_ORDER_LIST = "Controller?command=go_to_orders_page_command";
 
     private PagePath() {
     }
