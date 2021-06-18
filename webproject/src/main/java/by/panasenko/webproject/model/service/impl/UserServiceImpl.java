@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
                 if (user != null) {
                     String newPassword = PasswordEncryptor.generateRandomPassword();
                     userDao.setPasswordById(user.getId(), newPassword);
-                    MailSender.sendEmail(email, MailSender.messageForgetPassword(user.getUsername(), newPassword));
+                    MailSender.send(email, MailSender.messageForgetPassword(user.getUsername(), newPassword));
                     return true;
                 }
             } catch (DaoException e) {

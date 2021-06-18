@@ -12,7 +12,6 @@ import by.panasenko.webproject.util.PasswordEncryptor;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public class SignUpCommand implements Command {
     private static final Logger logger = Logger.getLogger(SignUpCommand.class);
@@ -47,7 +46,7 @@ public class SignUpCommand implements Command {
                     req.setAttribute(RequestAttribute.DUPLICATE_EMAIL, true);
                     break;
                 case SUCCESS:
-                    MailSender.sendEmail(email, MailSender.messageEmailUser(username, password));
+                    MailSender.send(email, MailSender.messageEmailUser(username, password));
                     req.setAttribute(RequestAttribute.EMAIL_SENT, true);
                     break;
             }

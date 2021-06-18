@@ -46,7 +46,7 @@ public class MailSender {
         );
     }
 
-    public static void sendEmail(String emailTo, String messageText) {
+    public static void send(String emailTo, String messageText) {
         Session session = Session.getInstance(properties,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
