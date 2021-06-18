@@ -1,6 +1,6 @@
 # Flower Shop System "My FlowerShop"
 # Project Overview
-The websystem provides an opportunity to buy flowers of various type. It works like online store, where admin can list available items with including information and individual price list. Clients choose suitable type and get filtered list of available offers. After choosing the best one they send an application for certain date, time delivery and payment option. Admin approves the application and client get an email confirmation.
+The websystem provides an opportunity to buy flowers of various type. It works like online store, where admin can list available items with including information and individual price list. Clients choose suitable type and get filtered list of available offers. After choosing the best one they send an application for certain date, time delivery and payment option. Admin approves the application and client can check status of order in his profile.
 # User roles
 + Guest
   + View information about available flowers
@@ -9,14 +9,15 @@ The websystem provides an opportunity to buy flowers of various type. It works l
   + Registration
 + User
   + Edit personal information in the profile
-  + View information about available flowers
-  + Search by filters 
+  + Add items to basket, delete and update them 
   + Make an order for specific date
   + View information about previous orders
 + Admin
   + Add new items
+  + Delete item
   + Edit items
   + Change status of an order
 
 
-![Flowershop](https://user-images.githubusercontent.com/56219016/113181460-77d39900-925a-11eb-980a-96908b3c26e8.png)
+![finalflowershop](https://user-images.githubusercontent.com/56219016/122604171-30e98880-d07e-11eb-88d9-4db422c9f7d3.png)
+
