@@ -24,7 +24,7 @@ public class UserValidator {
     }
 
     private static boolean validateData(String username, String firstName, String lastName, String phoneNumber, String email) {
-        return validateUsername(username) || validateFIO(firstName) || validateFIO(lastName) || validatePhoneNumber(phoneNumber) || !validateEmail(email);
+        return validateUsername(username) && validateFIO(firstName) && validateFIO(lastName) && validatePhoneNumber(phoneNumber) && validateEmail(email);
     }
 
     private static boolean validateUsername(String username) {

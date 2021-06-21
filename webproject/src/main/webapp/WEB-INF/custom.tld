@@ -1,0 +1,12 @@
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>2.0</jsp-version>
+    <short-name>mytag</short-name>
+    <uri>customtag</uri>
+
+    <tag>
+        <name>image</name>
+        <tag-class>by.panasenko.webproject.tag.CustomImageTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+</taglib>

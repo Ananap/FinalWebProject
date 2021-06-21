@@ -17,7 +17,7 @@ public interface UserDao {
      * Connects to database, checks the credentials and returns an User object if success.
      *
      * @param signInData is Object of {@link SignInData}, which contains information about user's email and password.
-     * @return {@link Optional<User>} if user's data exists and password matches, null if user's email and password are not correct.
+     * @return {@link Optional<User>} if user's data exists and password matches, empty Optional if user's email and password are not correct.
      * @throws DaoException when problems with database connection occurs.
      */
     Optional<User> signIn(SignInData signInData) throws DaoException;

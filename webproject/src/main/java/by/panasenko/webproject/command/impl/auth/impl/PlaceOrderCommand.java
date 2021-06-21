@@ -6,7 +6,10 @@ import by.panasenko.webproject.command.RequestParameter;
 import by.panasenko.webproject.command.Router;
 import by.panasenko.webproject.command.Router.RouterType;
 import by.panasenko.webproject.command.impl.auth.AuthCommand;
-import by.panasenko.webproject.entity.*;
+import by.panasenko.webproject.entity.Basket;
+import by.panasenko.webproject.entity.BasketFlower;
+import by.panasenko.webproject.entity.Order;
+import by.panasenko.webproject.entity.User;
 import by.panasenko.webproject.exception.ServiceException;
 import by.panasenko.webproject.model.service.BasketFlowerService;
 import by.panasenko.webproject.model.service.BasketService;
@@ -15,7 +18,6 @@ import by.panasenko.webproject.model.service.ServiceProvider;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,12 +44,10 @@ public class PlaceOrderCommand extends AuthCommand {
             Optional<Order> order = orderService.createOrder(address, cash, date, time, user, basket);
             if (order.isPresent()) {
                 Order savedOrder = orderService.saveOrder(order.get());
-                List<OrderFlower> orderFlowerList = orderService.createOrderFlowerByOrder(savedOrder, basketFlowerList);
-                req.setAttribute(RequestAttribute.ORDER, savedOrder);
-                req.setAttribute(RequestAttribute.ORDER_FLOWER, orderFlowerList);
+                orderService.createOrderFlowerByOrder(savedOrder, basketFlowerList);
                 Basket clearedBasket = basketFlowerService.clearBasket(basket);
                 basketService.updateTotalCost(clearedBasket);
-                router = new Router(PagePath.ORDER_SUBMIT, RouterType.FORWARD);
+                router = new Router(PagePath.ORDER_SUBMIT, RouterType.REDIRECT);
             } else {
                 req.setAttribute(RequestAttribute.MISS_REQUIRED_FIELDS, true);
                 router = new Router(PagePath.GO_TO_CHECKOUT_PAGE, RouterType.REDIRECT);

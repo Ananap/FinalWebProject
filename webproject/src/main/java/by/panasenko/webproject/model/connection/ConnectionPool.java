@@ -1,6 +1,5 @@
 package by.panasenko.webproject.model.connection;
 
-import by.panasenko.webproject.exception.ConnectionPoolException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -26,7 +25,7 @@ public class ConnectionPool {
     private ConnectionPool() {
     }
 
-    public void initPool() throws ConnectionPoolException {
+    public void initPool() {
         usedConnections = new LinkedBlockingDeque<>(DEFAULT_POOL_SIZE);
         freeConnections = new LinkedBlockingDeque<>(DEFAULT_POOL_SIZE);
         for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
@@ -80,7 +79,7 @@ public class ConnectionPool {
         }
     }
 
-    public void destroyPool() throws ConnectionPoolException {
+    public void destroyPool() {
         for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
             try {
                 freeConnections.take().reallyClose();

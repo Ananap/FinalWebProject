@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @MultipartConfig
 public class Controller extends HttpServlet {
-    private static Logger logger = LogManager.getLogger(Controller.class);
+    private static final Logger logger = LogManager.getLogger(Controller.class);
     private final CommandProvider COMMAND_PROVIDER = CommandProvider.getInstance();
 
     @Override

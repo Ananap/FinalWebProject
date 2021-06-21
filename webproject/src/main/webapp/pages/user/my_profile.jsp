@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="customtag" prefix="mytag" %>
 
 <c:if test="${not empty sessionScope.locale}">
     <fmt:setLocale value="${sessionScope.locale}"/>
@@ -41,7 +42,7 @@
         </div>
     </div>
     <hr style="position: absolute; width: 75%; height: 6px; background-color: #1b6d85; z-index: -1; margin-top: -80px;"/>
-    <img class="img-responsive" src="static/image/flower1.jpg" style="margin-top: -75px;">
+    <mytag:image/>
 
     <div class="row" style="margin-top: 60px;">
         <div class="col-xs-8 col-xs-offset-2">
@@ -70,12 +71,12 @@
                                             <div class="col-xs-6">
                                                 <label for="firstName">${locale_user_first_name}</label>
                                                 <input type="text" class="form-control" id="firstName" name="firstName"
-                                                       value="${user.firstName}"/>
+                                                       pattern="${attribute_regexp_fio}" value="${user.firstName}"/>
                                             </div>
                                             <div class="col-xs-6">
                                                 <label for="lastName">${locale_user_last_name}</label>
                                                 <input type="text" class="form-control" id="lastName" name="lastName"
-                                                       value="${user.lastName}"/>
+                                                       pattern="${attribute_regexp_fio}" value="${user.lastName}"/>
                                             </div>
                                         </div>
                                     </div>
@@ -87,13 +88,13 @@
                                     <div class="form-group">
                                         <label for="username">${locale_username_name}</label>
                                         <input type="text" class="form-control" id="username" name="username"
-                                               value="${user.username}"/>
+                                               pattern="${attribute_regexp_username}" value="${user.username}"/>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="phone">${locale_phone}</label>
                                         <input type="text" class="form-control" id="phone" name="phone"
-                                               value="${user.phone}"/>
+                                               pattern="${attribute_regexp_phone_number}" value="${user.phone}"/>
                                     </div>
 
                                     <div class="form-group">

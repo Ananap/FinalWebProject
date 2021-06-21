@@ -54,10 +54,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> signIn(SignInData signInData) throws ServiceException {
-        try {
-            return userDao.signIn(signInData);
-        } catch (DaoException e) {
-            throw new ServiceException("Can't handle signIn request at UserService", e);
+        if (!UserValidator.validateEmail(signInData.getEmail())) {
+            throw new ServiceException("User data didn't passed validation");
+        } else {
+            try {
+                return userDao.signIn(signInData);
+            } catch (DaoException e) {
+                throw new ServiceException("Can't handle signIn request at UserService", e);
+            }
         }
     }
 
