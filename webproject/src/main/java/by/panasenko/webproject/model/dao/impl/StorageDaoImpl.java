@@ -23,14 +23,10 @@ public class StorageDaoImpl implements StorageDao {
      */
     private static final StorageDaoImpl instance = new StorageDaoImpl();
 
-    /**
-     * An object of {@link ConnectionPool}
-     */
+    /** An object of {@link ConnectionPool} */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    /**
-     * Query for database to get storage record by flower table
-     */
+    /** Query for database to get storage record by flower table */
     private static final String SELECT_STORAGE_BY_FLOWER = "SELECT storage_id, storage_count FROM storage st " +
             "JOIN flower fl ON fl.id = st.flowers_id " +
             "WHERE (flowers_id = ?)";
@@ -52,10 +48,19 @@ public class StorageDaoImpl implements StorageDao {
         return instance;
     }
 
-    /** Private constructor without parameters */
+    /**
+     * Private constructor without parameters
+     */
     private StorageDaoImpl() {
     }
 
+    /**
+     * Connects to database and returns {@link Storage} object by id of flower.
+     *
+     * @param flowerId is flower's id value.
+     * @return {@link Storage} if storage data found, null if not.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public Storage findByFlowerId(Integer flowerId) throws DaoException {
         Storage storage = new Storage();
@@ -73,6 +78,12 @@ public class StorageDaoImpl implements StorageDao {
         return storage;
     }
 
+    /**
+     * Connects to database and update storage data.
+     *
+     * @param storage is {@link Storage} object that contains all info about storage for update.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public void updateStorage(Storage storage) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
@@ -85,6 +96,12 @@ public class StorageDaoImpl implements StorageDao {
         }
     }
 
+    /**
+     * Connects to database and add new storage.
+     *
+     * @param storage is {@link Storage} object that contains all info about storage.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public void insertStorage(Storage storage) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
@@ -97,6 +114,13 @@ public class StorageDaoImpl implements StorageDao {
         }
     }
 
+    /**
+     * Connects to database and set count to the storage by flower ID.
+     *
+     * @param flowerId is flower ID value.
+     * @param count    is count of flower in storage
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public void updateStorageByFlower(Integer flowerId, Integer count) throws DaoException {
         try (Connection connection = connectionPool.getConnection();

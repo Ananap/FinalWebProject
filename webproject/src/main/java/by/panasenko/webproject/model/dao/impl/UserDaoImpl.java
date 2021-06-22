@@ -29,9 +29,7 @@ public class UserDaoImpl implements UserDao {
      */
     private static final UserDaoImpl instance = new UserDaoImpl();
 
-    /**
-     * An object of {@link ConnectionPool}
-     */
+    /** An object of {@link ConnectionPool} */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
     /** Query for database to sign up new user */
@@ -62,7 +60,7 @@ public class UserDaoImpl implements UserDao {
     /**
      * Connects to database, checks the credentials and returns an User object if success.
      * @param signInData is Object of {@link SignInData}, which contains information about user's username and password.
-     * @return {@link User} if user's data exists and password matches, null if user's username and password are not correct.
+     * @return {@link Optional<User>} if user's data exists and password matches, empty optional if user's username and password are not correct.
      * @throws DaoException when problems with database connection occurs.
      */
     @Override
@@ -130,6 +128,13 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * Connects to database and returns {@link User} object by email as result.
+     *
+     * @param email is text contains email of user.
+     * @return {@link User} if user's email exists.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public User findUserByEmail(String email) throws DaoException {
         User user = new User();
@@ -148,6 +153,13 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
+    /**
+     * Connects to database and sets new password to user by ID.
+     *
+     * @param id       is user's ID value.
+     * @param password is text that contains new password.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public void setPasswordById(Integer id, String password) throws DaoException {
         final PasswordEncryptor passwordEncryptor = PasswordEncryptor.getInstance();
@@ -161,6 +173,13 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    /**
+     * Connects to database, update user's data and returns {@link ResultCode} object
+     *
+     * @param user is Object of {@link User}, which contains full information about user.
+     * @return {@link ResultCode} enum, that shows the result of the method execution.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public ResultCode updateUser(User user) throws DaoException {
         final PasswordEncryptor passwordEncryptor = PasswordEncryptor.getInstance();

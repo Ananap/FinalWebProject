@@ -21,7 +21,8 @@ public class FlowerTypeServiceImpl implements FlowerTypeService {
         }
         FlowerType flowerType;
         try {
-            flowerType = flowerTypeDao.findById(id);
+            int typeId = Integer.parseInt(id);
+            flowerType = flowerTypeDao.findById(typeId);
         } catch (DaoException e) {
             throw new ServiceException("Can't handle findById request at FlowerTypeService", e);
         }

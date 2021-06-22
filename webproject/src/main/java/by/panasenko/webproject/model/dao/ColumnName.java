@@ -1,5 +1,10 @@
 package by.panasenko.webproject.model.dao;
 
+/**
+ * Describes all column name
+ *
+ * @author Natalia Panasenko
+ */
 public final class ColumnName {
     /*User Table*/
     public static final String USERS_ID = "user_id";

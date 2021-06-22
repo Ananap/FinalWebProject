@@ -22,34 +22,22 @@ public class OrderDaoImpl implements OrderDao {
      */
     private static final OrderDaoImpl instance = new OrderDaoImpl();
 
-    /**
-     * An object of {@link ConnectionPool}
-     */
+    /** An object of {@link ConnectionPool} */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    /**
-     * Query for database to add order
-     */
+    /** Query for database to add order */
     private static final String INSERT_ORDER_SQL = "INSERT INTO orders (status_order, date_delivery, user_id, total_cost, time_order, address, date_order, cash) VALUES (?,?,?,?,?,?,?,?)";
 
-    /**
-     * Query for database to select order by user
-     */
+    /** Query for database to select order by user */
     private static final String SELECT_ORDER_BY_USER_SQL = "SELECT id, status_order, date_order, total_cost FROM orders WHERE orders.user_id = ?";
 
-    /**
-     * Query for database to select all order data
-     */
+    /** Query for database to select all order data */
     private static final String SELECT_ORDERS_SQL = "SELECT id, address, cash, date_delivery, date_order, status_order FROM orders";
 
-    /**
-     * Query for database to select order data by id
-     */
+    /** Query for database to select order data by id */
     private static final String SELECT_ORDER_BY_ID_SQL = "SELECT id, status_order, total_cost FROM orders WHERE id = ?";
 
-    /**
-     * Query for database to select order data by id
-     */
+    /** Query for database to select order data by id */
     private static final String UPDATE_STATUS_SQL = "UPDATE orders SET status_order = ? WHERE id = ?";
 
     /**
@@ -67,6 +55,13 @@ public class OrderDaoImpl implements OrderDao {
     private OrderDaoImpl() {
     }
 
+    /**
+     * Connects to database and add new order.
+     *
+     * @param order is {@link Order} object that contains all info about order.
+     * @return {@link Order} object that was saved in database
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public Order saveOrder(Order order) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
@@ -98,6 +93,13 @@ public class OrderDaoImpl implements OrderDao {
         return order;
     }
 
+    /**
+     * Connects to database and return list of orders that linked to the user by ID.
+     *
+     * @param id is user ID
+     * @return List of {@link Order} with all matching orders.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public List<Order> findByUserId(Integer id) throws DaoException {
         List<Order> orderList = new ArrayList<>();
@@ -120,6 +122,12 @@ public class OrderDaoImpl implements OrderDao {
         return orderList;
     }
 
+    /**
+     * Connects to database and returns list of all orders.
+     *
+     * @return List of {@link Order} with all orders.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public List<Order> findAll() throws DaoException {
         List<Order> orderList = new ArrayList<>();
@@ -143,8 +151,15 @@ public class OrderDaoImpl implements OrderDao {
         return orderList;
     }
 
+    /**
+     * Connects to database and returns all info about order by ID.
+     *
+     * @param id is order ID value.
+     * @return {@link Order} if order's data found, null if not.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
-    public Order findById(int id) throws DaoException {
+    public Order findById(Integer id) throws DaoException {
         Order order = new Order();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_ORDER_BY_ID_SQL)) {
@@ -162,6 +177,13 @@ public class OrderDaoImpl implements OrderDao {
         return order;
     }
 
+    /**
+     * Connects to database and set order status to the order by ID.
+     *
+     * @param orderId     is order ID value
+     * @param orderStatus is text that contains order's status.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public void updateStatusById(String orderStatus, Integer orderId) throws DaoException {
         try (Connection connection = connectionPool.getConnection();

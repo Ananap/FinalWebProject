@@ -22,14 +22,10 @@ public class FlowerTypeDaoImpl implements FlowerTypeDao {
      */
     private static final FlowerTypeDaoImpl instance = new FlowerTypeDaoImpl();
 
-    /**
-     * An object of {@link ConnectionPool}
-     */
+    /** An object of {@link ConnectionPool} */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    /**
-     * Query for database to get all record in flower_type table
-     */
+    /** Query for database to get all record in flower_type table */
     private static final String SELECT_ALL_FLOWER_TYPE_SQL = "SELECT type_id, category, type_description FROM flower_type";
 
     /**Query for database to get all record in flower_type table*/
@@ -48,10 +44,18 @@ public class FlowerTypeDaoImpl implements FlowerTypeDao {
         return instance;
     }
 
-    /** Private constructor without parameters */
+    /**
+     * Private constructor without parameters
+     */
     private FlowerTypeDaoImpl() {
     }
 
+    /**
+     * Connects to database and returns list of all flower types.
+     *
+     * @return List of {@link FlowerType} with all type of flowers.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public List<FlowerType> findAll() throws DaoException {
         List<FlowerType> flowerTypeList = new ArrayList<>();
@@ -72,12 +76,19 @@ public class FlowerTypeDaoImpl implements FlowerTypeDao {
         return flowerTypeList;
     }
 
+    /**
+     * Connects to database and returns all info about flower type by ID.
+     *
+     * @param id is type of flower ID value.
+     * @return {@link FlowerType} if type of flower data found, null if not.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
-    public FlowerType findById(String category) throws DaoException {
+    public FlowerType findById(Integer id) throws DaoException {
         FlowerType flowerType = new FlowerType();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_FLOWER_TYPE_BY_ID)) {
-            statement.setInt(FindFlowerTypeIndexID.ID, Integer.parseInt(category));
+            statement.setInt(FindFlowerTypeIndexID.ID, id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 flowerType.setId(resultSet.getInt(FLOWER_TYPE_ID));
@@ -91,6 +102,13 @@ public class FlowerTypeDaoImpl implements FlowerTypeDao {
         return flowerType;
     }
 
+    /**
+     * Connects to database and returns all info about flower type by its category.
+     *
+     * @param category is text that contains category of flower type.
+     * @return {@link FlowerType} if flower type's data found, null if not.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public FlowerType findByCategory(String category) throws DaoException {
         FlowerType flowerType = new FlowerType();

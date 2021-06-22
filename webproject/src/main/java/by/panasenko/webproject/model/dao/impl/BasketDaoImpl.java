@@ -23,14 +23,10 @@ public class BasketDaoImpl implements BasketDao {
      */
     private static final BasketDaoImpl instance = new BasketDaoImpl();
 
-    /**
-     * An object of {@link ConnectionPool}
-     */
+    /** An object of {@link ConnectionPool} */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    /**
-     * Query for database to get basket by user id
-     */
+    /** Query for database to get basket by user id */
     private static final String FIND_BASKET_BY_USER = "SELECT id, user_id_foreign, total_cost FROM basket b " +
             "JOIN users u ON b.user_id_foreign = u.user_id " +
             "WHERE (user_id_foreign = ?)";
@@ -53,12 +49,21 @@ public class BasketDaoImpl implements BasketDao {
         return instance;
     }
 
-    /** Private constructor without parameters */
+    /**
+     * Private constructor without parameters
+     */
     private BasketDaoImpl() {
     }
 
+    /**
+     * Connects to database and returns basket by ID.
+     *
+     * @param id is basket ID value.
+     * @return {@link Basket} if basket data found, null if not.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
-    public Basket findById(int id) throws DaoException {
+    public Basket findById(Integer id) throws DaoException {
         Basket basket = new Basket();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_BASKET_BY_ID)) {
@@ -74,6 +79,13 @@ public class BasketDaoImpl implements BasketDao {
         return basket;
     }
 
+    /**
+     * Connects to database and returns basket that linked to the user by ID.
+     *
+     * @param userId is user ID
+     * @return {@link Basket} if basket's data found, null if not.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public Basket findByUserId(Integer userId) throws DaoException {
         Basket basket = new Basket();
@@ -91,6 +103,13 @@ public class BasketDaoImpl implements BasketDao {
         return basket;
     }
 
+    /**
+     * Connects to database and add new basket.
+     *
+     * @param userId is user ID value.
+     * @return {@link Basket} object that was saved in database
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public Basket createBasket(Integer userId) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
@@ -103,6 +122,12 @@ public class BasketDaoImpl implements BasketDao {
         return findByUserId(userId);
     }
 
+    /**
+     * Connects to database and updates flower's data by ID.
+     *
+     * @param basket is {@link Basket} object that contains all info about basket for update.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public void updateBasket(Basket basket) throws DaoException {
         try (Connection connection = connectionPool.getConnection();

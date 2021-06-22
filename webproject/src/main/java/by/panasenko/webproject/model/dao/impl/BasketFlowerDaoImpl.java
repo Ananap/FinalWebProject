@@ -28,14 +28,10 @@ public class BasketFlowerDaoImpl implements BasketFlowerDao {
      */
     private static final BasketFlowerDaoImpl instance = new BasketFlowerDaoImpl();
 
-    /**
-     * An object of {@link ConnectionPool}
-     */
+    /** An object of {@link ConnectionPool} */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    /**
-     * Query for database to select basketflower by id
-     */
+    /** Query for database to select basketflower by id */
     private static final String SELECT_BY_ID_SQL = "SELECT basket_flower_id, count, sub_total FROM basket_flower WHERE (basket_flower_id = ?)";
 
     /** Query for database to select items by basket id */
@@ -71,8 +67,15 @@ public class BasketFlowerDaoImpl implements BasketFlowerDao {
     private BasketFlowerDaoImpl() {
     }
 
+    /**
+     * Connects to database and returns all info about basket flower by ID.
+     *
+     * @param id is basket flower ID value.
+     * @return {@link BasketFlower} if basket flower data found, null if not.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
-    public BasketFlower findById(int id) throws DaoException {
+    public BasketFlower findById(Integer id) throws DaoException {
         BasketFlower basketFlower = new BasketFlower();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID_SQL)) {
@@ -89,8 +92,14 @@ public class BasketFlowerDaoImpl implements BasketFlowerDao {
         return basketFlower;
     }
 
+    /**
+     * Connects to database and delete basket flower by ID.
+     *
+     * @param id is basket flower ID value
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
-    public void deleteBasketFlower(int id) throws DaoException {
+    public void deleteBasketFlower(Integer id) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_ITEM_SQL)) {
             statement.setInt(ItemIndex.BASKET_ID, id);
@@ -100,13 +109,22 @@ public class BasketFlowerDaoImpl implements BasketFlowerDao {
         }
     }
 
+    /**
+     * Connects to database and add new flower to basket.
+     *
+     * @param id       is basket ID value.
+     * @param flowerId is flower ID value
+     * @param count    is amount of the flower in basket
+     * @param subTotal is sub total of user's basket, calculated as count of the flower multiplied by its price
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
-    public void addItemToBasket(int id, String flowerId, String count, BigDecimal subTotal) throws DaoException {
+    public void addItemToBasket(Integer id, Integer flowerId, Integer count, BigDecimal subTotal) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(ADD_ITEM_SQL)) {
             statement.setInt(AddItemIndex.BASKET_ID, id);
-            statement.setInt(AddItemIndex.FLOWER_ID, Integer.parseInt(flowerId));
-            statement.setInt(AddItemIndex.COUNT, Integer.parseInt(count));
+            statement.setInt(AddItemIndex.FLOWER_ID, flowerId);
+            statement.setInt(AddItemIndex.COUNT, count);
             statement.setBigDecimal(AddItemIndex.SUB_TOTAL, subTotal);
             statement.execute();
         } catch (SQLException e) {
@@ -114,8 +132,15 @@ public class BasketFlowerDaoImpl implements BasketFlowerDao {
         }
     }
 
+    /**
+     * Connects to database and returns all info about basket by its ID.
+     *
+     * @param id is basket ID value.
+     * @return List of {@link BasketFlower} with all matching data.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
-    public List<BasketFlower> findByBasketId(int id) throws DaoException {
+    public List<BasketFlower> findByBasketId(Integer id) throws DaoException {
         List<BasketFlower> basketFlowerList = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_ITEMS_BY_BASKET_ID_SQL)) {
@@ -146,8 +171,14 @@ public class BasketFlowerDaoImpl implements BasketFlowerDao {
         return basketFlowerList;
     }
 
+    /**
+     * Connects to database and updates sub total of basket.
+     *
+     * @param basketFlower is {@link BasketFlower} object that contains all info about basket flower for update.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
-    public void updateBasketFlower(BasketFlower basketFlower) throws DaoException {
+    public void updateSubTotal(BasketFlower basketFlower) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SET_SUB_TOTAL_SQL)) {
             statement.setBigDecimal(SetSubTotalIndex.SUB_TOTAL, basketFlower.getSubTotal());
@@ -158,8 +189,14 @@ public class BasketFlowerDaoImpl implements BasketFlowerDao {
         }
     }
 
+    /**
+     * Connects to database and updates count of flower in basket.
+     *
+     * @param basketFlower is {@link BasketFlower} object that contains all info about basket flower for update.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
-    public void setCountBasketFlower(BasketFlower basketFlower) throws DaoException {
+    public void updateCount(BasketFlower basketFlower) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SET_COUNT_SQL)) {
             statement.setInt(SetSubTotalIndex.SUB_TOTAL, basketFlower.getCount());

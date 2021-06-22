@@ -10,8 +10,30 @@ import java.util.List;
  * Methods should connect to database and manipulate with data(save, edit, etc.).
  */
 public interface FlowerTypeDao {
-    List<FlowerType> findAll() throws DaoException;
-    FlowerType findById(String category) throws DaoException;
 
+    /**
+     * Connects to database and returns list of all flower types.
+     *
+     * @return List of {@link FlowerType} with all type of flowers.
+     * @throws DaoException when problems with database connection occurs.
+     */
+    List<FlowerType> findAll() throws DaoException;
+
+    /**
+     * Connects to database and returns all info about flower type by ID.
+     *
+     * @param id is type of flower ID value.
+     * @return {@link FlowerType} if type of flower data found, null if not.
+     * @throws DaoException when problems with database connection occurs.
+     */
+    FlowerType findById(Integer id) throws DaoException;
+
+    /**
+     * Connects to database and returns all info about flower type by its category.
+     *
+     * @param category is text that contains category of flower type.
+     * @return {@link FlowerType} if flower type's data found, null if not.
+     * @throws DaoException when problems with database connection occurs.
+     */
     FlowerType findByCategory(String category) throws DaoException;
 }

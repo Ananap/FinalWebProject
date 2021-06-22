@@ -25,19 +25,13 @@ public class OrderFlowerDaoImpl implements OrderFlowerDao {
      */
     private static final OrderFlowerDaoImpl instance = new OrderFlowerDaoImpl();
 
-    /**
-     * An object of {@link ConnectionPool}
-     */
+    /** An object of {@link ConnectionPool} */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    /**
-     * Query for database to add order flower
-     */
+    /** Query for database to add order flower */
     private static final String INSERT_ORDER_FLOWER_SQL = "INSERT INTO order_flower (flower_id, count, order_id, sub_total) VALUES (?,?,?,?)";
 
-    /**
-     * Query for database to select order flower data by order id
-     */
+    /** Query for database to select order flower data by order id */
     private static final String SELECT_ORDER_FLOWER_SQL = "SELECT name, price, count, sub_total FROM order_flower o " +
             "JOIN flower f ON o.flower_id = f.id " +
             "WHERE order_id = ?";
@@ -57,6 +51,12 @@ public class OrderFlowerDaoImpl implements OrderFlowerDao {
     private OrderFlowerDaoImpl() {
     }
 
+    /**
+     * Connects to database and add new orderFlower.
+     *
+     * @param orderFlower is {@link OrderFlower} object that contains all info about orderFlower.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public void saveOrderFlower(OrderFlower orderFlower) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
@@ -71,8 +71,15 @@ public class OrderFlowerDaoImpl implements OrderFlowerDao {
         }
     }
 
+    /**
+     * Connects to database and return list of orderFlowers that linked to the order by ID.
+     *
+     * @param id is order ID
+     * @return List of {@link OrderFlower} with all matching data.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
-    public List<OrderFlower> findByOrder(int id) throws DaoException {
+    public List<OrderFlower> findByOrder(Integer id) throws DaoException {
         List<OrderFlower> orderFlowerList = new ArrayList<>();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_ORDER_FLOWER_SQL)) {

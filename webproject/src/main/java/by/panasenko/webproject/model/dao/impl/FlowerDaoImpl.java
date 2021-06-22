@@ -21,56 +21,38 @@ public class FlowerDaoImpl implements FlowerDao {
      */
     private static final FlowerDaoImpl instance = new FlowerDaoImpl();
 
-    /**
-     * An object of {@link ConnectionPool}
-     */
+    /** An object of {@link ConnectionPool} */
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
-    /**
-     * Query for database to get record in flower table
-     */
+    /** Query for database to get record in flower table */
     private static final String SELECT_ALL_FLOWER_SQL = "SELECT id, name, description, price, flower_image FROM flower";
 
-    /**
-     * Query for database to get all record in flower table
-     */
+    /** Query for database to get all record in flower table */
     private static final String SELECT_ALL_FLOWER_LIST_SQL = "SELECT id, name, description, price, flower_image, soil, origin, light, watering, type_id, category, type_description, storage_count FROM flower flowers " +
             "JOIN flower_type type ON flowers.flower_type_id = type.type_id " +
             "JOIN storage s ON flowers.id = s.flowers_id ";
 
-    /**
-     * Query for database to get flower by category
-     */
+    /** Query for database to get flower by category */
     private static final String FIND_FLOWER_BY_CATEGORY = "SELECT id, name, description, price, flower_image FROM flower flowers " +
             "JOIN flower_type type ON flowers.flower_type_id = type.type_id " +
             "WHERE (flower_type_id = ?)";
 
-    /**
-     * Query for database to get flower by id
-     */
+    /** Query for database to get flower by id */
     private static final String FIND_FLOWER_BY_ID = "SELECT id, name, description, price, flower_image, soil, origin, light, watering, type_id, category, type_description, storage_count FROM flower flowers " +
             "JOIN flower_type type ON flowers.flower_type_id = type.type_id " +
             "JOIN storage s ON flowers.id = s.flowers_id " +
             "WHERE (id = ?)";
 
-    /**
-     * Query for database to add flower
-     */
+    /** Query for database to add flower */
     private static final String INSERT_FLOWER_SQL = "INSERT INTO flower (name, description, price, soil, origin, light, flower_type_id, watering) VALUES (?,?,?,?,?,?,?,?)";
 
-    /**
-     * Query for database to set flower image
-     */
+    /** Query for database to set flower image */
     private static final String SET_IMAGE_SQL = "UPDATE flower SET flower_image = ? WHERE id = ?";
 
-    /**
-     * Query for database to update flower
-     */
+    /** Query for database to update flower */
     private static final String UPDATE_FLOWER_SQL = "UPDATE flower SET name = ?, description = ?, price = ?, soil = ?, origin = ?, light = ?, flower_type_id = ?, watering = ? WHERE id = ?";
 
-    /**
-     * Query for database to delete flower
-     */
+    /** Query for database to delete flower */
     private static final String DELETE_FLOWER_SQL = "DELETE FROM flower WHERE id = ?";
 
     /**
@@ -88,6 +70,13 @@ public class FlowerDaoImpl implements FlowerDao {
     private FlowerDaoImpl() {
     }
 
+    /**
+     * Connects to database and add new flower.
+     *
+     * @param flower is {@link Flower} object that contains all info about flower.
+     * @return {@link Flower} object that was saved in database
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public Flower createFlower(Flower flower) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
@@ -118,6 +107,12 @@ public class FlowerDaoImpl implements FlowerDao {
         return flower;
     }
 
+    /**
+     * Connects to database and returns list of all flowers.
+     *
+     * @return List of {@link Flower} with all flowers.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public List<Flower> findAll() throws DaoException {
         List<Flower> flowerList = new ArrayList<>();
@@ -139,6 +134,13 @@ public class FlowerDaoImpl implements FlowerDao {
         return flowerList;
     }
 
+    /**
+     * Connects to database and returns all info about flower by its category.
+     *
+     * @param category is text that contains category of flower.
+     * @return List of {@link Flower} with all matching flowers.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public List<Flower> findByCategory(String category) throws DaoException {
         List<Flower> flowerList = new ArrayList<>();
@@ -161,12 +163,19 @@ public class FlowerDaoImpl implements FlowerDao {
         return flowerList;
     }
 
+    /**
+     * Connects to database and returns all info about flower by ID.
+     *
+     * @param flowerId is flower ID value.
+     * @return {@link Flower} if flower data found, null if not.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
-    public Flower findById(String flowerId) throws DaoException {
+    public Flower findById(Integer flowerId) throws DaoException {
         Flower flower = new Flower();
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_FLOWER_BY_ID)) {
-            statement.setInt(FindFlowerIndex.INDEX, Integer.parseInt(flowerId));
+            statement.setInt(FindFlowerIndex.INDEX, flowerId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 flower.setId(resultSet.getInt(FLOWER_ID));
@@ -195,6 +204,12 @@ public class FlowerDaoImpl implements FlowerDao {
         return flower;
     }
 
+    /**
+     * Connects to database and update flower image.
+     *
+     * @param dbFlower is {@link Flower} object that contains all info about flower for update.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public void updateFlowerImage(Flower dbFlower) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
@@ -207,6 +222,12 @@ public class FlowerDaoImpl implements FlowerDao {
         }
     }
 
+    /**
+     * Connects to database and returns list of all flowers.
+     *
+     * @return List of {@link Flower} with all flower's detailed data.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
     public List<Flower> findAllFlowerList() throws DaoException {
         List<Flower> flowerList = new ArrayList<>();
@@ -242,8 +263,15 @@ public class FlowerDaoImpl implements FlowerDao {
         return flowerList;
     }
 
+    /**
+     * Connects to database and updates flower's data by ID.
+     *
+     * @param id     is flower ID value
+     * @param flower is {@link Flower} object that contains all info about flower for update.
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
-    public void updateFlower(int id, Flower flower) throws DaoException {
+    public void updateFlower(Integer id, Flower flower) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_FLOWER_SQL)) {
             statement.setString(FlowerIndex.NAME, flower.getName());
@@ -261,8 +289,14 @@ public class FlowerDaoImpl implements FlowerDao {
         }
     }
 
+    /**
+     * Connects to database and delete flower by ID.
+     *
+     * @param id is flower ID value
+     * @throws DaoException when problems with database connection occurs.
+     */
     @Override
-    public void deleteById(int id) throws DaoException {
+    public void deleteById(Integer id) throws DaoException {
         try (Connection connection = connectionPool.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_FLOWER_SQL)) {
             statement.setInt(FindFlowerIndex.INDEX, id);

@@ -48,7 +48,8 @@ public class FlowerServiceImpl implements FlowerService {
         }
         Flower flower;
         try {
-            flower = flowerDao.findById(flowerId);
+            int id = Integer.parseInt(flowerId);
+            flower = flowerDao.findById(id);
         } catch (DaoException e) {
             throw new ServiceException("Can't handle findById request at FlowerService", e);
         }

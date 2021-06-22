@@ -74,7 +74,7 @@ public class BasketServiceImpl implements BasketService {
         bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
         basketFlower.setSubTotal(bigDecimal);
         try {
-            basketFlowerDao.updateBasketFlower(basketFlower);
+            basketFlowerDao.updateSubTotal(basketFlower);
         } catch (DaoException e) {
             throw new ServiceException("Can't handle updateBasketFlower at BasketService", e);
         }

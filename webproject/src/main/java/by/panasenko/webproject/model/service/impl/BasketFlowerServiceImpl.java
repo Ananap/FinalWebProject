@@ -17,13 +17,15 @@ public class BasketFlowerServiceImpl implements BasketFlowerService {
     private static final BasketFlowerDao basketFlowerDao = daoProvider.getBasketFlowerDao();
 
     @Override
-    public void addToBasket(int id, String flowerId, String count, String price) throws ServiceException {
-        if (!FlowerValidator.validateId(count)) {
+    public void addToBasket(int basketId, String flowerId, String count, String price) throws ServiceException {
+        if (!FlowerValidator.validateId(flowerId) || !FlowerValidator.validateQuantity(count)) {
             throw new ServiceException("Flower data didn't passed validation");
         }
         try {
             BigDecimal subTotal = new BigDecimal(price).multiply(new BigDecimal(count));
-            basketFlowerDao.addItemToBasket(id, flowerId, count, subTotal);
+            int flowerCount = Integer.parseInt(count);
+            int id = Integer.parseInt(flowerId);
+            basketFlowerDao.addItemToBasket(basketId, id, flowerCount, subTotal);
         } catch (DaoException e) {
             throw new ServiceException("Can't handle addToBasket request at BasketFlowerService", e);
         }
@@ -48,7 +50,7 @@ public class BasketFlowerServiceImpl implements BasketFlowerService {
         try {
             BasketFlower basketFlower = basketFlowerDao.findById(Integer.parseInt(basketFlowerId));
             basketFlower.setCount(Integer.parseInt(count));
-            basketFlowerDao.setCountBasketFlower(basketFlower);
+            basketFlowerDao.updateCount(basketFlower);
         } catch (DaoException e) {
             throw new ServiceException("Can't handle updateBasketFlower request at BasketFlowerService", e);
         }
