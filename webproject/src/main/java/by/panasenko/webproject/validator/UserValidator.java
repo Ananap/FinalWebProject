@@ -27,15 +27,15 @@ public class UserValidator {
         return validateUsername(username) && validateFIO(firstName) && validateFIO(lastName) && validatePhoneNumber(phoneNumber) && validateEmail(email);
     }
 
-    private static boolean validateUsername(String username) {
+    public static boolean validateUsername(String username) {
         return isMatchFounded(username, regexpPropertyUtil.getProperty(REGEXP_USERNAME));
     }
 
-    private static boolean validateFIO(String fio) {
+    public static boolean validateFIO(String fio) {
         return isMatchFounded(fio, regexpPropertyUtil.getProperty(REGEXP_USER_FIO));
     }
 
-    private static boolean validatePhoneNumber(String phoneNumber) {
+    public static boolean validatePhoneNumber(String phoneNumber) {
         return isMatchFounded(phoneNumber, regexpPropertyUtil.getProperty(REGEXP_PHONE_NUM));
     }
 
