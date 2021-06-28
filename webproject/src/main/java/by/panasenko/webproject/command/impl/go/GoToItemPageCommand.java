@@ -14,7 +14,6 @@ import by.panasenko.webproject.model.service.ServiceProvider;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class GoToItemPageCommand implements Command {
@@ -39,7 +38,7 @@ public class GoToItemPageCommand implements Command {
         } catch (ServiceException e) {
             logger.error("Error at GoToItemPageCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);
-            router = new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
+            router = new Router(PagePath.ERROR_PAGE, RouterType.FORWARD);
         }
         return router;
     }

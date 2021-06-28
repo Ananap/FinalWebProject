@@ -11,7 +11,6 @@ import by.panasenko.webproject.model.service.ServiceProvider;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class FindProductByCategoryCommand implements Command {
@@ -39,7 +38,7 @@ public class FindProductByCategoryCommand implements Command {
         } catch (ServiceException e) {
             logger.error("Error at FindProductByCategoryCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);
-            router = new Router(PagePath.ERROR_PAGE, RouterType.REDIRECT);
+            router = new Router(PagePath.ERROR_PAGE, RouterType.FORWARD);
         }
         return router;
     }

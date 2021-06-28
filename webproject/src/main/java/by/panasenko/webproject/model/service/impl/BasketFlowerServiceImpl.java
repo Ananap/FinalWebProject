@@ -44,7 +44,7 @@ public class BasketFlowerServiceImpl implements BasketFlowerService {
 
     @Override
     public void updateBasketFlower(String basketFlowerId, String count) throws ServiceException {
-        if (!FlowerValidator.validateId(count)) {
+        if (!FlowerValidator.validateQuantity(count)) {
             throw new ServiceException("Data didn't passed validation");
         }
         try {

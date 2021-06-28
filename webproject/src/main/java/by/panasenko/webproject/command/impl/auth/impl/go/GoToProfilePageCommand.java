@@ -47,7 +47,7 @@ public class GoToProfilePageCommand extends AuthCommand {
         } catch (ServiceException e) {
             logger.error("Error at GoToProfilePageCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);
-            router = new Router(PagePath.ERROR_PAGE, RouterType.REDIRECT);
+            router = new Router(PagePath.ERROR_PAGE, RouterType.FORWARD);
         }
         return router;
     }

@@ -17,7 +17,6 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.*;
 import java.util.ResourceBundle;
@@ -69,7 +68,7 @@ public class AddItemCommand extends AdminCommand {
         } catch (ServiceException | IOException | ServletException e) {
             logger.error("Error at AddItemCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);
-            router = new Router(PagePath.ERROR_PAGE, RouterType.REDIRECT);
+            router = new Router(PagePath.ERROR_PAGE, RouterType.FORWARD);
         }
         return router;
     }

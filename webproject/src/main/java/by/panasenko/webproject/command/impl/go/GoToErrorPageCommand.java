@@ -7,7 +7,6 @@ import by.panasenko.webproject.command.Router;
 import by.panasenko.webproject.command.Router.RouterType;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public class GoToErrorPageCommand implements Command {
 
@@ -17,6 +16,6 @@ public class GoToErrorPageCommand implements Command {
         if (throwable != null && req.getAttribute(RequestAttribute.EXCEPTION_CLASS) != null) {
             req.setAttribute(RequestAttribute.EXCEPTION, throwable);
         }
-        return new Router(PagePath.ERROR_PAGE, RouterType.REDIRECT);
+        return new Router(PagePath.ERROR_PAGE, RouterType.FORWARD);
     }
 }

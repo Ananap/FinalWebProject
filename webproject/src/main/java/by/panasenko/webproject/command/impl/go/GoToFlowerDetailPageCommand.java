@@ -11,7 +11,6 @@ import by.panasenko.webproject.model.service.StorageService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public class GoToFlowerDetailPageCommand implements Command {
     private static final Logger logger = Logger.getLogger(GoToFlowerDetailPageCommand.class);
@@ -34,7 +33,7 @@ public class GoToFlowerDetailPageCommand implements Command {
         } catch (ServiceException e) {
             logger.error("Error at FlowerDetailCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);
-            router = new Router(PagePath.ERROR_PAGE, RouterType.REDIRECT);
+            router = new Router(PagePath.ERROR_PAGE, RouterType.FORWARD);
         }
         return router;
     }

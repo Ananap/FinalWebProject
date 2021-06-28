@@ -11,7 +11,6 @@ import by.panasenko.webproject.model.service.ServiceProvider;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public class RemoveItemCommand extends AuthCommand {
     private static final Logger logger = Logger.getLogger(RemoveItemCommand.class);
@@ -30,7 +29,7 @@ public class RemoveItemCommand extends AuthCommand {
         } catch (ServiceException e) {
             logger.error("Error at UpdateBasketCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);
-            router = new Router(PagePath.ERROR_PAGE, Router.RouterType.REDIRECT);
+            router = new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
         }
         return router;
     }

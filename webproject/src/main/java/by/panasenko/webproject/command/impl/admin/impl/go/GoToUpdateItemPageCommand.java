@@ -16,7 +16,6 @@ import by.panasenko.webproject.util.RegexpPropertyUtil;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class GoToUpdateItemPageCommand extends AdminCommand {
@@ -55,7 +54,7 @@ public class GoToUpdateItemPageCommand extends AdminCommand {
         } catch (ServiceException e) {
             logger.error("Error at GoToUpdateItemPageCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);
-            router = new Router(PagePath.ERROR_PAGE, RouterType.REDIRECT);
+            router = new Router(PagePath.ERROR_PAGE, RouterType.FORWARD);
         }
         return router;
     }

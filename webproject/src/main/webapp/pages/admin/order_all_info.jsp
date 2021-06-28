@@ -23,6 +23,9 @@
 <fmt:message key="admin.order.cash" var="locale_order_cash"/>
 <fmt:message key="admin.order.card" var="locale_order_card"/>
 <fmt:message key="common.detail" var="locale_common_detail"/>
+<fmt:message key="admin.order.approved" var="locale_order_approved"/>
+<fmt:message key="admin.order.inprocess" var="locale_order_inprocess"/>
+<fmt:message key="admin.order.rejected" var="locale_order_rejected"/>
 
 <!doctype html>
 <html lang="en">
@@ -49,7 +52,7 @@
                 <td>${order.address}</td>
                 <td>
                     <c:if test="${order.cash}">
-                    <span>${locale_order_cash}</span>
+                        <span>${locale_order_cash}</span>
                     </c:if>
                     <c:if test="${!order.cash}">
                         <span>${locale_order_card}</span>
@@ -57,7 +60,21 @@
                 </td>
                 <td>${order.dateDelivery}</td>
                 <td>${order.dateOrder}</td>
-                <td>${order.statusOrder}</td>
+                <c:if test="${order.statusOrder == 'APPROVED'}">
+                    <td>
+                            ${locale_order_approved}
+                    </td>
+                </c:if>
+                <c:if test="${order.statusOrder == 'INPROCESS'}">
+                    <td>
+                            ${locale_order_inprocess}
+                    </td>
+                </c:if>
+                <c:if test="${order.statusOrder == 'REJECTED'}">
+                    <td>
+                            ${locale_order_rejected}
+                    </td>
+                </c:if>
                 <td>
                     <form action="Controller" method="post">
                         <input type="hidden" name="command" value="go_to_order_detail_page_command"/>

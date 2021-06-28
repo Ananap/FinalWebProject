@@ -31,7 +31,7 @@ public class GoToFlowerListPageCommand extends AdminCommand {
         } catch (ServiceException e) {
             logger.error("Error at GoToFlowerListPageCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);
-            router = new Router(PagePath.ERROR_PAGE, RouterType.REDIRECT);
+            router = new Router(PagePath.ERROR_PAGE, RouterType.FORWARD);
         }
         return router;
     }

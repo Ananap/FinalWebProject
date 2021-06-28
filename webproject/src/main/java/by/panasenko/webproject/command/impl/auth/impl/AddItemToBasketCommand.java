@@ -14,7 +14,6 @@ import by.panasenko.webproject.model.service.ServiceProvider;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public class AddItemToBasketCommand extends AuthCommand {
     private static final Logger logger = Logger.getLogger(AddItemToBasketCommand.class);
@@ -45,7 +44,7 @@ public class AddItemToBasketCommand extends AuthCommand {
         } catch (ServiceException e) {
             logger.error("Error at AddItemToBasketCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);
-            router = new Router(PagePath.ERROR_PAGE, RouterType.REDIRECT);
+            router = new Router(PagePath.ERROR_PAGE, RouterType.FORWARD);
         }
         return router;
     }

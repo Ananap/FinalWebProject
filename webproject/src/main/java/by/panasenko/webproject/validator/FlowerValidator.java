@@ -38,23 +38,23 @@ public class FlowerValidator {
         return validateLight(light);
     }
 
-    private static boolean validateName(String name) {
+    public static boolean validateName(String name) {
         return isMatchFounded(name, regexpPropertyUtil.getProperty(REGEXP_FLOWER_NAME));
     }
 
-    private static boolean validateDescription(String description) {
+    public static boolean validateDescription(String description) {
         return isMatchFounded(description, regexpPropertyUtil.getProperty(REGEXP_FLOWER_DESCRIPTION));
     }
 
-    private static boolean validatePrice(String price) {
+    public static boolean validatePrice(String price) {
         return isMatchFounded(price, regexpPropertyUtil.getProperty(REGEXP_FLOWER_PRICE));
     }
 
-    private static boolean validateLight(String light) {
+    public static boolean validateLight(String light) {
         return isMatchFounded(light, regexpPropertyUtil.getProperty(REGEXP_FLOWER_LIGHT));
     }
 
-    private static boolean validateWatering(String watering) {
+    public static boolean validateWatering(String watering) {
         return isMatchFounded(watering, regexpPropertyUtil.getProperty(REGEXP_FLOWER_WATERING));
     }
 

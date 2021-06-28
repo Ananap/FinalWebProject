@@ -6,13 +6,12 @@ import by.panasenko.webproject.command.Router;
 import by.panasenko.webproject.command.Router.RouterType;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public class GoToAboutPageCommand implements Command {
 
     @Override
     public Router execute(HttpServletRequest req) {
-        Router router = new Router(PagePath.ABOUT_PAGE, RouterType.FORWARD);
+        Router router = new Router(PagePath.ABOUT_PAGE, RouterType.REDIRECT);
         return router;
     }
 }

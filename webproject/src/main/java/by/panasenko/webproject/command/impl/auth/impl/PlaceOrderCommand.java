@@ -55,7 +55,7 @@ public class PlaceOrderCommand extends AuthCommand {
         } catch (ServiceException e) {
             logger.error("Error at PlaceOrderCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);
-            router = new Router(PagePath.ERROR_PAGE, Router.RouterType.REDIRECT);
+            router = new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
         }
         return router;
     }

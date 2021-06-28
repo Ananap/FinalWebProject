@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class OrderServiceImpl implements OrderService {
     private static final Logger logger = Logger.getLogger(OrderServiceImpl.class);
@@ -49,6 +50,8 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orderList;
         try {
             orderList = orderDao.findAll();
+            Comparator<Order> comparator = Comparator.comparing(Order::getDateOrder).reversed();
+            orderList = orderList.stream().sorted(comparator).collect(Collectors.toList());
         } catch (DaoException e) {
             throw new ServiceException("Can't handle findAll request at OrderService", e);
         }

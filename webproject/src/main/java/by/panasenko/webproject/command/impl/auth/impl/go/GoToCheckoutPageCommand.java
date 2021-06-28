@@ -14,7 +14,6 @@ import by.panasenko.webproject.model.service.ServiceProvider;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class GoToCheckoutPageCommand extends AuthCommand {
@@ -49,7 +48,7 @@ public class GoToCheckoutPageCommand extends AuthCommand {
         } catch (ServiceException e) {
             logger.error("Error at GoToCheckoutPageCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);
-            router = new Router(PagePath.ERROR_PAGE, Router.RouterType.REDIRECT);
+            router = new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
         }
         return router;
     }
