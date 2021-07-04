@@ -34,17 +34,17 @@ public class AddItemToBasketCommand extends AuthCommand {
         try {
             Basket basket = user.getBasket();
             if (Integer.parseInt(count) > Integer.parseInt(storageAmount)) {
-                req.setAttribute(RequestAttribute.NOT_ENOUGH, true);
+                req.getSession().setAttribute(RequestAttribute.NOT_ENOUGH, true);
             } else {
                 basketFlowerService.addToBasket(basket.getId(), flowerId, count, price);
-                req.setAttribute(RequestAttribute.ADD_SUCCESS, true);
+                req.getSession().setAttribute(RequestAttribute.ADD_SUCCESS, true);
             }
-            req.setAttribute(RequestAttribute.FLOWER_ID, flowerId);
-            router = new Router(PagePath.GO_TO_ITEM_DETAIL, RouterType.FORWARD);
+            req.getSession().setAttribute(RequestAttribute.FLOWER_ID, flowerId);
+            router = new Router(PagePath.GO_TO_ITEM_DETAIL, RouterType.REDIRECT);
         } catch (ServiceException e) {
             logger.error("Error at AddItemToBasketCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);
-            router = new Router(PagePath.ERROR_PAGE, RouterType.FORWARD);
+            router = new Router(PagePath.ERROR_PAGE, RouterType.REDIRECT);
         }
         return router;
     }

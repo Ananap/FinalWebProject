@@ -24,7 +24,6 @@
 <fmt:message key="main.clear" var="locale_main_clear"/>
 <fmt:message key="common.flower.detail" var="locale_flower_detail"/>
 
-
 <!doctype html>
 <html lang="en">
 <body>

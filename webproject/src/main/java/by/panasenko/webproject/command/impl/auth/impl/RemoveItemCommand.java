@@ -29,7 +29,7 @@ public class RemoveItemCommand extends AuthCommand {
         } catch (ServiceException e) {
             logger.error("Error at UpdateBasketCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);
-            router = new Router(PagePath.ERROR_PAGE, Router.RouterType.FORWARD);
+            router = new Router(PagePath.ERROR_PAGE, Router.RouterType.REDIRECT);
         }
         return router;
     }

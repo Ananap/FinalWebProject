@@ -16,6 +16,6 @@ public class GoToErrorPageCommand implements Command {
         if (throwable != null && req.getAttribute(RequestAttribute.EXCEPTION_CLASS) != null) {
             req.setAttribute(RequestAttribute.EXCEPTION, throwable);
         }
-        return new Router(PagePath.ERROR_PAGE, RouterType.FORWARD);
+        return new Router(PagePath.ERROR_PAGE, RouterType.REDIRECT);
     }
 }

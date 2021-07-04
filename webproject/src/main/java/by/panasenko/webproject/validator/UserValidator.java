@@ -12,7 +12,7 @@ public class UserValidator {
     private static final String REGEXP_USER_FIO = "regexp.user_fio";
     private static final String REGEXP_USERNAME = "regexp.username";
     private static final String REGEXP_EMAIL = "regexp.email";
-
+    private static final String REGEXP_PASSWORD = "regexp.password";
     private static final RegexpPropertyUtil regexpPropertyUtil = RegexpPropertyUtil.getInstance();
 
     public static boolean validate(SignUpData signUpData) {
@@ -41,6 +41,10 @@ public class UserValidator {
 
     public static boolean validateEmail(String email) {
         return isMatchFounded(email, regexpPropertyUtil.getProperty(REGEXP_EMAIL));
+    }
+
+    public static boolean validatePassword(String password) {
+        return isMatchFounded(password, regexpPropertyUtil.getProperty(REGEXP_PASSWORD));
     }
 
     private static boolean isMatchFounded(String text, String regex) {

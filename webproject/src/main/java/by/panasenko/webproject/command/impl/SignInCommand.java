@@ -41,13 +41,13 @@ public class SignInCommand implements Command {
                 req.getSession().setAttribute(RequestAttribute.ROLE, user.getRole());
                 router = new Router(PagePath.GO_TO_PROFILE_PAGE, RouterType.REDIRECT);
             } else {
-                req.setAttribute(RequestAttribute.WRONG_DATA, true);
-                router = new Router(PagePath.GO_TO_LOGIN_PAGE, RouterType.FORWARD);
+                req.getSession().setAttribute(RequestAttribute.WRONG_DATA, true);
+                router = new Router(PagePath.GO_TO_LOGIN_PAGE, RouterType.REDIRECT);
             }
         } catch (ServiceException e) {
             logger.error("Error at SignInCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);
-            router = new Router(PagePath.ERROR_PAGE, RouterType.FORWARD);
+            router = new Router(PagePath.ERROR_PAGE, RouterType.REDIRECT);
         }
         return router;
     }

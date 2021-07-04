@@ -31,7 +31,7 @@ public class ChangeOrderStatusCommand extends AdminCommand {
         } catch (ServiceException e) {
             logger.error("Error at ChangeOrderStatusCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);
-            router = new Router(PagePath.ERROR_PAGE, RouterType.FORWARD);
+            router = new Router(PagePath.ERROR_PAGE, RouterType.REDIRECT);
         }
         return router;
     }

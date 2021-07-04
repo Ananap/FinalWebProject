@@ -25,6 +25,7 @@
 <fmt:message key="common.address.detail" var="locale_address_detail"/>
 <fmt:message key="main.save" var="locale_save"/>
 <fmt:message key="main.submit" var="locale_submit"/>
+<fmt:message key="common.signin.message" var="locale_signin_message"/>
 
 <!doctype html>
 <html lang="en">
@@ -122,7 +123,7 @@
                         <div class="panel panel-default">
                             <div class="panel-body" style="background-color: lightgray; margin-top: 20px;">
                                 <c:if test="${message}">
-                                    <div class="alert alert-warning">Sign in to continue</div>
+                                    <div class="alert alert-warning">${locale_signin_message}</div>
                                 </c:if>
                                 <form action="Controller" method="post">
                                     <input type="hidden" name="command" value="sign_in_command">
@@ -131,13 +132,14 @@
                                     </c:if>
                                     <div class="form-group">
                                         <label for="email">${locale_email}</label>
-                                        <input required type="email" class="form-control" name="email"/>
+                                        <input required type="email" class="form-control" name="email"
+                                               pattern="${attribute_regexp_email}"/>
                                         <p style="color: gray">${locale_email_enter}</p>
                                     </div>
                                     <div class="form-group">
                                         <label for="password">${locale_password}</label>
                                         <input required type="password" class="form-control" id="password"
-                                               name="password"/>
+                                               name="password" pattern="${attribute_regexp_password}"/>
                                         <p style="color: gray">${locale_password_enter}</p>
                                     </div>
                                     <button type="submit" class="btn btn-primary">${locale_login}</button>
@@ -161,8 +163,8 @@
                                     <input type="hidden" name="command" value="forget_password_command">
                                     <div class="form-group">
                                         <label for="recoverEmail">${locale_email}</label>
-                                        <input required="required" type="text" class="form-control" id="recoverEmail"
-                                               name="recoverEmail"/>
+                                        <input required="required" type="email" class="form-control" id="recoverEmail"
+                                               name="recoverEmail" pattern="${attribute_regexp_email}"/>
                                         <p style="color: gray">${locale_email_register}</p>
                                     </div>
                                     <button type="submit" class="btn btn-primary">${locale_submit}</button>

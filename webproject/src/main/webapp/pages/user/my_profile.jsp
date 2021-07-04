@@ -106,7 +106,7 @@
                                         </c:if>
                                         <label for="currentPassword">${locale_current_password}</label>
                                         <input required type="password" class="form-control" id="currentPassword"
-                                               name="currentPassword"/>
+                                               name="currentPassword" pattern="${attribute_regexp_password}"/>
                                     </div>
                                     <p style="color: gray">${locale_user_password_enter}</p>
 
@@ -118,13 +118,13 @@
                                         </c:if>
                                         <label for="newPassword">${locale_user_new_password}</label>
                                         <input type="password" class="form-control" id="newPassword"
-                                               name="newPassword"/>
+                                               name="newPassword" pattern="${attribute_regexp_password}"/>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="confirmPassword">${locale_user_password_confirm}</label>
                                         <input type="password" class="form-control" id="confirmPassword"
-                                               name="confirmPassword"/>
+                                               name="confirmPassword" pattern="${attribute_regexp_password}"/>
                                     </div>
                                     <p style="color: gray">${locale_user_change_confirm}</p>
                                     <button type="submit" class="btn btn-primary">${locale_create_user}</button>

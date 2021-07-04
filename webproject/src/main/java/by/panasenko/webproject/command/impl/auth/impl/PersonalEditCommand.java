@@ -51,24 +51,24 @@ public class PersonalEditCommand extends AuthCommand {
             ResultCode resultCode = userService.updateUser(signInData, user, newPassword, confirmPassword);
             switch (resultCode) {
                 case WRONG_PASSWORD: {
-                    req.setAttribute(RequestAttribute.WRONG_PASSWORD, true);
+                    req.getSession().setAttribute(RequestAttribute.WRONG_PASSWORD, true);
                     break;
                 }
                 case WRONG_CONFIRMATION: {
-                    req.setAttribute(RequestAttribute.WRONG_CONFIRMATION, true);
+                    req.getSession().setAttribute(RequestAttribute.WRONG_CONFIRMATION, true);
                     break;
                 }
                 case SUCCESS: {
-                    req.setAttribute(RequestAttribute.SUCCESS_EDIT, true);
+                    req.getSession().setAttribute(RequestAttribute.SUCCESS_EDIT, true);
                     req.getSession().setAttribute(RequestAttribute.USER, user);
                     break;
                 }
             }
-            router = new Router(PagePath.GO_TO_PROFILE_PAGE, RouterType.FORWARD);
+            router = new Router(PagePath.GO_TO_PROFILE_PAGE, RouterType.REDIRECT);
         } catch (ServiceException e) {
             logger.error("Error at PersonalEditCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);
-            router = new Router(PagePath.ERROR_PAGE, RouterType.FORWARD);
+            router = new Router(PagePath.ERROR_PAGE, RouterType.REDIRECT);
         }
         return router;
     }

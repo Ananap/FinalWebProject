@@ -21,6 +21,7 @@ public class GoToProfilePageCommand extends AuthCommand {
     private static final String REGEXP_PROP_USERNAME = "regexp.username";
     private static final String REGEXP_PROP_FIO = "regexp.user_fio";
     private static final String REGEXP_PROP_PHONE_NUMBER = "regexp.phone_number";
+    private static final String REGEXP_PROP_PASSWORD = "regexp.password";
 
     @Override
     public Router process(HttpServletRequest req) {
@@ -35,12 +36,14 @@ public class GoToProfilePageCommand extends AuthCommand {
         final String REGEXP_USERNAME = regexpPropertyUtil.getProperty(REGEXP_PROP_USERNAME);
         final String REGEXP_FIO = regexpPropertyUtil.getProperty(REGEXP_PROP_FIO);
         final String REGEXP_PHONE_NUMBER = regexpPropertyUtil.getProperty(REGEXP_PROP_PHONE_NUMBER);
+        final String REGEXP_PASSWORD = regexpPropertyUtil.getProperty(REGEXP_PROP_PASSWORD);
 
         try {
             List<Order> orderList = orderService.findByUser(user.getId());
             req.setAttribute(RequestAttribute.REGEXP_USERNAME, REGEXP_USERNAME);
             req.setAttribute(RequestAttribute.REGEXP_FIO, REGEXP_FIO);
             req.setAttribute(RequestAttribute.REGEXP_PHONE, REGEXP_PHONE_NUMBER);
+            req.setAttribute(RequestAttribute.REGEXP_PASSWORD, REGEXP_PASSWORD);
             req.setAttribute(RequestAttribute.ORDER_LIST, orderList);
             req.setAttribute(RequestAttribute.ACTIVE_EDIT, true);
             router = new Router(PagePath.PROFILE_PAGE, RouterType.FORWARD);

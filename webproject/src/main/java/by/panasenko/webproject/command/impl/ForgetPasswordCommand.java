@@ -22,15 +22,15 @@ public class ForgetPasswordCommand implements Command {
 
         try {
             if (userService.forgetPassword(email)) {
-                req.setAttribute(RequestAttribute.EMAIL_SENT, true);
+                req.getSession().setAttribute(RequestAttribute.EMAIL_SENT, true);
             } else {
-                req.setAttribute(RequestAttribute.EMAIL_NOT_EXISTS, true);
+                req.getSession().setAttribute(RequestAttribute.EMAIL_NOT_EXISTS, true);
             }
-            router = new Router(PagePath.GO_TO_LOGIN_PAGE, RouterType.FORWARD);
+            router = new Router(PagePath.GO_TO_LOGIN_PAGE, RouterType.REDIRECT);
         } catch (ServiceException e) {
             logger.error("Error at ForgetPasswordCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);
-            router = new Router(PagePath.ERROR_PAGE, RouterType.FORWARD);
+            router = new Router(PagePath.ERROR_PAGE, RouterType.REDIRECT);
         }
         return router;
     }

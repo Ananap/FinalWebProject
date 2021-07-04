@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> signIn(SignInData signInData) throws ServiceException {
-        if (!UserValidator.validateEmail(signInData.getEmail())) {
+        if (!UserValidator.validateEmail(signInData.getEmail()) && !UserValidator.validatePassword(signInData.getPassword())) {
             throw new ServiceException("User data didn't passed validation");
         } else {
             try {
