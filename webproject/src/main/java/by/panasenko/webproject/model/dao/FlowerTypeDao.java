@@ -27,13 +27,4 @@ public interface FlowerTypeDao {
      * @throws DaoException when problems with database connection occurs.
      */
     FlowerType findById(Integer id) throws DaoException;
-
-    /**
-     * Connects to database and returns all info about flower type by its category.
-     *
-     * @param category is text that contains category of flower type.
-     * @return {@link FlowerType} if flower type's data found, null if not.
-     * @throws DaoException when problems with database connection occurs.
-     */
-    FlowerType findByCategory(String category) throws DaoException;
 }

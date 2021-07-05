@@ -30,20 +30,6 @@ public class FlowerTypeServiceImpl implements FlowerTypeService {
     }
 
     @Override
-    public FlowerType findByCategory(String category) throws ServiceException {
-        if (!FlowerValidator.validateCategory(category)) {
-            throw new ServiceException("Flower type data didn't passed validation");
-        }
-        FlowerType flowerType;
-        try {
-            flowerType = flowerTypeDao.findByCategory(category);
-        } catch (DaoException e) {
-            throw new ServiceException("Can't handle findByCategory request at FlowerTypeService", e);
-        }
-        return flowerType;
-    }
-
-    @Override
     public List<FlowerType> findAll() throws ServiceException {
         List<FlowerType> flowerTypeList;
         try {

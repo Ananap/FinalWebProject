@@ -32,10 +32,6 @@ public class FlowerTypeDaoImpl implements FlowerTypeDao {
     private static final String SELECT_FLOWER_TYPE_BY_ID = "SELECT type_id, category, type_description FROM flower_type " +
             "WHERE (type_id = ?)";
 
-    /** Query for database to get all record in flower_type table */
-    private static final String SELECT_FLOWER_TYPE_BY_CATEGORY = "SELECT type_id, category, type_description FROM flower_type " +
-            "WHERE (category = ?)";
-
     /**
      * Returns the instance of the class
      * @return Object of {@link FlowerTypeDaoImpl}
@@ -103,42 +99,9 @@ public class FlowerTypeDaoImpl implements FlowerTypeDao {
     }
 
     /**
-     * Connects to database and returns all info about flower type by its category.
-     *
-     * @param category is text that contains category of flower type.
-     * @return {@link FlowerType} if flower type's data found, null if not.
-     * @throws DaoException when problems with database connection occurs.
-     */
-    @Override
-    public FlowerType findByCategory(String category) throws DaoException {
-        FlowerType flowerType = new FlowerType();
-        try (Connection connection = connectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SELECT_FLOWER_TYPE_BY_CATEGORY)) {
-            statement.setString(FindFlowerTypeCategory.CATEGORY, category);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                flowerType.setId(resultSet.getInt(FLOWER_TYPE_ID));
-                FlowerCategory flowerCategory = FlowerCategory.valueOf(resultSet.getString(FLOWER_TYPE_CATEGORY));
-                flowerType.setCategory(flowerCategory);
-                flowerType.setDescription(resultSet.getString(FLOWER_TYPE_DESCRIPTION));
-            }
-        } catch (SQLException e) {
-            throw new DaoException("Can't handle FlowerTypeDao.findByCategory request", e);
-        }
-        return flowerType;
-    }
-
-    /**
      * Static class that contains parameter indexes for getting flower type data by flowerType ID
      */
     private static class FindFlowerTypeIndexID {
         private static final int ID = 1;
-    }
-
-    /**
-     * Static class that contains parameter indexes for getting flower type data by flowerType category
-     */
-    private static class FindFlowerTypeCategory {
-        private static final int CATEGORY = 1;
     }
 }
