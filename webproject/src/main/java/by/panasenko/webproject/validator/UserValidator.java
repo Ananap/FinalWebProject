@@ -4,9 +4,6 @@ import by.panasenko.webproject.entity.SignUpData;
 import by.panasenko.webproject.entity.User;
 import by.panasenko.webproject.util.RegexpPropertyUtil;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class UserValidator {
     private static final String REGEXP_PHONE_NUM = "regexp.phone_number";
     private static final String REGEXP_USER_FIO = "regexp.user_fio";
@@ -48,8 +45,6 @@ public class UserValidator {
     }
 
     private static boolean isMatchFounded(String text, String regex) {
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(text);
-        return matcher.find();
+        return (text != null) ? text.matches(regex) : false;
     }
 }

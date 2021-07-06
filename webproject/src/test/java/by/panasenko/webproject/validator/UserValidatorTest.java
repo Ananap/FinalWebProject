@@ -17,7 +17,7 @@ public class UserValidatorTest {
 
     @DataProvider(name = "invalidEmail")
     public static Object[][] invalidEmail() {
-        return new Object[][]{{"panasenko"}, {""}, {"panasenko@gmailcom"}};
+        return new Object[][]{{"panasenko"}, {null}, {"panasenko@gmailcom"}};
     }
 
     @Test(dataProvider = "invalidEmail")

@@ -17,7 +17,7 @@ public class FlowerValidatorTest {
 
     @DataProvider(name = "invalidName")
     public static Object[][] invalidName() {
-        return new Object[][]{{"щ"}, {""}, {"orhideya"}};
+        return new Object[][]{{"щ"}, {null}, {"orhideya"}};
     }
 
     @Test(dataProvider = "invalidName")
@@ -57,7 +57,7 @@ public class FlowerValidatorTest {
 
     @DataProvider(name = "invalidPrice")
     public static Object[][] invalidPrice() {
-        return new Object[][]{{""}, {"5.9"}, {"1234.50"}};
+        return new Object[][]{{null}, {"5.9"}, {"1234.50"}};
     }
 
     @Test(dataProvider = "invalidPrice")

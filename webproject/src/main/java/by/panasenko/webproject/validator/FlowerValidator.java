@@ -1,11 +1,7 @@
 package by.panasenko.webproject.validator;
 
-import by.panasenko.webproject.entity.FlowerCategory;
 import by.panasenko.webproject.entity.Soil;
 import by.panasenko.webproject.util.RegexpPropertyUtil;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class FlowerValidator {
     private static final String REGEXP_FLOWER_ID = "regexp.id";
@@ -71,23 +67,12 @@ public class FlowerValidator {
     }
 
     public static boolean isMatchFounded(String text, String regex) {
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(text);
-        return matcher.find();
+        return (text != null) ? text.matches(regex) : false;
     }
 
     public static boolean validateSoil(String soil) {
         try {
             Soil.valueOf(soil);
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean validateCategory(String category) {
-        try {
-            FlowerCategory.valueOf(category);
         } catch (IllegalArgumentException e) {
             return false;
         }
