@@ -30,15 +30,10 @@ public class SignUpCommand implements Command {
         final String phone = req.getParameter(RequestParameter.PHONE);
         final String password = PasswordEncryptor.generateRandomPassword();
 
-        SignUpData signUpData = new SignUpData();
+        SignUpData signUpData = new SignUpData(username, firstName, lastName, address, phone);
 
-        signUpData.setUsername(username);
         signUpData.setPassword(password);
-        signUpData.setFirstName(firstName);
-        signUpData.setLastName(lastName);
-        signUpData.setAddress(address);
         signUpData.setEmail(email);
-        signUpData.setPhoneNumber(phone);
         try {
             ResultCode resultCode = userService.signUp(signUpData);
             switch (resultCode) {

@@ -1,10 +1,6 @@
 package by.panasenko.webproject.entity;
 
-import java.io.Serializable;
-
-public class SignInData implements Serializable {
-
-    private static final long serialVersionUID = 5765928860296812438L;
+public class SignInData {
 
     private String email;
     private String password;

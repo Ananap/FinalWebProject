@@ -1,10 +1,6 @@
 package by.panasenko.webproject.entity;
 
-import java.io.Serializable;
-
-public class SignUpData extends SignInData implements Serializable {
-    private static final long serialVersionUID = -1514757514400389826L;
-
+public class SignUpData extends SignInData {
     private String username;
     private String firstName;
     private String lastName;
