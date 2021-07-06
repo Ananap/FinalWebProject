@@ -43,7 +43,7 @@
     <mytag:image/>
     <div class="row" style="margin-top: 60px;">
         <div class="col-xs-2">
-            <form action="Controller">
+            <form action="Controller" method="post">
                 <div>
                     <input type="hidden" name="command" value="find_product_by_category_command"/>
                     <div class="select-form">
@@ -89,7 +89,7 @@
                                         <h4>${flower.name}</h4>
                                         <span style="font-size: x-large; color: darkorange">Br<span>${flower.price}</span></span>
                                         <p>${fn:substring(flower.description, 0, 500)}</p>
-                                        <form action="Controller" method="post">
+                                        <form action="Controller">
                                             <input type="hidden" name="command"
                                                    value="go_to_flower_detail_page_command"/>
                                             <input type="hidden" value="${flower.id}" name="flowerId">

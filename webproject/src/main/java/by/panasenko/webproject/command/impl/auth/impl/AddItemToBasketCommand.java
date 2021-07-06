@@ -14,6 +14,7 @@ import by.panasenko.webproject.model.service.ServiceProvider;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public class AddItemToBasketCommand extends AuthCommand {
     private static final Logger logger = Logger.getLogger(AddItemToBasketCommand.class);
@@ -21,6 +22,7 @@ public class AddItemToBasketCommand extends AuthCommand {
     @Override
     protected Router process(HttpServletRequest req) {
         Router router;
+        HttpSession session = req.getSession(true);
         final User user = (User) req.getSession().getAttribute(RequestAttribute.USER);
 
         final String flowerId = req.getParameter(RequestParameter.FLOWER_ID);
@@ -34,13 +36,14 @@ public class AddItemToBasketCommand extends AuthCommand {
         try {
             Basket basket = user.getBasket();
             if (Integer.parseInt(count) > Integer.parseInt(storageAmount)) {
-                req.getSession().setAttribute(RequestAttribute.NOT_ENOUGH, true);
+                req.setAttribute(RequestAttribute.NOT_ENOUGH, true);
+                router = new Router(PagePath.GO_TO_ITEM_DETAIL, RouterType.FORWARD);
             } else {
                 basketFlowerService.addToBasket(basket.getId(), flowerId, count, price);
-                req.getSession().setAttribute(RequestAttribute.ADD_SUCCESS, true);
+                session.setAttribute(RequestAttribute.ADD_SUCCESS, true);
+                String page = (String) session.getAttribute(RequestAttribute.CURRENT_PAGE);
+                router = new Router(page, RouterType.REDIRECT);
             }
-            req.getSession().setAttribute(RequestAttribute.FLOWER_ID, flowerId);
-            router = new Router(PagePath.GO_TO_ITEM_DETAIL, RouterType.REDIRECT);
         } catch (ServiceException e) {
             logger.error("Error at AddItemToBasketCommand", e);
             req.setAttribute(RequestAttribute.EXCEPTION, e);

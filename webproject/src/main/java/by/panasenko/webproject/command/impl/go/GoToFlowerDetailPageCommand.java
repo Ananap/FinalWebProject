@@ -29,6 +29,7 @@ public class GoToFlowerDetailPageCommand implements Command {
             Storage storage = storageService.findByFlowerId(flowerId);
             req.setAttribute(RequestAttribute.FLOWER, flower);
             req.setAttribute(RequestAttribute.STORAGE, storage);
+            req.getSession().setAttribute(RequestAttribute.CURRENT_PAGE, PagePath.FLOWER_DETAIL_BY_ID + flowerId);
             router = new Router(PagePath.ITEM_DETAIL_PAGE, RouterType.FORWARD);
         } catch (ServiceException e) {
             logger.error("Error at FlowerDetailCommand", e);

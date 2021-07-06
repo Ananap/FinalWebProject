@@ -99,7 +99,7 @@ public class OrderServiceImpl implements OrderService {
         boolean orderCash = Boolean.parseBoolean(cash);
         Date orderDate = parseOrderDate(date);
         BigDecimal orderTotalCost = basket.getTotalCost();
-        Order order = new Order(Status.INPROCESS, address, orderDate, Calendar.getInstance().getTime(), time, orderTotalCost, user, orderCash);
+        Order order = new Order(Status.INPROCESS, address, Calendar.getInstance().getTime(), orderDate, time, orderTotalCost, user, orderCash);
         return Optional.of(order);
     }
 
