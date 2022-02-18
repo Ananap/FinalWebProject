@@ -16,9 +16,9 @@ import java.util.EnumMap;
 
 public class CommandProvider {
     private static CommandProvider instance;
-    private final EnumMap<CommandType, Command> commands = new EnumMap(CommandType.class);
+    private static final EnumMap<CommandType, Command> commands = new EnumMap(CommandType.class);
 
-    public CommandProvider() {
+    static {
         commands.put(CommandType.GO_TO_ABOUT_PAGE_COMMAND, new GoToAboutPageCommand());
         commands.put(CommandType.GO_TO_ERROR_PAGE_COMMAND, new GoToErrorPageCommand());
         commands.put(CommandType.GO_TO_LOGIN_PAGE_COMMAND, new GoToLoginPageCommand());
@@ -48,6 +48,9 @@ public class CommandProvider {
         commands.put(CommandType.UPDATE_ITEM_COMMAND, new UpdateItemCommand());
         commands.put(CommandType.DELETE_ITEM_COMMAND, new DeleteItemCommand());
         commands.put(CommandType.CHANGE_ORDER_STATUS_COMMAND, new ChangeOrderStatusCommand());
+    }
+
+    private CommandProvider() {
     }
 
     public static CommandProvider getInstance() {
